@@ -65,7 +65,20 @@ Classic tabbed interface for quick access to different features.
 
 ## Quick Start
 
-### 1. Clone and Setup
+### Option A: One-Click Setup (Recommended)
+
+```bash
+# Clone repository
+git clone https://github.com/jerrxcc/MedBot.git
+cd MedBot
+
+# Run setup script
+bash setup.sh        # macOS/Linux
+# or
+setup.bat            # Windows (double-click)
+```
+
+### Option B: Manual Setup
 
 ```bash
 # Clone repository
