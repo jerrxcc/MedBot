@@ -189,8 +189,14 @@ async def main(message: cl.Message):
         ).send()
         return
 
-    # Get current feature from chat profile
-    feature = cl.user_session.get("feature", "symptoms")
+    # Get current feature from chat profile (re-check on each message for profile switches)
+    chat_profile = cl.user_session.get("chat_profile")
+    profile_to_feature = {
+        "Symptom Analysis": "symptoms",
+        "Medication Info": "medication",
+        "Records Analysis": "records"
+    }
+    feature = profile_to_feature.get(chat_profile, "symptoms")
     feature_config = FEATURES[feature]
 
     # Show processing message
