@@ -139,10 +139,11 @@ Modern, ChatGPT-like interface with:
 **Commands:**
 | Command | Description |
 |---------|-------------|
-| `/symptoms` | Switch to symptom analysis mode |
-| `/medication` | Switch to medication info mode |
-| `/records` | Switch to records analysis mode |
 | `/help` | Show help message |
+| `/zh` | Switch to Chinese responses |
+| `/en` | Switch to English responses |
+
+**Mode Switching:** Use the dropdown menu in the top-left corner to switch between Symptom Analysis, Medication Info, and Records Analysis.
 
 ### Gradio Interface
 
