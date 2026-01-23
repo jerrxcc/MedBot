@@ -3,7 +3,7 @@
 A RAG-based (Retrieval-Augmented Generation) medical assistant powered by deep learning.
 
 **Project Type:** Deep Learning with Python - Final Project
-**Team:** C. Cai | Y. Liao | D. Liu | Y. Qian | Y. Wang
+**Team:** C. Cai | Y. Liao | D. Liu | Y. Qian | X. Wang | Y. Wang
 
 ---
 
