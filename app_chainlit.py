@@ -281,7 +281,7 @@ async def chat_profile():
         cl.ChatProfile(
             name="Symptom Analysis",
             markdown_description="**症状分析 Symptom Analysis**\n\n描述您的症状，获取医学信息。\nDescribe symptoms and get medical information.",
-            icon="https://api.iconify.design/mdi:stethoscope.svg?color=%23ec4899",
+            icon="https://api.iconify.design/mdi:hospital-box.svg?color=%23ec4899",
             starters=get_bilingual_starters("symptoms"),
         ),
         cl.ChatProfile(
