@@ -1,6 +1,6 @@
 import gradio as gr
 from src.retriever import retrieve, format_context
-from src.llm import get_response, build_messages
+from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError
 from src.prompts import get_prompt
 
 # Collection names for each feature
@@ -23,17 +23,46 @@ def chat_with_rag(message: str, history: list, feature: str) -> str:
     Returns:
         Assistant's response
     """
-    # Retrieve relevant context
-    collection_name = COLLECTIONS.get(feature, "medquad_symptoms")
-    results = retrieve(message, collection_name, top_k=5)
-    context = format_context(results)
+    try:
+        # Retrieve relevant context
+        collection_name = COLLECTIONS.get(feature, "medquad_symptoms")
+        results = retrieve(message, collection_name, top_k=5)
+        context = format_context(results)
 
-    # Build messages and get response
-    system_prompt = get_prompt(feature)
-    messages = build_messages(system_prompt, message, context)
+        # Build messages and get response
+        system_prompt = get_prompt(feature)
+        messages = build_messages(system_prompt, message, context)
 
-    response = get_response(messages)
-    return response
+        response = get_response(messages)
+        return response
+
+    except APIKeyMissingError:
+        return (
+            "**API Key Not Configured**\n\n"
+            "To use this feature, please configure your DeepSeek API key:\n\n"
+            "1. Copy `.env.example` to `.env`\n"
+            "2. Add your API key: `DEEPSEEK_API_KEY=your_key_here`\n"
+            "3. Get a key at: https://platform.deepseek.com/\n"
+            "4. Restart the application\n\n"
+            "---\n"
+            f"*Retrieved {len(results.get('documents', []))} relevant documents from knowledge base.*"
+        )
+
+    except APICallError as e:
+        return (
+            "**API Error**\n\n"
+            f"Failed to get response from DeepSeek API: {str(e)}\n\n"
+            "Please check your internet connection and API key.\n\n"
+            "---\n"
+            f"*Retrieved {len(results.get('documents', []))} relevant documents from knowledge base.*"
+        )
+
+    except Exception as e:
+        return (
+            "**Error**\n\n"
+            f"An unexpected error occurred: {str(e)}\n\n"
+            "Please try again or contact support."
+        )
 
 
 def symptom_chat(message: str, history: list) -> str:
@@ -64,7 +93,27 @@ custom_css = """
 .chatbot {
     min-height: 400px !important;
 }
+.api-status {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.api-configured {
+    background-color: #d4edda;
+    color: #155724;
+}
+.api-missing {
+    background-color: #fff3cd;
+    color: #856404;
+}
 """
+
+# Check API status for display
+api_status_text = (
+    "**Status:** API Configured" if is_api_configured()
+    else "**Status:** API Key Missing - Set `DEEPSEEK_API_KEY` in `.env` file"
+)
+api_status_class = "api-configured" if is_api_configured() else "api-missing"
 
 # Build Gradio interface
 with gr.Blocks(
@@ -86,6 +135,8 @@ with gr.Blocks(
         > Always consult a healthcare professional for medical advice.
         """
     )
+
+    gr.Markdown(api_status_text, elem_classes=[f"api-status {api_status_class}"])
 
     with gr.Tabs():
         # Symptom Consultation Tab
