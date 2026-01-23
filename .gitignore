@@ -59,8 +59,7 @@ temp/
 # Model cache
 .cache/
 
-# Chainlit
-.chainlit/
+# Chainlit (keep .chainlit for translations and config)
 .files/
 chainlit.md
 

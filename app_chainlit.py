@@ -3,7 +3,6 @@ MedBot - Chainlit Interface (Bilingual: English/Chinese)
 A modern chat UI for the medical assistant.
 """
 import chainlit as cl
-from chainlit.input_widget import Select
 from src.retriever import retrieve, format_context
 from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError
 from src.prompts import get_prompt
@@ -202,74 +201,74 @@ def t(key: str, lang: str = "en", **kwargs) -> str:
     return text
 
 
-def get_starters(lang: str, profile: str):
-    """Get starters for a specific language and profile."""
+def get_bilingual_starters(profile: str):
+    """Get bilingual starters for a profile."""
     if profile == "symptoms":
         return [
             cl.Starter(
-                label=t("starter_headache", lang),
-                message=t("starter_headache_msg", lang),
+                label="头痛头晕 Headache",
+                message="我头痛并且感到头晕，可能是什么原因？/ I have a headache and feel dizzy. What could be causing this?",
                 icon="https://api.iconify.design/mdi:head-flash.svg?color=%23f59e0b",
             ),
             cl.Starter(
-                label=t("starter_cough", lang),
-                message=t("starter_cough_msg", lang),
+                label="咳嗽 Cough",
+                message="我咳嗽超过一周了，还有胸闷。/ I've had a persistent cough for over a week with chest tightness.",
                 icon="https://api.iconify.design/mdi:lungs.svg?color=%2310b981",
             ),
             cl.Starter(
-                label=t("starter_fatigue", lang),
-                message=t("starter_fatigue_msg", lang),
+                label="疲劳 Fatigue",
+                message="我经常感到疲劳和气短。/ I'm experiencing constant fatigue and shortness of breath.",
                 icon="https://api.iconify.design/mdi:sleep.svg?color=%238b5cf6",
             ),
             cl.Starter(
-                label=t("starter_stomach", lang),
-                message=t("starter_stomach_msg", lang),
+                label="胃痛 Stomach",
+                message="我吃完饭后胃痛和恶心。/ I have stomach pain and nausea after eating.",
                 icon="https://api.iconify.design/mdi:stomach.svg?color=%23ef4444",
             ),
         ]
     elif profile == "medication":
         return [
             cl.Starter(
-                label=t("starter_ibuprofen", lang),
-                message=t("starter_ibuprofen_msg", lang),
+                label="布洛芬 Ibuprofen",
+                message="布洛芬的用途和副作用？/ What is ibuprofen used for and what are its side effects?",
                 icon="https://api.iconify.design/mdi:pill.svg?color=%23f59e0b",
             ),
             cl.Starter(
-                label=t("starter_metformin", lang),
-                message=t("starter_metformin_msg", lang),
+                label="二甲双胍 Metformin",
+                message="二甲双胍有什么副作用？/ What are the side effects of metformin?",
                 icon="https://api.iconify.design/mdi:alert-circle.svg?color=%23ef4444",
             ),
             cl.Starter(
-                label=t("starter_interactions", lang),
-                message=t("starter_interactions_msg", lang),
+                label="药物相互作用 Interactions",
+                message="阿司匹林可以和降压药一起吃吗？/ Can I take aspirin with blood pressure medication?",
                 icon="https://api.iconify.design/mdi:swap-horizontal.svg?color=%238b5cf6",
             ),
             cl.Starter(
-                label=t("starter_painrelief", lang),
-                message=t("starter_painrelief_msg", lang),
+                label="止痛药 Pain Relief",
+                message="对乙酰氨基酚和布洛芬有什么区别？/ What are the differences between acetaminophen and ibuprofen?",
                 icon="https://api.iconify.design/mdi:medical-bag.svg?color=%2310b981",
             ),
         ]
     else:  # records
         return [
             cl.Starter(
-                label=t("starter_hemoglobin", lang),
-                message=t("starter_hemoglobin_msg", lang),
+                label="血红蛋白 Hemoglobin",
+                message="血红蛋白 10.5 g/dL 正常吗？/ What does a hemoglobin level of 10.5 g/dL mean?",
                 icon="https://api.iconify.design/mdi:water.svg?color=%23ef4444",
             ),
             cl.Starter(
-                label=t("starter_bp", lang),
-                message=t("starter_bp_msg", lang),
+                label="血压 Blood Pressure",
+                message="正常血压是多少？/ What is considered a normal blood pressure reading?",
                 icon="https://api.iconify.design/mdi:heart-pulse.svg?color=%23ec4899",
             ),
             cl.Starter(
-                label=t("starter_diabetes", lang),
-                message=t("starter_diabetes_msg", lang),
+                label="糖尿病 Diabetes",
+                message="请解释 2 型糖尿病诊断。/ Explain Type 2 Diabetes Mellitus diagnosis.",
                 icon="https://api.iconify.design/mdi:diabetes.svg?color=%23f59e0b",
             ),
             cl.Starter(
-                label=t("starter_cholesterol", lang),
-                message=t("starter_cholesterol_msg", lang),
+                label="胆固醇 Cholesterol",
+                message="如何解读胆固醇检测结果？/ How do I interpret my cholesterol test results?",
                 icon="https://api.iconify.design/mdi:chart-line.svg?color=%233b82f6",
             ),
         ]
@@ -278,37 +277,42 @@ def get_starters(lang: str, profile: str):
 @cl.set_chat_profiles
 async def chat_profile():
     """Define chat profiles for different medical consultation modes."""
-    # Default to English for profile definitions (will be updated via settings)
-    lang = "en"
-
     return [
         cl.ChatProfile(
             name="Symptom Analysis",
-            markdown_description=t("symptom_desc", lang),
+            markdown_description="**症状分析 Symptom Analysis**\n\n描述您的症状，获取医学信息。\nDescribe symptoms and get medical information.",
             icon="https://api.iconify.design/mdi:stethoscope.svg?color=%23ec4899",
-            starters=get_starters(lang, "symptoms"),
+            starters=get_bilingual_starters("symptoms"),
         ),
         cl.ChatProfile(
             name="Medication Info",
-            markdown_description=t("medication_desc", lang),
+            markdown_description="**药物信息 Medication Info**\n\n查询药物用法和副作用。\nQuery drug usage and side effects.",
             icon="https://api.iconify.design/mdi:pill.svg?color=%233b82f6",
-            starters=get_starters(lang, "medication"),
+            starters=get_bilingual_starters("medication"),
         ),
         cl.ChatProfile(
             name="Records Analysis",
-            markdown_description=t("records_desc", lang),
+            markdown_description="**病历解读 Records Analysis**\n\n理解医疗报告和化验结果。\nUnderstand medical reports and lab results.",
             icon="https://api.iconify.design/mdi:file-document.svg?color=%2310b981",
-            starters=get_starters(lang, "records"),
+            starters=get_bilingual_starters("records"),
         ),
     ]
+
+
+def detect_language_from_text(text: str) -> str:
+    """Detect if text is primarily Chinese or English."""
+    chinese_chars = sum(1 for c in text if '\u4e00' <= c <= '\u9fff')
+    return "zh" if chinese_chars > len(text) * 0.3 else "en"
 
 
 @cl.on_chat_start
 async def start():
     """Initialize the chat session."""
-    # Set default language
+    # Default language - will be auto-detected from first message
+    # or user can switch via /zh or /en
     lang = "en"
     cl.user_session.set("language", lang)
+    cl.user_session.set("language_detected", False)
 
     # Get the selected chat profile
     chat_profile = cl.user_session.get("chat_profile")
@@ -323,39 +327,22 @@ async def start():
     feature = profile_to_feature.get(chat_profile, "symptoms")
     cl.user_session.set("feature", feature)
 
-    # Send language settings
-    settings = await cl.ChatSettings(
-        [
-            Select(
-                id="Language",
-                label="🌐 Language / 语言",
-                values=["English", "中文"],
-                initial_index=0,
-            ),
-        ]
-    ).send()
-
     # Check API status
     api_ok = is_api_configured()
-    api_status = f"✅ {t('online', lang)}" if api_ok else f"⚠️ {t('api_required', lang)}"
     feature_info = FEATURES[feature]
-    feature_name = t(feature_info["name_key"], lang)
 
-    # Send welcome message
+    # Bilingual welcome message
     await cl.Message(
-        content=f"""## {feature_info['icon']} {t('welcome_title', lang)} - {feature_name}
+        content=f"""## {feature_info['icon']} MedBot
 
-**{t('status', lang)}:** {api_status}
-
-{t('ready_help', lang, feature=feature_name.lower())}
-- {t('click_prompt', lang)}
-- {t('type_question', lang)}
+**English:** Type your question in English and I'll respond in English.
+**中文:** 用中文提问，我会用中文回复。
 
 ---
 
-**💡 {t('tip', lang)}:** {t('switch_modes', lang)}
+💡 **Tip / 提示:** Type `/en` for English | 输入 `/zh` 切换中文
 
-⚠️ **{t('disclaimer', lang)}:** {t('disclaimer_text', lang)}
+⚠️ **Disclaimer / 免责声明:** For informational purposes only. 仅供参考，如有健康问题请咨询医生。
 """,
         author="MedBot"
     ).send()
@@ -380,6 +367,13 @@ async def main(message: cl.Message):
     """Handle incoming messages."""
     user_input = message.content.strip()
     lang = cl.user_session.get("language", "en")
+
+    # Auto-detect language from first real message (not commands)
+    if not cl.user_session.get("language_detected") and not user_input.startswith("/"):
+        detected_lang = detect_language_from_text(user_input)
+        cl.user_session.set("language", detected_lang)
+        cl.user_session.set("language_detected", True)
+        lang = detected_lang
 
     # Handle help command
     if user_input.lower() in ["/help", "/h", "/帮助"]:
