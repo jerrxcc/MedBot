@@ -1,0 +1,103 @@
+"""
+Configuration constants for MedBot.
+
+This file centralizes all configuration values to ensure consistency
+across modules. Import from here instead of hardcoding values.
+"""
+
+import os
+from pathlib import Path
+
+# =============================================================================
+# Path Configuration
+# =============================================================================
+
+# Project root directory
+PROJECT_ROOT = Path(__file__).parent.parent
+
+# Data directories
+DATA_DIR = PROJECT_ROOT / "data"
+RAW_DATA_DIR = DATA_DIR / "raw"
+PROCESSED_DATA_DIR = DATA_DIR / "processed"
+
+# Vector store
+VECTORSTORE_PATH = PROJECT_ROOT / "vectorstore"
+
+# =============================================================================
+# Collection Configuration
+# =============================================================================
+
+# ChromaDB collection names mapped to features
+COLLECTIONS = {
+    "symptoms": "medquad_symptoms",
+    "medication": "fda_drugs",
+    "records": "medical_records"
+}
+
+# Processed data files mapped to collections
+DATA_FILES = {
+    "medquad_symptoms": PROCESSED_DATA_DIR / "symptoms.jsonl",
+    "fda_drugs": PROCESSED_DATA_DIR / "medications.jsonl",
+    "medical_records": PROCESSED_DATA_DIR / "records.jsonl"
+}
+
+# =============================================================================
+# Embedding Configuration
+# =============================================================================
+
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
+EMBEDDING_DIM = 384
+
+# =============================================================================
+# Retrieval Configuration
+# =============================================================================
+
+DEFAULT_TOP_K = int(os.getenv("TOP_K_RESULTS", "5"))
+MAX_CONTEXT_LENGTH = 3000
+
+# =============================================================================
+# Data Processing Configuration
+# =============================================================================
+
+CHUNK_SIZE = 500
+CHUNK_OVERLAP = 50
+MIN_CONTENT_LENGTH = 50
+MAX_CONTENT_LENGTH = 2000
+
+# =============================================================================
+# LLM Configuration
+# =============================================================================
+
+DEEPSEEK_BASE_URL = "https://api.deepseek.com"
+DEEPSEEK_MODEL = "deepseek-chat"
+MAX_TOKENS = 1024
+TEMPERATURE = 0.7
+
+# =============================================================================
+# Data Source URLs
+# =============================================================================
+
+DATA_SOURCES = {
+    "medquad": {
+        "name": "MedQuAD",
+        "url": "https://github.com/abachaa/MedQuAD",
+        "description": "Medical Question Answering Dataset from NIH"
+    },
+    "fda": {
+        "name": "OpenFDA",
+        "url": "https://api.fda.gov/drug/label.json",
+        "description": "FDA Drug Label API"
+    },
+    "mtsamples": {
+        "name": "MTSamples",
+        "url": "https://mtsamples.com/",
+        "description": "Medical Transcription Samples"
+    }
+}
+
+# =============================================================================
+# Validation
+# =============================================================================
+
+VALID_SOURCES = ["MedQuAD", "FDA", "MTSamples"]
+VALID_CATEGORIES = ["Symptoms", "Diagnosis", "Treatment", "Medication", "Record"]
