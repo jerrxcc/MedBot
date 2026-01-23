@@ -43,6 +43,13 @@ def load_jsonl(filepath):
     return data
 
 
+def sanitize_metadata(metadata):
+    """Remove None values from metadata (ChromaDB doesn't accept None)."""
+    if metadata is None:
+        return {}
+    return {k: v for k, v in metadata.items() if v is not None}
+
+
 def build_collection(collection_name, data_file, embedding_model, chroma_client, clear=False):
     """Build a single ChromaDB collection from data file."""
     print(f"\n{'='*60}")
@@ -93,7 +100,7 @@ def build_collection(collection_name, data_file, embedding_model, chroma_client,
 
         ids = [item["id"] for item in batch]
         documents = [item["content"] for item in batch]
-        metadatas = [item["metadata"] for item in batch]
+        metadatas = [sanitize_metadata(item.get("metadata")) for item in batch]
 
         embeddings = embedding_model.encode(documents).tolist()
 
