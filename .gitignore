@@ -58,3 +58,14 @@ temp/
 
 # Model cache
 .cache/
+
+# Chainlit
+.chainlit/
+.files/
+chainlit.md
+
+# Playwright
+.playwright-mcp/
+
+# Processed data (can be regenerated)
+data/processed/
