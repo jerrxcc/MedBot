@@ -45,12 +45,14 @@ def add_documents(collection_name: str, documents: list, metadatas: list = None,
     )
 
 
+from .translator import translate_query_for_retrieval
+
 def retrieve(query: str, collection_name: str, top_k: int = 5) -> dict:
     """
     Retrieve relevant documents for a query.
-
+    
     Args:
-        query: User's question
+        query: User's question (will be translated if needed)
         collection_name: Name of collection to search
         top_k: Number of results to return
 
@@ -58,7 +60,10 @@ def retrieve(query: str, collection_name: str, top_k: int = 5) -> dict:
         Dict with 'documents', 'metadatas', 'distances'
     """
     collection = get_or_create_collection(collection_name)
-    query_embedding = embed_text(query)
+    
+    # Translate query for better matching with English database
+    search_query = translate_query_for_retrieval(query)
+    query_embedding = embed_text(search_query)
 
     results = collection.query(
         query_embeddings=[query_embedding],

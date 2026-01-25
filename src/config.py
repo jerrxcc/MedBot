@@ -68,8 +68,8 @@ MAX_CONTENT_LENGTH = 2000
 # LLM Configuration
 # =============================================================================
 
-DEEPSEEK_BASE_URL = "https://api.deepseek.com"
-DEEPSEEK_MODEL = "deepseek-chat"
+DEEPSEEK_BASE_URL = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
+DEEPSEEK_MODEL = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 MAX_TOKENS = 1024
 TEMPERATURE = 0.7
 

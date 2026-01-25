@@ -6,6 +6,10 @@ import chainlit as cl
 from src.retriever import retrieve, format_context
 from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError
 from src.prompts import get_prompt
+from src.search_agent import MedicalSearchAgent
+
+# Initialize search agent
+search_agent = MedicalSearchAgent()
 
 # =============================================================================
 # Translations
@@ -19,6 +23,8 @@ TRANSLATIONS = {
         "medication_desc": "**Ask about medications**, dosages, side effects, and drug interactions.\n\nData from FDA drug labels.",
         "records_name": "Records Analysis",
         "records_desc": "**Understand medical reports**, lab results, and diagnoses.\n\nGet explanations in plain language.",
+        "doctor_name": "Find Doctor",
+        "doctor_desc": "**Find specialists and clinics** in Singapore.\n\nSearch by specialty, name, or symptoms.",
 
         # Symptom starters
         "starter_headache": "Headache & Dizziness",
@@ -99,6 +105,8 @@ TRANSLATIONS = {
         "medication_desc": "**查询药物**用法、副作用和药物相互作用。\n\n数据来源：FDA 药品标签。",
         "records_name": "病历解读",
         "records_desc": "**理解医疗报告**、化验结果和诊断。\n\n用通俗语言解释医学术语。",
+        "doctor_name": "找医生",
+        "doctor_desc": "**查找新加坡专家和诊所**。\n\n按专科、姓名或症状进行搜索。",
 
         # Symptom starters
         "starter_headache": "头痛头晕",
@@ -189,7 +197,19 @@ FEATURES = {
         "collection": "medical_records",
         "icon": "📋",
         "name_key": "records_name"
+    },
+    "doctors": {
+        "icon": "👨‍⚕️",
+        "name_key": "doctor_name"
     }
+}
+
+# Profile to feature mapping
+PROFILE_TO_FEATURE = {
+    "Symptom Analysis": "symptoms",
+    "Medication Info": "medication",
+    "Records Analysis": "records",
+    "Find Doctor": "doctors"
 }
 
 
@@ -249,7 +269,7 @@ def get_bilingual_starters(profile: str):
                 icon="https://api.iconify.design/mdi:medical-bag.svg?color=%2310b981",
             ),
         ]
-    else:  # records
+    elif profile == "records":
         return [
             cl.Starter(
                 label="血红蛋白 Hemoglobin",
@@ -270,6 +290,29 @@ def get_bilingual_starters(profile: str):
                 label="胆固醇 Cholesterol",
                 message="如何解读胆固醇检测结果？/ How do I interpret my cholesterol test results?",
                 icon="https://api.iconify.design/mdi:chart-line.svg?color=%233b82f6",
+            ),
+        ]
+    elif profile == "doctors":
+        return [
+            cl.Starter(
+                label="中文牙医 Chinese Dentist",
+                message="我需要一个会说中文的牙医。/ I need a Chinese speaking dentist.",
+                icon="https://api.iconify.design/mdi:tooth-outline.svg?color=%2310b981",
+            ),
+            cl.Starter(
+                label="心脏专家 Heart Specialist",
+                message="帮我找一个心脏科医生。/ Find a heart specialist.",
+                icon="https://api.iconify.design/mdi:heart-pulse.svg?color=%23ef4444",
+            ),
+            cl.Starter(
+                label="骨折 Fracture",
+                message="我不小心骨折了，该看哪个科室？/ I had a bone fracture, who should I see?",
+                icon="https://api.iconify.design/mdi:bone.svg?color=%23f59e0b",
+            ),
+            cl.Starter(
+                label="搜索医生 Search Name",
+                message="搜索 Tan 医生。/ Search for Dr. Tan.",
+                icon="https://api.iconify.design/mdi:account-search.svg?color=%238b5cf6",
             ),
         ]
 
@@ -296,6 +339,12 @@ async def chat_profile():
             icon="https://api.iconify.design/mdi:file-document.svg?color=%2310b981",
             starters=get_bilingual_starters("records"),
         ),
+        cl.ChatProfile(
+            name="Find Doctor",
+            markdown_description="**找医生 Find Doctor**\n\n查找新加坡医疗专家和诊所。\nFind specialists and clinics in Singapore.",
+            icon="https://api.iconify.design/mdi:doctor.svg?color=%23f59e0b",
+            starters=get_bilingual_starters("doctors"),
+        ),
     ]
 
 
@@ -317,14 +366,7 @@ async def start():
     # Get the selected chat profile
     chat_profile = cl.user_session.get("chat_profile")
 
-    # Map profile name to feature key
-    profile_to_feature = {
-        "Symptom Analysis": "symptoms",
-        "Medication Info": "medication",
-        "Records Analysis": "records"
-    }
-
-    feature = profile_to_feature.get(chat_profile, "symptoms")
+    feature = PROFILE_TO_FEATURE.get(chat_profile, "symptoms")
     cl.user_session.set("feature", feature)
 
     # Check API status
@@ -417,12 +459,7 @@ async def main(message: cl.Message):
 
     # Get current feature from chat profile
     chat_profile = cl.user_session.get("chat_profile")
-    profile_to_feature = {
-        "Symptom Analysis": "symptoms",
-        "Medication Info": "medication",
-        "Records Analysis": "records"
-    }
-    feature = profile_to_feature.get(chat_profile, "symptoms")
+    feature = PROFILE_TO_FEATURE.get(chat_profile, "symptoms")
     feature_config = FEATURES[feature]
     feature_name = t(feature_config["name_key"], lang)
 
@@ -431,11 +468,26 @@ async def main(message: cl.Message):
     await msg.send()
 
     try:
+        # Special logic for doctor search
+        if feature == "doctors":
+            await msg.stream_token("🔍 " + t('searching', lang, feature=feature_name) + "\n\n")
+            # Use make_async for blocking search call
+            response = await cl.make_async(search_agent.search)(user_input)
+            msg.content = response
+            await msg.update()
+            return
+
+        # Step 0: Translate if needed (Visual feedback)
+        has_chinese = any('\u4e00' <= char <= '\u9fff' for char in user_input)
+        if has_chinese and feature != "doctors":
+             await msg.stream_token("🔍 正在优化搜索关键词 (Optimizing search keywords...)\n\n")
+
         # Step 1: Retrieve relevant documents
         await msg.stream_token(f"🔍 {t('searching', lang, feature=feature_name)}\n\n")
 
         collection_name = feature_config["collection"]
-        results = retrieve(user_input, collection_name, top_k=5)
+        # Use make_async for blocking retrieval call
+        results = await cl.make_async(retrieve)(user_input, collection_name, top_k=5)
         context = format_context(results)
 
         num_docs = len(results.get("documents", []))
@@ -445,7 +497,8 @@ async def main(message: cl.Message):
         # Step 2: Generate response
         system_prompt = get_prompt(feature)
         messages = build_messages(system_prompt, user_input, context)
-        response = get_response(messages)
+        # Use make_async for blocking LLM call
+        response = await cl.make_async(get_response)(messages)
 
         # Update with final response
         msg.content = response

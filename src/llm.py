@@ -32,7 +32,7 @@ def _get_client():
             )
         _client = OpenAI(
             api_key=api_key,
-            base_url="https://api.deepseek.com"
+            base_url=os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
         )
     return _client
 
@@ -42,13 +42,13 @@ def is_api_configured() -> bool:
     return bool(os.getenv("DEEPSEEK_API_KEY"))
 
 
-def get_response(messages: list, model: str = "deepseek-chat") -> str:
+def get_response(messages: list, model: str = None) -> str:
     """
     Send messages to DeepSeek API and get response.
 
     Args:
         messages: List of message dicts with 'role' and 'content'
-        model: Model name to use
+        model: Model name to use (defaults to DEEPSEEK_MODEL env var)
 
     Returns:
         Response content string
@@ -57,6 +57,8 @@ def get_response(messages: list, model: str = "deepseek-chat") -> str:
         APIKeyMissingError: If API key is not configured
         APICallError: If API call fails
     """
+    if model is None:
+        model = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
     try:
         client = _get_client()
         response = client.chat.completions.create(
