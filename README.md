@@ -44,22 +44,22 @@ Classic tabbed interface for quick access to different features.
 │                     RAG Pipeline                            │
 │  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
 │  │  Embedding  │───▶│  ChromaDB   │───▶│  Retriever  │     │
-│  │ (MiniLM-L6) │    │ (Vector DB) │    │  (Top-K)    │     │
+│  │(S-PubMedBERT)│   │ (Vector DB) │    │(Hybrid+RRF) │     │
 │  └─────────────┘    └─────────────┘    └──────┬──────┘     │
 └───────────────────────────────────────────────┼─────────────┘
                                                 │
                                                 ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    DeepSeek V3 API                          │
+│              LLM API (OpenAI / DeepSeek)                    │
 │           (Context-aware response generation)               │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### Deep Learning Components
 
-1. **Sentence Transformers** - BERT-based text embedding model (all-MiniLM-L6-v2)
-2. **Vector Similarity Search** - Semantic retrieval using cosine similarity
-3. **Large Language Model** - Context-aware response generation via DeepSeek API
+1. **Sentence Transformers** - Medical-specialized embedding model (S-PubMedBert-MS-MARCO, 768-dim)
+2. **Hybrid Retrieval** - BM25 + Dense search with Reciprocal Rank Fusion (RRF)
+3. **Large Language Model** - OpenAI GPT or DeepSeek with auto-detection
 
 ---
 
@@ -89,11 +89,8 @@ cd MedBot
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Install dependencies
+# Install dependencies (includes Chainlit)
 pip install -r requirements.txt
-
-# Install Chainlit (for modern UI)
-pip install chainlit
 ```
 
 ### 2. Configure API Key
@@ -102,11 +99,16 @@ pip install chainlit
 # Copy environment template
 cp .env.example .env
 
-# Edit .env and add your DeepSeek API key
-# DEEPSEEK_API_KEY=your_api_key_here
+# Edit .env and add your API key (choose one):
+# OPENAI_API_KEY=your_openai_key_here     # Recommended
+# DEEPSEEK_API_KEY=your_deepseek_key_here # Alternative
 ```
 
-Get your API key at: https://platform.deepseek.com/
+Get your API key at:
+- OpenAI: https://platform.openai.com/
+- DeepSeek: https://platform.deepseek.com/
+
+**Note:** The app auto-detects which API key is available. OpenAI is preferred if both are set.
 
 ### 3. Download and Process Data
 
@@ -153,10 +155,10 @@ Modern, ChatGPT-like interface with:
 | Command | Description |
 |---------|-------------|
 | `/help` | Show help message |
-| `/zh` | Switch to Chinese responses |
-| `/en` | Switch to English responses |
 
 **Mode Switching:** Use the dropdown menu in the top-left corner to switch between Symptom Analysis, Medication Info, and Records Analysis.
+
+**Language:** Automatically responds in the same language as your question (Chinese/English).
 
 ### Gradio Interface
 
@@ -183,7 +185,7 @@ MedBot/
 │   ├── config.py               # Configuration constants
 │   ├── embeddings.py           # Text embedding functions
 │   ├── retriever.py            # Vector search & retrieval
-│   ├── llm.py                  # DeepSeek API wrapper
+│   ├── llm.py                  # LLM API wrapper (OpenAI/DeepSeek)
 │   └── prompts.py              # Prompt templates
 │
 ├── scripts/                    # Data processing scripts

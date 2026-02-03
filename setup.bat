@@ -42,8 +42,13 @@ if not exist ".env" (
     copy .env.example .env
     echo Created .env file from template
     echo.
-    echo [IMPORTANT] Please edit .env and add your DEEPSEEK_API_KEY
-    echo Get your API key at: https://platform.deepseek.com/
+    echo [IMPORTANT] Please edit .env and add your API key:
+    echo   OPENAI_API_KEY=your_key    (Recommended)
+    echo   DEEPSEEK_API_KEY=your_key  (Alternative)
+    echo.
+    echo Get keys at:
+    echo   OpenAI: https://platform.openai.com/
+    echo   DeepSeek: https://platform.deepseek.com/
     echo.
 ) else (
     echo .env file exists
@@ -73,15 +78,14 @@ echo ==========================================
 echo.
 echo To run the application:
 echo.
-echo   Option A - Gradio:
+echo   Option A - Chainlit (Recommended):
+echo     venv\Scripts\activate
+echo     chainlit run app_chainlit.py
+echo     Open: http://localhost:8000
+echo.
+echo   Option B - Gradio (Classic UI):
 echo     venv\Scripts\activate
 echo     python app.py
 echo     Open: http://localhost:7860
-echo.
-echo   Option B - Chainlit:
-echo     venv\Scripts\activate
-echo     pip install chainlit
-echo     chainlit run app_chainlit.py
-echo     Open: http://localhost:8000
 echo.
 pause

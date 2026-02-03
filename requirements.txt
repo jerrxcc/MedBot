@@ -23,5 +23,5 @@ scikit-learn>=1.3.0
 # Environment
 python-dotenv>=1.0.0
 
-# Optional: Modern UI (uncomment to install)
-# chainlit>=1.0.0
+# Modern UI (Recommended)
+chainlit>=1.0.0
