@@ -92,8 +92,19 @@ ENABLE_CROSS_COLLECTION_FALLBACK = True
 # LLM Configuration
 # =============================================================================
 
+# LLM Provider: "openai" or "deepseek"
+# OpenAI is used by default if OPENAI_API_KEY is set
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai")
+
+# OpenAI Configuration
+OPENAI_BASE_URL = "https://api.openai.com/v1"
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+
+# DeepSeek Configuration (fallback)
 DEEPSEEK_BASE_URL = "https://api.deepseek.com"
 DEEPSEEK_MODEL = "deepseek-chat"
+
+# Common LLM settings
 MAX_TOKENS = 1024
 TEMPERATURE = 0.7
 
