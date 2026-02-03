@@ -1,5 +1,6 @@
 import chromadb
 from .embeddings import embed_text
+from .llm import translate_to_english
 from .config import (
     VECTORSTORE_PATH,
     DEFAULT_TOP_K,
@@ -155,15 +156,23 @@ def retrieve_with_fallback(query: str, primary_collection: str, top_k: int = 5) 
     searches all available collections and returns the best results.
 
     Args:
-        query: User's question
+        query: User's question (can be in any language)
         primary_collection: Primary collection to search first
         top_k: Number of results to return
 
     Returns:
-        Dict with results including 'fallback_used' flag
+        Dict with results including 'fallback_used' flag and translation info
     """
-    # First try primary collection
-    results = retrieve_with_confidence(query, primary_collection, top_k)
+    # Translate query to English for better retrieval
+    # (knowledge base and embeddings are English-optimized)
+    translated_query = translate_to_english(query)
+
+    # First try primary collection with translated query
+    results = retrieve_with_confidence(translated_query, primary_collection, top_k)
+
+    # Store query translation info
+    results["original_query"] = query
+    results["translated_query"] = translated_query if translated_query != query else None
 
     # If confidence is acceptable or fallback is disabled, return primary results
     if not ENABLE_CROSS_COLLECTION_FALLBACK:
@@ -179,7 +188,7 @@ def retrieve_with_fallback(query: str, primary_collection: str, top_k: int = 5) 
 
     for coll_name in ALL_COLLECTIONS:
         try:
-            coll_results = retrieve(query, coll_name, top_k=3)
+            coll_results = retrieve(translated_query, coll_name, top_k=3)
             for doc, dist, meta in zip(
                 coll_results.get("documents", []),
                 coll_results.get("distances", []),
@@ -217,7 +226,9 @@ def retrieve_with_fallback(query: str, primary_collection: str, top_k: int = 5) 
             "collection": "mixed",
             "fallback_used": True,
             "original_collection": primary_collection,
-            "original_confidence": results["confidence"]
+            "original_confidence": results["confidence"],
+            "original_query": query,
+            "translated_query": translated_query if translated_query != query else None
         }
 
     results["fallback_used"] = False

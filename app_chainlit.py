@@ -7,6 +7,12 @@ from src.retriever import retrieve_with_fallback, format_context
 from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError
 from src.prompts import get_prompt
 from src.config import DEFAULT_TOP_K
+from src.embeddings import get_model
+
+# Preload embedding model at startup for faster first response
+print("[INFO] Preloading embedding model...")
+get_model()
+print("[INFO] Embedding model ready!")
 
 # Feature configurations
 FEATURES = {
@@ -205,14 +211,12 @@ async def main(message: cl.Message):
     feature_config = FEATURES[feature]
     feature_name = feature_config["name"]
 
-    # Show processing message
-    msg = cl.Message(content="", author="MedBot")
+    # Show thinking indicator (GPT-style)
+    msg = cl.Message(content="💭 *Thinking...*", author="MedBot")
     await msg.send()
 
     try:
         # Step 1: Retrieve relevant documents with confidence scoring
-        await msg.stream_token(f"🔍 Searching {feature_name} knowledge base...\n\n")
-
         collection_name = feature_config["collection"]
         results = retrieve_with_fallback(user_input, collection_name, top_k=DEFAULT_TOP_K)
         context = format_context(results)
@@ -221,19 +225,9 @@ async def main(message: cl.Message):
         confidence_level = results.get("confidence_level", "none")
         fallback_used = results.get("fallback_used", False)
 
-        await msg.stream_token(f"📚 Found **{num_docs}** relevant documents\n\n")
-
-        # Show confidence indicator
-        if confidence_level == "high":
-            await msg.stream_token("✅ High relevance match\n\n")
-        elif confidence_level == "medium":
-            await msg.stream_token("🟡 Moderate relevance match\n\n")
-        elif confidence_level == "low":
-            await msg.stream_token("⚠️ Limited relevance - results may be general\n\n")
-        else:
-            await msg.stream_token("⚠️ Very limited information available\n\n")
-
-        await msg.stream_token("💭 Generating response...\n\n---\n\n")
+        # Update to show generation status
+        msg.content = "✨ *Generating response...*"
+        await msg.update()
 
         # Step 2: Generate response
         system_prompt = get_prompt(feature)
@@ -248,29 +242,13 @@ async def main(message: cl.Message):
         if fallback_used:
             response += "\n\n*Information gathered from multiple sources.*"
 
+        # Add source attribution to response
+        if results.get("metadatas"):
+            response += "\n\n---\n📖 *Based on NIH MedQuAD medical Q&A database*"
+
         # Update with final response
         msg.content = response
         await msg.update()
-
-        # Add sources as elements
-        if results.get("metadatas"):
-            sources_text = "**Sources used:**\n"
-            for i, meta in enumerate(results["metadatas"][:5], 1):
-                source = meta.get("source", "Unknown")
-                category = meta.get("category", "")
-                from_coll = meta.get("from_collection", "")
-                source_info = source
-                if category:
-                    source_info += f" ({category})"
-                if from_coll and fallback_used:
-                    source_info += f" [{from_coll}]"
-                sources_text += f"- [{i}] {source_info}\n"
-
-            await cl.Message(
-                content=sources_text,
-                author="MedBot",
-                parent_id=msg.id
-            ).send()
 
     except APIKeyMissingError:
         msg.content = """## ⚠️ API Key Required

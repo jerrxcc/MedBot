@@ -130,6 +130,39 @@ def get_response(messages: list, model: str = None) -> str:
         raise APICallError(f"API call failed: {str(e)}")
 
 
+def translate_to_english(text: str) -> str:
+    """
+    Translate non-English text to English for better retrieval.
+
+    The knowledge base and embedding model are optimized for English,
+    so translating queries improves retrieval quality.
+
+    Args:
+        text: Input text (potentially in any language)
+
+    Returns:
+        English translation, or original text if already English
+    """
+    # Check if text contains Chinese characters
+    if not any('\u4e00' <= char <= '\u9fff' for char in text):
+        return text  # No Chinese characters, assume English
+
+    try:
+        messages = [
+            {
+                "role": "system",
+                "content": "You are a medical translator. Translate the following to English. Only output the translation, nothing else."
+            },
+            {"role": "user", "content": text}
+        ]
+        translated = get_response(messages)
+        print(f"[INFO] Translated query: '{text}' -> '{translated}'")
+        return translated
+    except Exception as e:
+        print(f"[WARN] Translation failed, using original query: {e}")
+        return text
+
+
 def build_messages(system_prompt: str, user_message: str, context: str = "") -> list:
     """
     Build message list for API call.
