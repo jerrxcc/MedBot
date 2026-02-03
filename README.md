@@ -122,21 +122,30 @@ python scripts/build_vectorstore.py
 
 ### 4. Run Application
 
-**Option A: Chainlit (Recommended - Modern UI)**
+**Quick Start (Recommended):**
 
 ```bash
-chainlit run app_chainlit.py
+./run.sh          # macOS/Linux
+# or
+run.bat           # Windows (double-click)
 ```
 
-Open http://localhost:8000 in your browser.
-
-**Option B: Gradio (Classic UI)**
+**Stop Application:**
 
 ```bash
+./stop.sh         # macOS/Linux
+# or Ctrl+C in the terminal
+```
+
+**Manual Start:**
+
+```bash
+# Chainlit (Modern UI) - http://localhost:8000
+chainlit run app_chainlit.py
+
+# Gradio (Classic UI) - http://localhost:7860
 python app.py
 ```
-
-Open http://localhost:7860 in your browser.
 
 ---
 
