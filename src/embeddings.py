@@ -1,7 +1,7 @@
 from sentence_transformers import SentenceTransformer
+from src.config import EMBEDDING_MODEL
 
 # Load embedding model
-MODEL_NAME = "all-MiniLM-L6-v2"
 model = None
 
 
@@ -9,7 +9,7 @@ def get_model():
     """Get or initialize the embedding model."""
     global model
     if model is None:
-        model = SentenceTransformer(MODEL_NAME)
+        model = SentenceTransformer(EMBEDDING_MODEL)
     return model
 
 
@@ -21,7 +21,7 @@ def embed_text(text: str) -> list:
         text: Input text string
 
     Returns:
-        384-dimensional embedding as list
+        Embedding vector as list
     """
     model = get_model()
     embedding = model.encode(text)
@@ -36,7 +36,7 @@ def embed_texts(texts: list) -> list:
         texts: List of text strings
 
     Returns:
-        List of 384-dimensional embeddings
+        List of embedding vectors
     """
     model = get_model()
     embeddings = model.encode(texts)

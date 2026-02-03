@@ -45,8 +45,8 @@ DATA_FILES = {
 # Embedding Configuration
 # =============================================================================
 
-EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
-EMBEDDING_DIM = 384
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "pritamdeka/S-PubMedBert-MS-MARCO")
+EMBEDDING_DIM = 768
 
 # =============================================================================
 # Retrieval Configuration
