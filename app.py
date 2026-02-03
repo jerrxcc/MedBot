@@ -1,7 +1,8 @@
 import gradio as gr
-from src.retriever import retrieve, format_context
+from src.retriever import retrieve_with_fallback, format_context
 from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError
 from src.prompts import get_prompt
+from src.config import DEFAULT_TOP_K
 
 # Collection names for each feature
 COLLECTIONS = {
@@ -48,20 +49,57 @@ FEATURES = {
 }
 
 
+def build_confidence_warning(confidence_level: str, fallback_used: bool = False) -> str:
+    """Build a confidence warning message based on retrieval quality."""
+    if confidence_level == "high":
+        return ""
+
+    if confidence_level == "medium":
+        return ""
+
+    if confidence_level == "low":
+        warning = (
+            "**Note:** The information below is based on limited matches in our knowledge base. "
+            "Please verify with a healthcare professional."
+        )
+    else:  # very_low or none
+        warning = (
+            "**Important:** Our knowledge base has limited information about this topic. "
+            "The response below may be incomplete or general. "
+            "Please consult a qualified healthcare provider for accurate medical advice."
+        )
+
+    if fallback_used:
+        warning += "\n\n*Results include information from multiple sources in our database.*"
+
+    return f"\n\n---\n{warning}\n\n---\n\n"
+
+
 def chat_with_rag(message: str, history: list, feature: str) -> str:
-    """Process a chat message with RAG."""
+    """Process a chat message with RAG and confidence-aware responses."""
     if not message.strip():
         return ""
 
     try:
         collection_name = COLLECTIONS.get(feature, "medquad_symptoms")
-        results = retrieve(message, collection_name, top_k=5)
+
+        # Use enhanced retrieval with fallback
+        results = retrieve_with_fallback(message, collection_name, top_k=DEFAULT_TOP_K)
         context = format_context(results)
+
+        confidence_level = results.get("confidence_level", "none")
+        fallback_used = results.get("fallback_used", False)
 
         system_prompt = get_prompt(feature)
         messages = build_messages(system_prompt, message, context)
 
         response = get_response(messages)
+
+        # Add confidence warning if needed
+        warning = build_confidence_warning(confidence_level, fallback_used)
+        if warning:
+            response = warning + response
+
         return response
 
     except APIKeyMissingError:

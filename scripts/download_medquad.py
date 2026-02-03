@@ -25,7 +25,22 @@ import shutil
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.config import RAW_DATA_DIR, PROCESSED_DATA_DIR, CHUNK_SIZE, CHUNK_OVERLAP
+from src.config import RAW_DATA_DIR, PROCESSED_DATA_DIR, CHUNK_SIZE, CHUNK_OVERLAP, USE_SENTENCE_BOUNDARY
+
+# Try to import NLTK for sentence tokenization
+try:
+    import nltk
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        print("[INFO] Downloading NLTK punkt tokenizer...")
+        nltk.download('punkt', quiet=True)
+        nltk.download('punkt_tab', quiet=True)
+    from nltk.tokenize import sent_tokenize
+    NLTK_AVAILABLE = True
+except ImportError:
+    NLTK_AVAILABLE = False
+    print("[WARNING] NLTK not available, using basic sentence splitting")
 
 # =============================================================================
 # Configuration
@@ -125,30 +140,58 @@ def parse_xml_file(filepath):
     return qa_pairs
 
 
-def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
-    """Split text into overlapping chunks."""
+def chunk_text_by_sentences(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
+    """Split text into overlapping chunks at sentence boundaries using NLTK."""
     if len(text) <= chunk_size:
         return [text]
 
+    if NLTK_AVAILABLE and USE_SENTENCE_BOUNDARY:
+        sentences = sent_tokenize(text)
+    else:
+        # Basic sentence splitting fallback
+        import re
+        sentences = re.split(r'(?<=[.!?])\s+', text)
+
     chunks = []
-    start = 0
+    current_chunk = []
+    current_length = 0
 
-    while start < len(text):
-        end = start + chunk_size
+    for sentence in sentences:
+        sentence_length = len(sentence)
 
-        if end < len(text):
-            for i in range(min(100, end - start)):
-                if text[end - i - 1] in '.!?':
-                    end = end - i
+        # If adding this sentence exceeds chunk_size, save current chunk
+        if current_length + sentence_length > chunk_size and current_chunk:
+            chunks.append(' '.join(current_chunk))
+
+            # Keep some sentences for overlap
+            overlap_text = ' '.join(current_chunk)
+            overlap_sentences = []
+            overlap_length = 0
+
+            # Work backwards to find overlap sentences
+            for s in reversed(current_chunk):
+                if overlap_length + len(s) <= overlap:
+                    overlap_sentences.insert(0, s)
+                    overlap_length += len(s) + 1
+                else:
                     break
 
-        chunk = text[start:end].strip()
-        if chunk:
-            chunks.append(chunk)
+            current_chunk = overlap_sentences
+            current_length = overlap_length
 
-        start = end - overlap
+        current_chunk.append(sentence)
+        current_length += sentence_length + 1
 
-    return chunks
+    # Don't forget the last chunk
+    if current_chunk:
+        chunks.append(' '.join(current_chunk))
+
+    return chunks if chunks else [text]
+
+
+def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
+    """Split text into overlapping chunks (wrapper for compatibility)."""
+    return chunk_text_by_sentences(text, chunk_size, overlap)
 
 
 def process_medquad():

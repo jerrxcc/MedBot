@@ -29,12 +29,39 @@ RAW_DIR = RAW_DATA_DIR / "fda_drugs"
 OUTPUT_FILE = PROCESSED_DATA_DIR / "medications.jsonl"
 
 DRUG_CATEGORIES = [
+    # Original 15 categories
     "pain", "fever", "antibiotic", "diabetes", "blood pressure",
     "cholesterol", "depression", "anxiety", "allergy", "asthma",
-    "heart", "stomach", "sleep", "vitamin", "infection"
+    "heart", "stomach", "sleep", "vitamin", "infection",
+    # Anti-inflammatory and pain management
+    "anti-inflammatory", "ibuprofen", "acetaminophen", "aspirin", "nsaid",
+    # Antimicrobial
+    "antiviral", "antifungal", "antiparasitic",
+    # Allergy and respiratory
+    "antihistamine", "decongestant", "bronchodilator", "inhaler",
+    # Hormones and steroids
+    "steroid", "corticosteroid", "hormone", "thyroid", "insulin",
+    # Cancer and immune
+    "cancer", "chemotherapy", "immunosuppressant", "immunotherapy",
+    # Cardiovascular
+    "anticoagulant", "blood thinner", "diuretic", "beta blocker", "statin",
+    # Mental health
+    "antipsychotic", "antidepressant", "sedative", "stimulant",
+    # Neurological
+    "anticonvulsant", "seizure", "migraine", "parkinson",
+    # Gastrointestinal
+    "antacid", "laxative", "antidiarrheal", "nausea", "proton pump",
+    # Musculoskeletal
+    "arthritis", "gout", "muscle relaxant", "osteoporosis",
+    # ENT and topical
+    "eye drops", "ear drops", "nasal spray", "topical",
+    # Common conditions
+    "cough", "cold", "flu", "sore throat",
+    # Other common medications
+    "contraceptive", "erectile", "weight loss", "smoking cessation"
 ]
 
-RESULTS_PER_CATEGORY = 50
+RESULTS_PER_CATEGORY = 100
 API_DELAY = 0.5
 
 

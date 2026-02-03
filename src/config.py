@@ -31,38 +31,62 @@ VECTORSTORE_PATH = PROJECT_ROOT / "vectorstore"
 COLLECTIONS = {
     "symptoms": "medquad_symptoms",
     "medication": "fda_drugs",
-    "records": "medical_records"
+    "records": "medical_records",
+    "pubmedqa": "pubmedqa"
 }
 
 # Processed data files mapped to collections
 DATA_FILES = {
     "medquad_symptoms": PROCESSED_DATA_DIR / "symptoms.jsonl",
     "fda_drugs": PROCESSED_DATA_DIR / "medications.jsonl",
-    "medical_records": PROCESSED_DATA_DIR / "records.jsonl"
+    "medical_records": PROCESSED_DATA_DIR / "records.jsonl",
+    "pubmedqa": PROCESSED_DATA_DIR / "pubmedqa.jsonl"
 }
+
+# All searchable collections for fallback
+ALL_COLLECTIONS = ["medquad_symptoms", "fda_drugs", "medical_records", "pubmedqa"]
 
 # =============================================================================
 # Embedding Configuration
 # =============================================================================
 
-EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
-EMBEDDING_DIM = 384
+# Medical-specialized embedding model (PubMedBERT fine-tuned on MS-MARCO)
+# Provides better semantic understanding of medical terminology
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "pritamdeka/S-PubMedBert-MS-MARCO")
+EMBEDDING_DIM = 768
 
 # =============================================================================
 # Retrieval Configuration
 # =============================================================================
 
-DEFAULT_TOP_K = int(os.getenv("TOP_K_RESULTS", "5"))
-MAX_CONTEXT_LENGTH = 3000
+DEFAULT_TOP_K = int(os.getenv("TOP_K_RESULTS", "8"))
+MAX_CONTEXT_LENGTH = 4000
+
+# Hybrid search weights (BM25 + Dense)
+BM25_WEIGHT = 0.3
+DENSE_WEIGHT = 0.7
+RRF_K = 60  # Reciprocal Rank Fusion constant
 
 # =============================================================================
 # Data Processing Configuration
 # =============================================================================
 
-CHUNK_SIZE = 500
-CHUNK_OVERLAP = 50
+CHUNK_SIZE = 800
+CHUNK_OVERLAP = 100
 MIN_CONTENT_LENGTH = 50
 MAX_CONTENT_LENGTH = 2000
+USE_SENTENCE_BOUNDARY = True  # Split at sentence boundaries
+
+# =============================================================================
+# Confidence Thresholds
+# =============================================================================
+
+CONFIDENCE_HIGH = 0.7
+CONFIDENCE_MEDIUM = 0.4
+CONFIDENCE_LOW = 0.2
+
+# Enable cross-collection fallback when confidence is low
+ENABLE_CROSS_COLLECTION_FALLBACK = True
 
 # =============================================================================
 # LLM Configuration

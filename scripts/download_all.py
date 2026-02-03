@@ -10,6 +10,7 @@ Output:
     data/processed/symptoms.jsonl     - From MedQuAD
     data/processed/medications.jsonl  - From FDA
     data/processed/records.jsonl      - From MTSamples
+    data/processed/pubmedqa.jsonl     - From PubMedQA
 """
 
 import sys
@@ -21,6 +22,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from scripts.download_medquad import main as download_medquad
 from scripts.download_fda import main as download_fda
 from scripts.download_mtsamples import main as download_mtsamples
+from scripts.download_pubmedqa import main as download_pubmedqa
 
 
 def main():
@@ -34,7 +36,7 @@ def main():
 
     # 1. MedQuAD
     print("\n\n" + "=" * 70)
-    print("  [1/3] MedQuAD Dataset")
+    print("  [1/4] MedQuAD Dataset")
     print("=" * 70)
     try:
         download_medquad()
@@ -45,7 +47,7 @@ def main():
 
     # 2. FDA
     print("\n\n" + "=" * 70)
-    print("  [2/3] FDA Drug Labels")
+    print("  [2/4] FDA Drug Labels")
     print("=" * 70)
     try:
         download_fda()
@@ -56,7 +58,7 @@ def main():
 
     # 3. MTSamples
     print("\n\n" + "=" * 70)
-    print("  [3/3] MTSamples Medical Records")
+    print("  [3/4] MTSamples Medical Records")
     print("=" * 70)
     try:
         download_mtsamples()
@@ -64,6 +66,17 @@ def main():
     except Exception as e:
         print(f"[ERROR] MTSamples failed: {e}")
         results["MTSamples"] = f"FAILED: {e}"
+
+    # 4. PubMedQA
+    print("\n\n" + "=" * 70)
+    print("  [4/4] PubMedQA Dataset")
+    print("=" * 70)
+    try:
+        download_pubmedqa()
+        results["PubMedQA"] = "SUCCESS"
+    except Exception as e:
+        print(f"[ERROR] PubMedQA failed: {e}")
+        results["PubMedQA"] = f"FAILED: {e}"
 
     # Summary
     print("\n\n" + "=" * 70)
@@ -76,7 +89,7 @@ def main():
     print("\n" + "=" * 70)
     print("  All Downloads Complete!")
     print("=" * 70)
-    print("\n  Next step: Run 'python scripts/build_vectorstore.py'")
+    print("\n  Next step: Run 'python scripts/build_vectorstore.py --clear'")
 
 
 if __name__ == "__main__":

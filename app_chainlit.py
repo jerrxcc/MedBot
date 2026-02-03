@@ -3,9 +3,10 @@ MedBot - Chainlit Interface (Bilingual: English/Chinese)
 A modern chat UI for the medical assistant.
 """
 import chainlit as cl
-from src.retriever import retrieve, format_context
+from src.retriever import retrieve_with_fallback, format_context
 from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError
 from src.prompts import get_prompt
+from src.config import DEFAULT_TOP_K
 
 # =============================================================================
 # Translations
@@ -431,21 +432,43 @@ async def main(message: cl.Message):
     await msg.send()
 
     try:
-        # Step 1: Retrieve relevant documents
+        # Step 1: Retrieve relevant documents with confidence scoring
         await msg.stream_token(f"🔍 {t('searching', lang, feature=feature_name)}\n\n")
 
         collection_name = feature_config["collection"]
-        results = retrieve(user_input, collection_name, top_k=5)
+        results = retrieve_with_fallback(user_input, collection_name, top_k=DEFAULT_TOP_K)
         context = format_context(results)
 
         num_docs = len(results.get("documents", []))
+        confidence_level = results.get("confidence_level", "none")
+        fallback_used = results.get("fallback_used", False)
+
         await msg.stream_token(f"📚 {t('found_docs', lang, count=num_docs)}\n\n")
+
+        # Show confidence indicator
+        if confidence_level == "high":
+            await msg.stream_token("✅ High relevance match\n\n")
+        elif confidence_level == "medium":
+            await msg.stream_token("🟡 Moderate relevance match\n\n")
+        elif confidence_level == "low":
+            await msg.stream_token("⚠️ Limited relevance - results may be general\n\n")
+        else:
+            await msg.stream_token("⚠️ Very limited information available\n\n")
+
         await msg.stream_token(f"💭 {t('generating', lang)}\n\n---\n\n")
 
         # Step 2: Generate response
         system_prompt = get_prompt(feature)
         messages = build_messages(system_prompt, user_input, context)
         response = get_response(messages)
+
+        # Add confidence warning for low-quality retrievals
+        if confidence_level in ["low", "very_low", "none"]:
+            warning = "\n\n---\n⚠️ **Note:** Limited information available in knowledge base. Please verify with a healthcare professional."
+            response = response + warning
+
+        if fallback_used:
+            response += "\n\n*Information gathered from multiple sources.*"
 
         # Update with final response
         msg.content = response
@@ -457,10 +480,13 @@ async def main(message: cl.Message):
             for i, meta in enumerate(results["metadatas"][:5], 1):
                 source = meta.get("source", "Unknown")
                 category = meta.get("category", "")
+                from_coll = meta.get("from_collection", "")
+                source_info = source
                 if category:
-                    sources_text += f"- [{i}] {source} ({category})\n"
-                else:
-                    sources_text += f"- [{i}] {source}\n"
+                    source_info += f" ({category})"
+                if from_coll and fallback_used:
+                    source_info += f" [{from_coll}]"
+                sources_text += f"- [{i}] {source_info}\n"
 
             await cl.Message(
                 content=sources_text,
