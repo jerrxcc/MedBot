@@ -96,9 +96,10 @@ def distance_to_relevance(distance: float) -> float:
     Returns:
         Relevance percentage (0-100)
     """
-    # 768维嵌入的典型距离范围: 15-45
-    # 15 -> 100%, 45 -> 0%
-    relevance = max(0, min(100, (45 - distance) / 30 * 100))
+    # 768维嵌入的典型距离范围: 15-50
+    # 调整：更宽松的映射以提升常见症状的相关度显示
+    # 15 -> 117% (capped to 100), 50 -> 0%
+    relevance = max(0, min(100, (50 - distance) / 30 * 100))
     return round(relevance, 1)
 
 
@@ -129,8 +130,10 @@ def calculate_confidence(distances: list) -> tuple:
     # Scale for 768-dim embeddings: good results typically < 30
     combined_dist = 0.6 * min_distance + 0.4 * avg_distance
 
-    # Normalize: 15 -> 1.0, 45 -> 0.0
-    confidence = max(0, min(1, (45 - combined_dist) / 30))
+    # 调整：更宽松的映射以提升常见症状的置信度
+    # 原公式: (45 - combined_dist) / 30, 距离31-33 → 54-56%
+    # 新公式: (50 - combined_dist) / 30, 距离31-33 → 63-67%
+    confidence = max(0, min(1, (50 - combined_dist) / 30))
 
     # Determine confidence level
     if confidence >= CONFIDENCE_HIGH:

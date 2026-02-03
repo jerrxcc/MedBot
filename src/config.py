@@ -83,9 +83,13 @@ USE_SENTENCE_BOUNDARY = True  # Split at sentence boundaries
 # Confidence Thresholds
 # =============================================================================
 
-CONFIDENCE_HIGH = 0.7
-CONFIDENCE_MEDIUM = 0.4
-CONFIDENCE_LOW = 0.2
+# 调整阈值以优化常见症状的检索体验
+# - CONFIDENCE_HIGH: 0.7 -> 0.75 (高置信度门槛略微提高)
+# - CONFIDENCE_MEDIUM: 0.4 -> 0.55 (让 56% 的结果也触发 fallback)
+# - CONFIDENCE_LOW: 0.2 -> 0.3 (低置信度门槛略微提高)
+CONFIDENCE_HIGH = 0.75
+CONFIDENCE_MEDIUM = 0.55
+CONFIDENCE_LOW = 0.3
 
 # Enable cross-collection fallback when confidence is low
 ENABLE_CROSS_COLLECTION_FALLBACK = True
