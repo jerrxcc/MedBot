@@ -110,13 +110,23 @@ Get your API key at:
 
 **Note:** The app auto-detects which API key is available. OpenAI is preferred if both are set.
 
-### 3. Download and Process Data
+### 3. Get Vector Database
+
+**Option A: Download Pre-built (Recommended)**
+
+```bash
+./scripts/download_vectorstore.sh
+```
+
+This downloads the pre-built vector database (~173MB) from [GitHub Release](https://github.com/jerrxcc/MedBot/releases/tag/v1.0.0).
+
+**Option B: Build from Scratch**
 
 ```bash
 # Download all datasets
 python scripts/download_all.py
 
-# Build vector store
+# Build vector store (takes a few minutes)
 python scripts/build_vectorstore.py
 ```
 
@@ -241,6 +251,12 @@ If you see "API Key Required" error:
 3. Restart the application after changing `.env`
 
 ### Vector Store Issues
+
+If vectorstore is missing after cloning:
+```bash
+# Download pre-built vectorstore
+./scripts/download_vectorstore.sh
+```
 
 If retrieval doesn't work:
 ```bash
