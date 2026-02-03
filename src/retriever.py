@@ -81,6 +81,27 @@ def retrieve(query: str, collection_name: str, top_k: int = 5) -> dict:
     }
 
 
+def distance_to_relevance(distance: float) -> float:
+    """
+    Convert L2 distance to relevance percentage (0-100).
+
+    For 768-dim embeddings (PubMedBERT):
+    - Very similar: 15-25 -> high relevance
+    - Somewhat related: 25-35 -> medium relevance
+    - Unrelated: 35-50+ -> low relevance
+
+    Args:
+        distance: L2 distance from ChromaDB
+
+    Returns:
+        Relevance percentage (0-100)
+    """
+    # 768维嵌入的典型距离范围: 15-45
+    # 15 -> 100%, 45 -> 0%
+    relevance = max(0, min(100, (45 - distance) / 30 * 100))
+    return round(relevance, 1)
+
+
 def calculate_confidence(distances: list) -> tuple:
     """
     Calculate confidence score from retrieval distances.

@@ -32,7 +32,8 @@ COLLECTIONS = {
     "symptoms": "medquad_symptoms",
     "medication": "fda_drugs",
     "records": "medical_records",
-    "pubmedqa": "pubmedqa"
+    "pubmedqa": "pubmedqa",
+    "medqa": "medqa"
 }
 
 # Processed data files mapped to collections
@@ -40,11 +41,12 @@ DATA_FILES = {
     "medquad_symptoms": PROCESSED_DATA_DIR / "symptoms.jsonl",
     "fda_drugs": PROCESSED_DATA_DIR / "medications.jsonl",
     "medical_records": PROCESSED_DATA_DIR / "records.jsonl",
-    "pubmedqa": PROCESSED_DATA_DIR / "pubmedqa.jsonl"
+    "pubmedqa": PROCESSED_DATA_DIR / "pubmedqa.jsonl",
+    "medqa": PROCESSED_DATA_DIR / "medqa.jsonl"
 }
 
 # All searchable collections for fallback
-ALL_COLLECTIONS = ["medquad_symptoms", "fda_drugs", "medical_records", "pubmedqa"]
+ALL_COLLECTIONS = ["medquad_symptoms", "fda_drugs", "medical_records", "pubmedqa", "medqa"]
 
 # =============================================================================
 # Embedding Configuration
@@ -127,6 +129,16 @@ DATA_SOURCES = {
         "name": "MTSamples",
         "url": "https://mtsamples.com/",
         "description": "Medical Transcription Samples"
+    },
+    "pubmedqa": {
+        "name": "PubMedQA",
+        "url": "https://huggingface.co/datasets/qiaojin/PubMedQA",
+        "description": "Biomedical Research QA from PubMed abstracts (~273K)"
+    },
+    "medqa": {
+        "name": "MedQA",
+        "url": "https://huggingface.co/datasets/bigbio/med_qa",
+        "description": "USMLE Medical Exam Questions (~61K)"
     }
 }
 
@@ -134,5 +146,5 @@ DATA_SOURCES = {
 # Validation
 # =============================================================================
 
-VALID_SOURCES = ["MedQuAD", "FDA", "MTSamples"]
+VALID_SOURCES = ["MedQuAD", "FDA", "MTSamples", "PubMedQA", "MedQA"]
 VALID_CATEGORIES = ["Symptoms", "Diagnosis", "Treatment", "Medication", "Record"]

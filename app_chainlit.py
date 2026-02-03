@@ -3,7 +3,7 @@ MedBot - Chainlit Interface
 A modern chat UI for the medical assistant.
 """
 import chainlit as cl
-from src.retriever import retrieve_with_fallback, format_context
+from src.retriever import retrieve_with_fallback, format_context, distance_to_relevance
 from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError
 from src.prompts import get_prompt
 from src.config import DEFAULT_TOP_K
@@ -32,6 +32,79 @@ FEATURES = {
         "name": "Records Analysis"
     }
 }
+
+
+def format_retrieval_display(results: dict) -> str:
+    """
+    Format retrieval results for user display.
+
+    Shows the documents retrieved by RAG with relevance scores,
+    helping users understand what information the AI based its answer on.
+
+    Args:
+        results: Dict from retrieve_with_fallback()
+
+    Returns:
+        Formatted markdown string for display
+    """
+    if not results.get("documents"):
+        return ""
+
+    confidence = results.get("confidence", 0)
+    confidence_pct = int(confidence * 100)
+
+    # Confidence indicator with color hint
+    if confidence_pct >= 70:
+        conf_indicator = "🟢"
+    elif confidence_pct >= 50:
+        conf_indicator = "🟡"
+    else:
+        conf_indicator = "🔴"
+
+    lines = [
+        "",
+        "---",
+        f"📚 **参考资料** {conf_indicator} 置信度 {confidence_pct}%",
+        ""
+    ]
+
+    # Low confidence warning
+    if confidence_pct < 50:
+        lines.append("> ⚠️ 置信度较低，建议补充描述或咨询专业人士")
+        lines.append("")
+
+    documents = results.get("documents", [])
+    metadatas = results.get("metadatas", [])
+    distances = results.get("distances", [])
+
+    # Only show top 3 most relevant documents for cleaner UI
+    max_docs = 3
+    for i, (doc, meta, dist) in enumerate(zip(documents[:max_docs], metadatas[:max_docs], distances[:max_docs]), 1):
+        relevance = distance_to_relevance(dist)
+        source = meta.get("source", "Unknown") if meta else "Unknown"
+        condition = meta.get("condition", "") if meta else ""
+
+        # Relevance indicator
+        if relevance >= 60:
+            rel_indicator = "🟢"
+        elif relevance >= 40:
+            rel_indicator = "🟡"
+        else:
+            rel_indicator = "🔴"
+
+        # Create clean preview (first 100 characters)
+        preview = doc[:100].replace("\n", " ").strip()
+        if len(doc) > 100:
+            preview += "..."
+
+        # Topic line
+        topic = f" · *{condition}*" if condition else ""
+
+        lines.append(f"**{i}.** {rel_indicator} {relevance:.0f}% | {source}{topic}")
+        lines.append(f"> {preview}")
+        lines.append("")
+
+    return "\n".join(lines)
 
 
 def get_starters(profile: str):
@@ -259,9 +332,10 @@ async def main(message: cl.Message):
         if fallback_used:
             response += "\n\n*Information gathered from multiple sources.*"
 
-        # Add source attribution to response
-        if results.get("metadatas"):
-            response += "\n\n---\n📖 *Based on NIH MedQuAD medical Q&A database*"
+        # Add retrieval visualization (shows what documents were used)
+        retrieval_info = format_retrieval_display(results)
+        if retrieval_info:
+            response += retrieval_info
 
         # Update with final response
         msg.content = response

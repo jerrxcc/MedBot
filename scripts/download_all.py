@@ -7,10 +7,13 @@ Usage:
     python scripts/download_all.py
 
 Output:
-    data/processed/symptoms.jsonl     - From MedQuAD
-    data/processed/medications.jsonl  - From FDA
-    data/processed/records.jsonl      - From MTSamples
-    data/processed/pubmedqa.jsonl     - From PubMedQA
+    data/processed/symptoms.jsonl     - From MedQuAD (~35K)
+    data/processed/medications.jsonl  - From FDA (~1.8K)
+    data/processed/records.jsonl      - From MTSamples (~6)
+    data/processed/pubmedqa.jsonl     - From PubMedQA (~273K)
+    data/processed/medqa.jsonl        - From MedQA (~61K)
+
+Total: ~287K medical QA records
 """
 
 import sys
@@ -23,12 +26,13 @@ from scripts.download_medquad import main as download_medquad
 from scripts.download_fda import main as download_fda
 from scripts.download_mtsamples import main as download_mtsamples
 from scripts.download_pubmedqa import main as download_pubmedqa
+from scripts.download_medqa import main as download_medqa
 
 
 def main():
     """Run all data download pipelines."""
     print("\n" + "=" * 70)
-    print("  MedBot Data Download Pipeline - All Datasets")
+    print("  MedBot Data Download Pipeline - All Datasets (~287K records)")
     print("=" * 70)
 
     # Track results
@@ -36,7 +40,7 @@ def main():
 
     # 1. MedQuAD
     print("\n\n" + "=" * 70)
-    print("  [1/4] MedQuAD Dataset")
+    print("  [1/5] MedQuAD Dataset (~35K)")
     print("=" * 70)
     try:
         download_medquad()
@@ -47,7 +51,7 @@ def main():
 
     # 2. FDA
     print("\n\n" + "=" * 70)
-    print("  [2/4] FDA Drug Labels")
+    print("  [2/5] FDA Drug Labels (~1.8K)")
     print("=" * 70)
     try:
         download_fda()
@@ -58,7 +62,7 @@ def main():
 
     # 3. MTSamples
     print("\n\n" + "=" * 70)
-    print("  [3/4] MTSamples Medical Records")
+    print("  [3/5] MTSamples Medical Records")
     print("=" * 70)
     try:
         download_mtsamples()
@@ -69,7 +73,7 @@ def main():
 
     # 4. PubMedQA
     print("\n\n" + "=" * 70)
-    print("  [4/4] PubMedQA Dataset")
+    print("  [4/5] PubMedQA Dataset (~273K)")
     print("=" * 70)
     try:
         download_pubmedqa()
@@ -77,6 +81,17 @@ def main():
     except Exception as e:
         print(f"[ERROR] PubMedQA failed: {e}")
         results["PubMedQA"] = f"FAILED: {e}"
+
+    # 5. MedQA
+    print("\n\n" + "=" * 70)
+    print("  [5/5] MedQA USMLE Dataset (~61K)")
+    print("=" * 70)
+    try:
+        download_medqa()
+        results["MedQA"] = "SUCCESS"
+    except Exception as e:
+        print(f"[ERROR] MedQA failed: {e}")
+        results["MedQA"] = f"FAILED: {e}"
 
     # Summary
     print("\n\n" + "=" * 70)
