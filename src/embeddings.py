@@ -1,32 +1,16 @@
-import torch
 from sentence_transformers import SentenceTransformer
-from .config import EMBEDDING_MODEL, EMBEDDING_DIM
+from src.config import EMBEDDING_MODEL
 
-# Load embedding model (lazy initialization)
-_model = None
-
-
-def _get_device():
-    """Detect best available device for inference."""
-    if torch.cuda.is_available():
-        return "cuda"
-    elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
-        return "mps"  # Apple Silicon GPU
-    return "cpu"
+# Load embedding model
+model = None
 
 
 def get_model():
     """Get or initialize the embedding model."""
-    global _model
-    if _model is None:
-        device = _get_device()
-        print(f"[INFO] Loading embedding model: {EMBEDDING_MODEL}")
-        print(f"[INFO] Using device: {device}")
-        _model = SentenceTransformer(EMBEDDING_MODEL, device=device)
-        actual_dim = _model.get_sentence_embedding_dimension()
-        if actual_dim != EMBEDDING_DIM:
-            print(f"[WARNING] Model dimension ({actual_dim}) differs from config ({EMBEDDING_DIM})")
-    return _model
+    global model
+    if model is None:
+        model = SentenceTransformer(EMBEDDING_MODEL)
+    return model
 
 
 def embed_text(text: str) -> list:
@@ -37,7 +21,7 @@ def embed_text(text: str) -> list:
         text: Input text string
 
     Returns:
-        Embedding vector as list (dimension depends on model)
+        Embedding vector as list
     """
     model = get_model()
     embedding = model.encode(text)
@@ -55,11 +39,5 @@ def embed_texts(texts: list) -> list:
         List of embedding vectors
     """
     model = get_model()
-    embeddings = model.encode(texts, show_progress_bar=len(texts) > 100)
+    embeddings = model.encode(texts)
     return embeddings.tolist()
-
-
-def get_embedding_dimension() -> int:
-    """Get the actual embedding dimension from the loaded model."""
-    model = get_model()
-    return model.get_sentence_embedding_dimension()
