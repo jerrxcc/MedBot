@@ -163,20 +163,26 @@ def translate_to_english(text: str) -> str:
         return text
 
 
-def build_messages(system_prompt: str, user_message: str, context: str = "") -> list:
+def build_messages(system_prompt: str, user_message: str, context: str = "", history: list = None) -> list:
     """
-    Build message list for API call.
+    Build message list for API call with conversation history.
 
     Args:
         system_prompt: System instruction
         user_message: User's question
         context: Retrieved context from RAG
+        history: List of previous conversation messages (user/assistant pairs)
 
     Returns:
         List of message dicts
     """
     messages = [{"role": "system", "content": system_prompt}]
 
+    # Add conversation history (if any)
+    if history:
+        messages.extend(history)
+
+    # Current message (with RAG context if available)
     if context:
         full_message = f"### Reference Information:\n{context}\n\n### Question:\n{user_message}"
     else:

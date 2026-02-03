@@ -149,6 +149,9 @@ async def start():
     cl.user_session.set("feature", feature)
     feature_info = FEATURES[feature]
 
+    # Initialize conversation history (cleared on new chat or profile switch)
+    cl.user_session.set("conversation_history", [])
+
     # Welcome message
     await cl.Message(
         content=f"""## {feature_info['icon']} MedBot - {feature_info['name']}
@@ -229,10 +232,24 @@ async def main(message: cl.Message):
         msg.content = "✨ *Generating response...*"
         await msg.update()
 
-        # Step 2: Generate response
+        # Get conversation history
+        history = cl.user_session.get("conversation_history", [])
+
+        # Step 2: Generate response (with conversation history)
         system_prompt = get_prompt(feature)
-        messages = build_messages(system_prompt, user_input, context)
+        messages = build_messages(system_prompt, user_input, context, history)
         response = get_response(messages)
+
+        # Update conversation history (store original question without RAG context)
+        history.append({"role": "user", "content": user_input})
+        history.append({"role": "assistant", "content": response})
+
+        # Limit history length to avoid token overflow (keep last 10 turns = 20 messages)
+        MAX_HISTORY_TURNS = 10
+        if len(history) > MAX_HISTORY_TURNS * 2:
+            history = history[-(MAX_HISTORY_TURNS * 2):]
+
+        cl.user_session.set("conversation_history", history)
 
         # Add confidence warning for low-quality retrievals
         if confidence_level in ["low", "very_low", "none"]:
