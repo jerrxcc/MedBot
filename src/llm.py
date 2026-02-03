@@ -163,6 +163,57 @@ def translate_to_english(text: str) -> str:
         return text
 
 
+def rewrite_query_with_context(user_message: str, history: list, max_history: int = 4) -> str:
+    """
+    Rewrite user query with conversation context for better RAG retrieval.
+
+    When users ask follow-up questions like "那发烧呢？" (what about fever?),
+    this function rewrites the query to include relevant context from history,
+    producing queries like "腰腿酸痛伴随发烧" (back/leg pain with fever).
+
+    Args:
+        user_message: Current user message
+        history: Conversation history (list of {role, content} dicts)
+        max_history: Max recent messages to consider (default 4 = 2 turns)
+
+    Returns:
+        Rewritten query optimized for retrieval
+    """
+    # If no history or message is already detailed, return as-is
+    if not history or len(user_message) > 50:
+        return user_message
+
+    # Take only recent history to save tokens
+    recent_history = history[-max_history:] if len(history) > max_history else history
+
+    # Build context summary
+    history_text = "\n".join([
+        f"{'用户' if msg['role'] == 'user' else '助手'}: {msg['content'][:200]}"
+        for msg in recent_history
+    ])
+
+    prompt = f"""Based on this conversation:
+{history_text}
+
+The user now asks: "{user_message}"
+
+Rewrite this as a standalone search query that captures the full context.
+- If it's a follow-up question, include the relevant topic from history
+- Keep it concise (under 50 words)
+- Output ONLY the rewritten query, nothing else
+
+Rewritten query:"""
+
+    try:
+        messages = [{"role": "user", "content": prompt}]
+        rewritten = get_response(messages)
+        rewritten = rewritten.strip().strip('"').strip("'")
+        return rewritten
+    except Exception as e:
+        print(f"[WARN] Query rewrite failed: {e}")
+        return user_message
+
+
 def build_messages(system_prompt: str, user_message: str, context: str = "", history: list = None) -> list:
     """
     Build message list for API call with conversation history.

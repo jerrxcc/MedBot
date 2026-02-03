@@ -4,9 +4,9 @@ A modern chat UI for the medical assistant.
 """
 import chainlit as cl
 from src.retriever import retrieve_with_fallback, format_context, distance_to_relevance
-from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError
+from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError, rewrite_query_with_context
 from src.prompts import get_prompt
-from src.config import DEFAULT_TOP_K
+from src.config import DEFAULT_TOP_K, ENABLE_CONTEXT_AWARE_RETRIEVAL
 from src.embeddings import get_model
 
 # Preload embedding model at startup for faster first response
@@ -292,9 +292,21 @@ async def main(message: cl.Message):
     await msg.send()
 
     try:
-        # Step 1: Retrieve relevant documents with confidence scoring
+        # Get conversation history for context-aware retrieval
+        history = cl.user_session.get("conversation_history", [])
+
+        # Step 1: Context-aware query rewriting for better follow-up handling
         collection_name = feature_config["collection"]
-        results = retrieve_with_fallback(user_input, collection_name, top_k=DEFAULT_TOP_K)
+        search_query = user_input
+
+        if ENABLE_CONTEXT_AWARE_RETRIEVAL and history:
+            search_query = rewrite_query_with_context(user_input, history)
+            if search_query != user_input:
+                print(f"[Context] Original: {user_input}")
+                print(f"[Context] Rewritten: {search_query}")
+
+        # Step 2: Retrieve relevant documents with confidence scoring
+        results = retrieve_with_fallback(search_query, collection_name, top_k=DEFAULT_TOP_K)
         context = format_context(results)
 
         num_docs = len(results.get("documents", []))
@@ -305,10 +317,7 @@ async def main(message: cl.Message):
         msg.content = "✨ *Generating response...*"
         await msg.update()
 
-        # Get conversation history
-        history = cl.user_session.get("conversation_history", [])
-
-        # Step 2: Generate response (with conversation history)
+        # Step 3: Generate response (with conversation history)
         system_prompt = get_prompt(feature)
         messages = build_messages(system_prompt, user_input, context, history)
         response = get_response(messages)

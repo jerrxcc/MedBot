@@ -94,6 +94,11 @@ CONFIDENCE_LOW = 0.3
 # Enable cross-collection fallback when confidence is low
 ENABLE_CROSS_COLLECTION_FALLBACK = True
 
+# Enable context-aware query rewriting for better follow-up question handling
+# When enabled, short follow-up queries like "那发烧呢？" will be rewritten
+# to include context from conversation history for better RAG retrieval
+ENABLE_CONTEXT_AWARE_RETRIEVAL = True
+
 # =============================================================================
 # LLM Configuration
 # =============================================================================
