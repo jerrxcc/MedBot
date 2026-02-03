@@ -98,7 +98,7 @@ LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai")
 
 # OpenAI Configuration
 OPENAI_BASE_URL = "https://api.openai.com/v1"
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-5.2-chat-latest")
 
 # DeepSeek Configuration (fallback)
 DEEPSEEK_BASE_URL = "https://api.deepseek.com"

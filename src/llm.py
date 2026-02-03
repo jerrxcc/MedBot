@@ -91,10 +91,10 @@ def get_default_model() -> str:
     """Get the default model based on provider."""
     provider = _get_provider()
     if provider == "openai":
-        return os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+        return os.getenv("OPENAI_MODEL", "gpt-5.2-chat-latest")
     elif provider == "deepseek":
         return "deepseek-chat"
-    return "gpt-4o-mini"
+    return "gpt-5.2-chat-latest"
 
 
 def get_response(messages: list, model: str = None) -> str:
