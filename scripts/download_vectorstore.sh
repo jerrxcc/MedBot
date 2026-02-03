@@ -5,7 +5,7 @@
 set -e
 
 REPO="jerrxcc/MedBot"
-RELEASE_TAG="v1.0.0"
+RELEASE_TAG="v1.1.0"
 ASSET_NAME="vectorstore.zip"
 
 cd "$(dirname "$0")/.."
