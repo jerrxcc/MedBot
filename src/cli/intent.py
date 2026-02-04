@@ -53,11 +53,10 @@ class IntentDetector:
             'pediatrician', 'psychiatrist', 'orthopedic', 'gynecologist',
             'find a doctor', 'see a doctor', 'looking for doctor',
             'find doctor', 'search doctor', 'need doctor',
-            'find a', 'looking for a', 'search for a',
             'appointment', 'consultation', 'practitioner',
             # Chinese doctor search
             '医生', '医师', '专家', '牙医', '外科医生', '心脏科', '皮肤科',
-            '找医生', '看医生', '预约', '咨询', '找', '搜索',
+            '找医生', '看医生', '预约', '咨询',
         ],
         'clinics': [
             # English clinic search
@@ -100,8 +99,22 @@ class IntentDetector:
 
         # Priority rules for specific patterns
         # Rule 1: Explicit search phrases for doctors/clinics
-        if any(phrase in query_lower for phrase in ['find a', 'find doctor', 'looking for', 'search for', 'need a doctor']):
-            if 'clinic' in query_lower or 'hospital' in query_lower:
+        # Must include healthcare provider terms to avoid false positives like "find a cure"
+        healthcare_providers = [
+            'doctor', 'physician', 'specialist', 'dentist', 'surgeon',
+            'cardiologist', 'dermatologist', 'neurologist', 'pediatrician',
+            'psychiatrist', 'gynecologist', 'practitioner', 'gp',
+            'clinic', 'hospital', 'medical center',
+            '医生', '医师', '专家', '牙医', '诊所', '医院',
+        ]
+        search_phrases = ['find a', 'find', 'looking for', 'search for', 'need a', 'recommend', '找', '搜索']
+        has_search_phrase = any(phrase in query_lower for phrase in search_phrases)
+        has_provider = any(provider in query_lower for provider in healthcare_providers)
+
+        if has_search_phrase and has_provider:
+            # Check for clinic/hospital terms (including "medical center")
+            clinic_terms = ['clinic', 'hospital', 'medical center', '诊所', '医院']
+            if any(term in query_lower for term in clinic_terms):
                 return 'clinics'
             else:
                 return 'doctors'
