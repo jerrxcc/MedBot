@@ -79,21 +79,14 @@ class ConversationHistory:
         for i, msg in enumerate(self.messages, 1):
             role_label = "You" if msg['role'] == 'user' else "MedBot"
             # Truncate long messages
-            content = msg['content'][:80]
-            if len(msg['content']) > 80:
-                content += "..."
+            content = msg['content'][:80] + ("..." if len(msg['content']) > 80 else "")
             lines.append(f"{i}. {role_label}: {content}")
 
         return "\n".join(lines)
 
     def has_context(self) -> bool:
-        """
-        Check if there's conversation context.
-
-        Returns:
-            True if history contains messages
-        """
-        return len(self.messages) > 0
+        """Check if there's conversation context."""
+        return bool(self.messages)
 
     def get_last_user_message(self) -> Optional[str]:
         """

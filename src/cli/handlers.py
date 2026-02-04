@@ -52,8 +52,7 @@ class FeatureHandler:
         """
         if intent in ['doctors', 'clinics']:
             return self._handle_search(query, intent)
-        else:
-            return self._handle_rag(query, intent, history)
+        return self._handle_rag(query, intent, history)
 
     def _handle_rag(self, query: str, feature: str, history: list) -> str:
         """
@@ -132,8 +131,7 @@ class FeatureHandler:
         try:
             if search_type == 'doctors':
                 return self._handle_doctor_search(query)
-            else:
-                return self._handle_clinic_search(query)
+            return self._handle_clinic_search(query)
         except (APIKeyMissingError, APICallError):
             # Let API errors propagate for consistent handling in REPL
             raise

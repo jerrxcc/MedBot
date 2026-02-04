@@ -116,8 +116,7 @@ class IntentDetector:
             clinic_terms = ['clinic', 'hospital', 'medical center', '诊所', '医院']
             if any(term in query_lower for term in clinic_terms):
                 return 'clinics'
-            else:
-                return 'doctors'
+            return 'doctors'
 
         # Rule 2: Location-based queries are clinic searches
         if any(phrase in query_lower for phrase in ['near', 'nearby', 'postal', 'location', 'address']):
@@ -142,13 +141,9 @@ class IntentDetector:
         if scores.get('medication', 0) > 0:
             scores['medication'] *= 1.3
 
-        # Return intent with highest score
-        if max(scores.values()) > 0:
-            return max(scores, key=scores.get)
-
-        # Default to symptoms for medical queries
-        # (most common use case)
-        return 'symptoms'
+        # Return intent with highest score, default to symptoms
+        best_intent = max(scores, key=scores.get)
+        return best_intent if scores[best_intent] > 0 else 'symptoms'
 
     def get_confidence(self, query: str, intent: str) -> float:
         """

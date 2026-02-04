@@ -8,6 +8,12 @@ load_dotenv()
 
 _client = None
 
+# Keywords indicating temperature parameter is not supported by the model
+TEMPERATURE_ERROR_KEYWORDS = frozenset([
+    "unsupported", "not supported", "not allowed",
+    "invalid", "not valid", "does not support"
+])
+
 
 class APIKeyMissingError(Exception):
     """Raised when no API key is configured."""
@@ -118,17 +124,9 @@ def get_response(messages: list, model: str = None, temperature: float = None) -
             except Exception as e:
                 # Check if error is related to temperature parameter
                 error_msg = str(e).lower()
-                # Match various error message formats from different API providers:
-                # - "temperature ... unsupported"
-                # - "parameter temperature is not valid"
-                # - "temperature not supported/allowed"
-                # - "invalid parameter: temperature"
                 is_temperature_error = (
                     "temperature" in error_msg and
-                    any(keyword in error_msg for keyword in [
-                        "unsupported", "not supported", "not allowed",
-                        "invalid", "not valid", "does not support"
-                    ])
+                    any(kw in error_msg for kw in TEMPERATURE_ERROR_KEYWORDS)
                 )
                 if is_temperature_error:
                     # Model doesn't support temperature, fall back
