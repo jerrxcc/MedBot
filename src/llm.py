@@ -6,11 +6,10 @@ load_dotenv()
 
 # Lazy client initialization (deferred until first API call)
 _client = None
-_provider = None
 
 
 class APIKeyMissingError(Exception):
-    """Raised when API key is not configured."""
+    """Raised when DeepSeek API key is not configured."""
     pass
 
 
@@ -19,82 +18,76 @@ class APICallError(Exception):
     pass
 
 
-def _get_provider():
-    """Determine which LLM provider to use."""
-    # Check environment variable first
-    env_provider = os.getenv("LLM_PROVIDER", "").lower()
-    if env_provider in ["openai", "deepseek"]:
-        return env_provider
-
-    # Auto-detect based on available API keys (prefer OpenAI)
+def _get_provider() -> str:
+    """
+    Detect which LLM provider to use based on environment variables.
+    Prefers OpenAI if configured, falls back to DeepSeek.
+    """
     if os.getenv("OPENAI_API_KEY"):
         return "openai"
     elif os.getenv("DEEPSEEK_API_KEY"):
         return "deepseek"
-
-    return None
-
-
-def _get_client():
-    """Get or initialize the OpenAI-compatible client (lazy loading)."""
-    global _client, _provider
-
-    if _client is None:
-        _provider = _get_provider()
-
-        if _provider == "openai":
-            api_key = os.getenv("OPENAI_API_KEY")
-            if not api_key:
-                raise APIKeyMissingError(
-                    "OpenAI API key not found. Please set OPENAI_API_KEY in your .env file."
-                )
-            _client = OpenAI(api_key=api_key)
-            print(f"[INFO] Using OpenAI API")
-
-        elif _provider == "deepseek":
-            api_key = os.getenv("DEEPSEEK_API_KEY")
-            if not api_key:
-                raise APIKeyMissingError(
-                    "DeepSeek API key not found. Please set DEEPSEEK_API_KEY in your .env file."
-                )
-            _client = OpenAI(
-                api_key=api_key,
-                base_url="https://api.deepseek.com"
-            )
-            print(f"[INFO] Using DeepSeek API")
-
-        else:
-            raise APIKeyMissingError(
-                "No API key found. Please set OPENAI_API_KEY or DEEPSEEK_API_KEY in your .env file.\n"
-                "1. Copy .env.example to .env\n"
-                "2. Add your API key: OPENAI_API_KEY=your_key_here\n"
-                "3. Get a key at: https://platform.openai.com/ or https://platform.deepseek.com/"
-            )
-
-    return _client
+    return "none"
 
 
 def get_provider() -> str:
     """Get the current LLM provider name."""
-    global _provider
-    if _provider is None:
-        _provider = _get_provider()
-    return _provider or "none"
+    return _get_provider()
+
+
+def get_default_model() -> str:
+    """Get the default model for the current provider."""
+    provider = _get_provider()
+    if provider == "openai":
+        return os.getenv("OPENAI_MODEL", "gpt-5.2-2025-12-11")
+    return os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
+
+
+def _get_client():
+    """Get or initialize the OpenAI-compatible client (lazy loading)."""
+    global _client
+    if _client is None:
+        provider = _get_provider()
+
+        if provider == "openai":
+            api_key = os.getenv("OPENAI_API_KEY")
+            if not api_key:
+                raise APIKeyMissingError(
+                    "OPENAI_API_KEY is not configured or is empty. Please provide a valid API key.\n"
+                    "Get your key at: https://platform.openai.com/"
+                )
+            base_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+            _client = OpenAI(api_key=api_key, base_url=base_url)
+        elif provider == "deepseek":
+            api_key = os.getenv("DEEPSEEK_API_KEY")
+            if not api_key:
+                raise APIKeyMissingError(
+                    "DEEPSEEK_API_KEY is not configured or is empty. Please provide a valid API key.\n"
+                    "Get your key at: https://platform.deepseek.com/"
+                )
+            base_url = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
+            _client = OpenAI(api_key=api_key, base_url=base_url)
+        else:
+            raise APIKeyMissingError(
+                "No LLM API key found. Please set OPENAI_API_KEY or DEEPSEEK_API_KEY in your .env file.\n"
+                "1. Copy .env.example to .env\n"
+                "2. Add your API key: OPENAI_API_KEY=your_key or DEEPSEEK_API_KEY=your_key\n"
+                "3. Get keys at: https://platform.openai.com/ or https://platform.deepseek.com/"
+            )
+    return _client
+
+
+def get_llm_client():
+    """
+    Public API to get the LLM client.
+    Use this instead of _get_client() for external modules.
+    """
+    return _get_client()
 
 
 def is_api_configured() -> bool:
     """Check if any API key is configured (without initializing client)."""
     return bool(os.getenv("OPENAI_API_KEY") or os.getenv("DEEPSEEK_API_KEY"))
-
-
-def get_default_model() -> str:
-    """Get the default model based on provider."""
-    provider = _get_provider()
-    if provider == "openai":
-        return os.getenv("OPENAI_MODEL", "gpt-5.2-chat-latest")
-    elif provider == "deepseek":
-        return "deepseek-chat"
-    return "gpt-5.2-chat-latest"
 
 
 def get_response(messages: list, model: str = None) -> str:
@@ -103,7 +96,7 @@ def get_response(messages: list, model: str = None) -> str:
 
     Args:
         messages: List of message dicts with 'role' and 'content'
-        model: Model name to use (auto-detected if not specified)
+        model: Model name to use (defaults to provider's default model)
 
     Returns:
         Response content string
@@ -112,13 +105,10 @@ def get_response(messages: list, model: str = None) -> str:
         APIKeyMissingError: If API key is not configured
         APICallError: If API call fails
     """
+    if model is None:
+        model = get_default_model()
     try:
         client = _get_client()
-
-        # Use default model if not specified
-        if model is None:
-            model = get_default_model()
-
         response = client.chat.completions.create(
             model=model,
             messages=messages
@@ -222,18 +212,18 @@ def build_messages(system_prompt: str, user_message: str, context: str = "", his
         system_prompt: System instruction
         user_message: User's question
         context: Retrieved context from RAG
-        history: List of previous conversation messages (user/assistant pairs)
+        history: Conversation history (optional)
 
     Returns:
         List of message dicts
     """
     messages = [{"role": "system", "content": system_prompt}]
 
-    # Add conversation history (if any)
+    # Add conversation history if provided
     if history:
-        messages.extend(history)
+        for msg in history:
+            messages.append({"role": msg["role"], "content": msg["content"]})
 
-    # Current message (with RAG context if available)
     if context:
         full_message = f"### Reference Information:\n{context}\n\n### Question:\n{user_message}"
     else:

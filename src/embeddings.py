@@ -1,6 +1,6 @@
 import torch
 from sentence_transformers import SentenceTransformer
-from .config import EMBEDDING_MODEL, EMBEDDING_DIM
+from .config import EMBEDDING_MODEL
 
 # Load embedding model (lazy initialization)
 _model = None
@@ -23,9 +23,6 @@ def get_model():
         print(f"[INFO] Loading embedding model: {EMBEDDING_MODEL}")
         print(f"[INFO] Using device: {device}")
         _model = SentenceTransformer(EMBEDDING_MODEL, device=device)
-        actual_dim = _model.get_sentence_embedding_dimension()
-        if actual_dim != EMBEDDING_DIM:
-            print(f"[WARNING] Model dimension ({actual_dim}) differs from config ({EMBEDDING_DIM})")
     return _model
 
 
@@ -37,7 +34,7 @@ def embed_text(text: str) -> list:
         text: Input text string
 
     Returns:
-        Embedding vector as list (dimension depends on model)
+        Embedding vector as list
     """
     model = get_model()
     embedding = model.encode(text)
@@ -60,6 +57,11 @@ def embed_texts(texts: list) -> list:
 
 
 def get_embedding_dimension() -> int:
-    """Get the actual embedding dimension from the loaded model."""
+    """
+    Get the actual embedding dimension from the loaded model.
+
+    Returns:
+        Embedding dimension (e.g., 768 for PubMedBERT)
+    """
     model = get_model()
     return model.get_sentence_embedding_dimension()
