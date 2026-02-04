@@ -118,7 +118,7 @@ Get your API key at:
 ./scripts/download_vectorstore.sh
 ```
 
-This downloads the pre-built vector database (~173MB) from [GitHub Release](https://github.com/jerrxcc/MedBot/releases/tag/v1.0.0).
+This downloads the pre-built vector database (~446MB, 56K records) from [GitHub Release](https://github.com/jerrxcc/MedBot/releases/tag/v1.1.0).
 
 **Option B: Build from Scratch**
 
@@ -233,11 +233,15 @@ MedBot/
 
 ## Data Sources
 
-| Dataset | Source | Content |
-|---------|--------|---------|
-| **MedQuAD** | [GitHub](https://github.com/abachaa/MedQuAD) | 47K+ medical Q&A pairs from NIH |
-| **FDA Drug Labels** | [OpenFDA API](https://open.fda.gov) | Drug usage, warnings, side effects |
-| **MTSamples** | [Kaggle](https://www.kaggle.com/datasets/tboyle10/medicaltranscriptions) | Medical transcription samples |
+| Dataset | Source | Records | Content |
+|---------|--------|---------|---------|
+| **MedQuAD** | [GitHub](https://github.com/abachaa/MedQuAD) | 35K | Medical Q&A pairs from NIH |
+| **FDA Drug Labels** | [OpenFDA API](https://open.fda.gov) | 1.8K | Drug usage, warnings, side effects |
+| **MedQA** | [HuggingFace](https://huggingface.co/datasets/GBaker/MedQA-USMLE-4-options) | 19K | USMLE medical exam questions |
+| **PubMedQA** | [HuggingFace](https://huggingface.co/datasets/qiaojin/PubMedQA) | 273K | PubMed research Q&A (optional) |
+| **MTSamples** | [Kaggle](https://www.kaggle.com/datasets/tboyle10/medicaltranscriptions) | - | Medical transcription samples |
+
+**Total**: 56K+ searchable records (v1.1.0)
 
 ---
 

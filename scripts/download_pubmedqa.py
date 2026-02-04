@@ -3,13 +3,16 @@ Download and process PubMedQA dataset.
 
 PubMedQA: A Dataset for Biomedical Research Question Answering
 Source: HuggingFace datasets (qiaojin/PubMedQA)
-Contains: ~5,000 expert-annotated QA pairs from PubMed abstracts
+Contains: ~273,518 QA pairs from PubMed abstracts
+  - pqa_labeled: 1,000 expert-annotated
+  - pqa_unlabeled: 61,249 unlabeled
+  - pqa_artificial: 211,269 automatically generated
 
 Usage:
     python scripts/download_pubmedqa.py
 
 Output:
-    data/raw/pubmedqa/           - Raw JSON file
+    data/raw/pubmedqa/           - Raw JSON files
     data/processed/pubmedqa.jsonl - Processed JSONL file
 """
 
@@ -30,76 +33,89 @@ OUTPUT_FILE = PROCESSED_DATA_DIR / "pubmedqa.jsonl"
 
 
 def download_pubmedqa():
-    """Download PubMedQA dataset from HuggingFace."""
+    """Download all PubMedQA subsets from HuggingFace (~273K records)."""
     print("=" * 60)
-    print("Downloading PubMedQA Dataset")
+    print("Downloading PubMedQA Dataset (All Subsets)")
     print("=" * 60)
 
     RAW_DIR.mkdir(parents=True, exist_ok=True)
-    raw_file = RAW_DIR / "pubmedqa_raw.json"
 
-    if raw_file.exists():
-        print(f"[INFO] Raw file already exists: {raw_file}")
-        return True
+    # Define all subsets to download
+    subsets = {
+        "pqa_labeled": "pubmedqa_labeled.json",      # 1K expert-annotated
+        "pqa_unlabeled": "pubmedqa_unlabeled.json",  # 61K unlabeled
+        "pqa_artificial": "pubmedqa_artificial.json" # 211K auto-generated
+    }
 
-    # Try HuggingFace datasets library first
+    all_data = {}
+    total_records = 0
+
     try:
         from datasets import load_dataset
         print("[INFO] Using HuggingFace datasets library...")
 
-        # Load the pqa_labeled split (expert-annotated)
-        dataset = load_dataset("qiaojin/PubMedQA", "pqa_labeled", split="train")
-        print(f"[INFO] Loaded {len(dataset)} records from HuggingFace")
+        for subset_name, filename in subsets.items():
+            raw_file = RAW_DIR / filename
 
-        # Convert to dict format
-        data = {}
-        for i, item in enumerate(dataset):
-            pmid = item.get("pubid", str(i))
-            data[pmid] = {
-                "QUESTION": item.get("question", ""),
-                "CONTEXTS": item.get("context", {}).get("contexts", []),
-                "LONG_ANSWER": item.get("long_answer", ""),
-                "final_decision": item.get("final_decision", "")
-            }
+            if raw_file.exists():
+                print(f"[INFO] {subset_name} already exists: {raw_file}")
+                # Load existing data
+                with open(raw_file, 'r', encoding='utf-8') as f:
+                    subset_data = json.load(f)
+                all_data.update(subset_data)
+                total_records += len(subset_data)
+                continue
 
-        with open(raw_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+            print(f"\n[INFO] Downloading {subset_name}...")
 
-        print(f"[SUCCESS] Downloaded to: {raw_file}")
-        return True
+            try:
+                dataset = load_dataset("qiaojin/PubMedQA", subset_name, split="train")
+                print(f"[INFO] Loaded {len(dataset)} records from {subset_name}")
+
+                # Convert to dict format
+                subset_data = {}
+                for i, item in enumerate(dataset):
+                    pmid = item.get("pubid", f"{subset_name}_{i}")
+
+                    # Handle context which may be dict or list
+                    contexts = item.get("context", {})
+                    if isinstance(contexts, dict):
+                        context_list = contexts.get("contexts", [])
+                    elif isinstance(contexts, list):
+                        context_list = contexts
+                    else:
+                        context_list = []
+
+                    subset_data[pmid] = {
+                        "QUESTION": item.get("question", ""),
+                        "CONTEXTS": context_list,
+                        "LONG_ANSWER": item.get("long_answer", ""),
+                        "final_decision": item.get("final_decision", ""),
+                        "subset": subset_name
+                    }
+
+                with open(raw_file, 'w', encoding='utf-8') as f:
+                    json.dump(subset_data, f, ensure_ascii=False)
+
+                print(f"[SUCCESS] Saved {len(subset_data)} records to: {raw_file}")
+                all_data.update(subset_data)
+                total_records += len(subset_data)
+
+            except Exception as e:
+                print(f"[WARNING] Failed to download {subset_name}: {e}")
+                continue
+
+        print(f"\n[SUCCESS] Total PubMedQA records: {total_records}")
+        return total_records > 0
 
     except ImportError:
         print("[WARNING] HuggingFace datasets library not installed")
         print("[INFO] Install with: pip install datasets")
+        return False
 
     except Exception as e:
-        print(f"[ERROR] HuggingFace download failed: {e}")
-
-    # Fallback: try direct URL download
-    import urllib.request
-    urls = [
-        "https://raw.githubusercontent.com/pubmedqa/pubmedqa/master/data/ori_pqaa.json",
-        "https://raw.githubusercontent.com/pubmedqa/pubmedqa/main/data/ori_pqaa.json",
-    ]
-
-    for url in urls:
-        try:
-            print(f"[INFO] Trying: {url}")
-            with urllib.request.urlopen(url, timeout=60) as response:
-                data = response.read().decode('utf-8')
-                with open(raw_file, 'w', encoding='utf-8') as f:
-                    f.write(data)
-            print(f"[SUCCESS] Downloaded to: {raw_file}")
-            return True
-        except Exception as e:
-            print(f"[WARNING] URL failed: {e}")
-            continue
-
-    print("\n[ERROR] All download methods failed")
-    print("\n[ALTERNATIVE] Install HuggingFace datasets:")
-    print("  pip install datasets")
-    print("  Then run this script again")
-    return False
+        print(f"[ERROR] Download failed: {e}")
+        return False
 
 
 def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
@@ -135,18 +151,28 @@ def process_pubmedqa():
     print("Processing PubMedQA Data")
     print("=" * 60)
 
-    raw_file = RAW_DIR / "pubmedqa_raw.json"
+    # Load all subset files
+    raw_files = [
+        RAW_DIR / "pubmedqa_labeled.json",
+        RAW_DIR / "pubmedqa_unlabeled.json",
+        RAW_DIR / "pubmedqa_artificial.json",
+        RAW_DIR / "pubmedqa_raw.json"  # Legacy file for backward compatibility
+    ]
 
-    if not raw_file.exists():
-        print("[ERROR] Raw data not found. Please download first.")
+    raw_data = {}
+    for raw_file in raw_files:
+        if raw_file.exists():
+            print(f"[INFO] Loading: {raw_file.name}")
+            with open(raw_file, 'r', encoding='utf-8') as f:
+                subset_data = json.load(f)
+                raw_data.update(subset_data)
+                print(f"  -> {len(subset_data)} records")
+
+    if not raw_data:
+        print("[ERROR] No raw data found. Please download first.")
         return False
 
-    print(f"[INFO] Loading data from: {raw_file}")
-
-    with open(raw_file, 'r', encoding='utf-8') as f:
-        raw_data = json.load(f)
-
-    print(f"[INFO] Loaded {len(raw_data)} QA entries")
+    print(f"\n[INFO] Total loaded: {len(raw_data)} QA entries")
 
     all_data = []
     doc_id = 0
@@ -156,6 +182,7 @@ def process_pubmedqa():
         contexts = entry.get("CONTEXTS", [])
         long_answer = entry.get("LONG_ANSWER", "")
         final_decision = entry.get("final_decision", "")
+        subset = entry.get("subset", "unknown")
 
         if not question or not long_answer:
             continue
@@ -167,7 +194,8 @@ def process_pubmedqa():
         content_parts = [f"Question: {question}"]
 
         if context_text:
-            content_parts.append(f"Context: {context_text[:800]}")
+            # Limit context to preserve answer visibility
+            content_parts.append(f"Context: {context_text[:600]}")
 
         content_parts.append(f"Answer: {long_answer}")
 
@@ -191,6 +219,7 @@ def process_pubmedqa():
                     "pmid": pmid,
                     "question": question[:200],
                     "decision": final_decision,
+                    "subset": subset,
                     "chunk_index": i if len(chunks) > 1 else None
                 }
             }

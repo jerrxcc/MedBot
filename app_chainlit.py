@@ -3,9 +3,11 @@ MedBot - Chainlit Interface (Bilingual: English/Chinese)
 A modern chat UI for the medical assistant.
 """
 import chainlit as cl
-from src.retriever import retrieve, format_context
-from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError
+from src.retriever import retrieve_with_fallback, format_context, distance_to_relevance
+from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError, rewrite_query_with_context
 from src.prompts import get_prompt
+from src.config import DEFAULT_TOP_K, ENABLE_CONTEXT_AWARE_RETRIEVAL
+from src.embeddings import get_model
 from src.search_agent import MedicalSearchAgent
 from src.clinic_search import get_clinic_agent
 
@@ -223,13 +225,85 @@ PROFILE_TO_FEATURE = {
     "Find Clinic": "clinics"
 }
 
-
 def t(key: str, lang: str = "en", **kwargs) -> str:
     """Get translation for a key."""
     text = TRANSLATIONS.get(lang, TRANSLATIONS["en"]).get(key, key)
     if kwargs:
         text = text.format(**kwargs)
     return text
+
+
+def format_retrieval_display(results: dict) -> str:
+    """
+    Format retrieval results for user display.
+
+    Shows the documents retrieved by RAG with relevance scores,
+    helping users understand what information the AI based its answer on.
+
+    Args:
+        results: Dict from retrieve_with_fallback()
+
+    Returns:
+        Formatted markdown string for display
+    """
+    if not results.get("documents"):
+        return ""
+
+    confidence = results.get("confidence", 0)
+    confidence_pct = int(confidence * 100)
+
+    # Confidence indicator with color hint
+    if confidence_pct >= 70:
+        conf_indicator = "🟢"
+    elif confidence_pct >= 50:
+        conf_indicator = "🟡"
+    else:
+        conf_indicator = "🔴"
+
+    lines = [
+        "",
+        "---",
+        f"📚 **参考资料** {conf_indicator} 置信度 {confidence_pct}%",
+        ""
+    ]
+
+    # Low confidence warning
+    if confidence_pct < 50:
+        lines.append("> ⚠️ 置信度较低，建议补充描述或咨询专业人士")
+        lines.append("")
+
+    documents = results.get("documents", [])
+    metadatas = results.get("metadatas", [])
+    distances = results.get("distances", [])
+
+    # Only show top 3 most relevant documents for cleaner UI
+    max_docs = 3
+    for i, (doc, meta, dist) in enumerate(zip(documents[:max_docs], metadatas[:max_docs], distances[:max_docs]), 1):
+        relevance = distance_to_relevance(dist)
+        source = meta.get("source", "Unknown") if meta else "Unknown"
+        condition = meta.get("condition", "") if meta else ""
+
+        # Relevance indicator
+        if relevance >= 60:
+            rel_indicator = "🟢"
+        elif relevance >= 40:
+            rel_indicator = "🟡"
+        else:
+            rel_indicator = "🔴"
+
+        # Create clean preview (first 100 characters)
+        preview = doc[:100].replace("\n", " ").strip()
+        if len(doc) > 100:
+            preview += "..."
+
+        # Topic line
+        topic = f" · *{condition}*" if condition else ""
+
+        lines.append(f"**{i}.** {rel_indicator} {relevance:.0f}% | {source}{topic}")
+        lines.append(f"> {preview}")
+        lines.append("")
+
+    return "\n".join(lines)
 
 
 def get_bilingual_starters(profile: str):
@@ -528,28 +602,55 @@ async def main(message: cl.Message):
             await msg.update()
             return
 
-        # Step 0: Translate if needed (Visual feedback)
-        has_chinese = any('\u4e00' <= char <= '\u9fff' for char in user_input)
-        if has_chinese and feature != "doctors":
-             await msg.stream_token("🔍 正在优化搜索关键词 (Optimizing search keywords...)\n\n")
+        # Get conversation history for context-aware retrieval
+        history = cl.user_session.get("conversation_history", [])
 
-        # Step 1: Retrieve relevant documents
-        await msg.stream_token(f"🔍 {t('searching', lang, feature=feature_name)}\n\n")
-
+        # Step 1: Context-aware query rewriting for better follow-up handling
         collection_name = feature_config["collection"]
-        # Use make_async for blocking retrieval call
-        results = await cl.make_async(retrieve)(user_input, collection_name, top_k=5)
+        search_query = user_input
+
+        if ENABLE_CONTEXT_AWARE_RETRIEVAL and history:
+            search_query = await cl.make_async(rewrite_query_with_context)(user_input, history)
+            if search_query != user_input:
+                print(f"[Context] Original: {user_input}")
+                print(f"[Context] Rewritten: {search_query}")
+
+        # Step 2: Retrieve relevant documents with confidence scoring
+        await msg.stream_token(f"🔍 {t('searching', lang, feature=feature_name)}\n\n")
+        results = await cl.make_async(retrieve_with_fallback)(search_query, collection_name, top_k=DEFAULT_TOP_K)
         context = format_context(results)
 
         num_docs = len(results.get("documents", []))
         await msg.stream_token(f"📚 {t('found_docs', lang, count=num_docs)}\n\n")
         await msg.stream_token(f"💭 {t('generating', lang)}\n\n---\n\n")
 
-        # Step 2: Generate response
+        # Step 3: Generate response (with conversation history)
         system_prompt = get_prompt(feature)
-        messages = build_messages(system_prompt, user_input, context)
+        messages = build_messages(system_prompt, user_input, context, history)
         # Use make_async for blocking LLM call
         response = await cl.make_async(get_response)(messages)
+
+        # Update conversation history (store original question without RAG context)
+        history.append({"role": "user", "content": user_input})
+        history.append({"role": "assistant", "content": response})
+
+        # Limit history length to avoid token overflow (keep last 10 turns = 20 messages)
+        MAX_HISTORY_TURNS = 10
+        if len(history) > MAX_HISTORY_TURNS * 2:
+            history = history[-(MAX_HISTORY_TURNS * 2):]
+
+        cl.user_session.set("conversation_history", history)
+
+        # Add confidence warning for low-quality retrievals
+        confidence_level = results.get("confidence_level", "medium")
+        if confidence_level in ["low", "very_low", "none"]:
+            warning = "\n\n---\n⚠️ **Note:** Limited information available in knowledge base. Please verify with a healthcare professional."
+            response = response + warning
+
+        # Add retrieval visualization (shows what documents were used)
+        retrieval_info = format_retrieval_display(results)
+        if retrieval_info:
+            response += retrieval_info
 
         # Update with final response
         msg.content = response

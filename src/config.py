@@ -32,7 +32,8 @@ COLLECTIONS = {
     "symptoms": "medquad_symptoms",
     "medication": "fda_drugs",
     "records": "medical_records",
-    "pubmedqa": "pubmedqa"
+    "pubmedqa": "pubmedqa",
+    "medqa": "medqa"
 }
 
 # Processed data files mapped to collections
@@ -40,11 +41,12 @@ DATA_FILES = {
     "medquad_symptoms": PROCESSED_DATA_DIR / "symptoms.jsonl",
     "fda_drugs": PROCESSED_DATA_DIR / "medications.jsonl",
     "medical_records": PROCESSED_DATA_DIR / "records.jsonl",
-    "pubmedqa": PROCESSED_DATA_DIR / "pubmedqa.jsonl"
+    "pubmedqa": PROCESSED_DATA_DIR / "pubmedqa.jsonl",
+    "medqa": PROCESSED_DATA_DIR / "medqa.jsonl"
 }
 
 # All searchable collections for fallback
-ALL_COLLECTIONS = ["medquad_symptoms", "fda_drugs", "medical_records", "pubmedqa"]
+ALL_COLLECTIONS = ["medquad_symptoms", "fda_drugs", "medical_records", "pubmedqa", "medqa"]
 
 # =============================================================================
 # Embedding Configuration
@@ -81,12 +83,21 @@ USE_SENTENCE_BOUNDARY = True  # Split at sentence boundaries
 # Confidence Thresholds
 # =============================================================================
 
-CONFIDENCE_HIGH = 0.7
-CONFIDENCE_MEDIUM = 0.4
-CONFIDENCE_LOW = 0.2
+# 调整阈值以优化常见症状的检索体验
+# - CONFIDENCE_HIGH: 0.7 -> 0.75 (高置信度门槛略微提高)
+# - CONFIDENCE_MEDIUM: 0.4 -> 0.55 (让 56% 的结果也触发 fallback)
+# - CONFIDENCE_LOW: 0.2 -> 0.3 (低置信度门槛略微提高)
+CONFIDENCE_HIGH = 0.75
+CONFIDENCE_MEDIUM = 0.55
+CONFIDENCE_LOW = 0.3
 
 # Enable cross-collection fallback when confidence is low
 ENABLE_CROSS_COLLECTION_FALLBACK = True
+
+# Enable context-aware query rewriting for better follow-up question handling
+# When enabled, short follow-up queries like "那发烧呢？" will be rewritten
+# to include context from conversation history for better RAG retrieval
+ENABLE_CONTEXT_AWARE_RETRIEVAL = True
 
 # =============================================================================
 # LLM Configuration
@@ -117,6 +128,16 @@ DATA_SOURCES = {
         "name": "MTSamples",
         "url": "https://mtsamples.com/",
         "description": "Medical Transcription Samples"
+    },
+    "pubmedqa": {
+        "name": "PubMedQA",
+        "url": "https://huggingface.co/datasets/qiaojin/PubMedQA",
+        "description": "Biomedical Research QA from PubMed abstracts (~273K)"
+    },
+    "medqa": {
+        "name": "MedQA",
+        "url": "https://huggingface.co/datasets/bigbio/med_qa",
+        "description": "USMLE Medical Exam Questions (~61K)"
     }
 }
 
@@ -124,5 +145,5 @@ DATA_SOURCES = {
 # Validation
 # =============================================================================
 
-VALID_SOURCES = ["MedQuAD", "FDA", "MTSamples"]
+VALID_SOURCES = ["MedQuAD", "FDA", "MTSamples", "PubMedQA", "MedQA"]
 VALID_CATEGORIES = ["Symptoms", "Diagnosis", "Treatment", "Medication", "Record"]
