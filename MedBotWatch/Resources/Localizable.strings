@@ -1,0 +1,83 @@
+/* English Localizations for MedBotWatch */
+
+// Features
+"feature_symptoms" = "Symptoms";
+"feature_medication" = "Medication";
+"feature_records" = "Records";
+"feature_doctors" = "Doctors";
+"feature_clinics" = "Clinics";
+"feature_settings" = "Settings";
+
+// Symptoms
+"symptom_tap_or_speak" = "Tap mic or type symptoms";
+"quick_headache" = "Headache";
+"quick_fever" = "Fever";
+"quick_cough" = "Cough";
+"result_symptoms" = "Analysis";
+
+// Medication
+"medication_placeholder" = "Enter drug name...";
+"medication_common" = "Common Medications";
+"medication_warnings" = "Warnings";
+"result_medication" = "Drug Info";
+
+// Records
+"records_select_type" = "Select record type";
+"records_type_general" = "General";
+"records_type_lab" = "Lab Results";
+"records_type_diagnosis" = "Diagnosis";
+"records_type_prescription" = "Prescription";
+"records_placeholder" = "Enter lab values...";
+"records_example" = "Example values";
+"records_abnormal" = "Abnormal Values";
+"result_records" = "Analysis";
+
+// Doctors
+"doctor_placeholder" = "Find a doctor...";
+"doctor_specialty" = "Specialty";
+"doctor_language" = "Language";
+
+// Clinics
+"clinic_placeholder" = "Find clinics...";
+"clinic_postal" = "Postal Code";
+"clinic_area" = "Select Area";
+
+// Severity
+"severity_low" = "Low";
+"severity_medium" = "Medium";
+"severity_high" = "High";
+"severity_emergency" = "Emergency";
+
+// Actions
+"action_self_care" = "Self Care";
+"action_see_doctor" = "See Doctor";
+"action_emergency" = "Emergency";
+"action_info" = "Info";
+
+// Buttons
+"button_analyze" = "Analyze";
+"button_search" = "Search";
+"button_retry" = "Retry";
+"button_emergency" = "Call Emergency";
+"button_test" = "Test Connection";
+"button_save" = "Save";
+
+// Voice
+"voice_start" = "Start recording";
+"voice_stop" = "Stop recording";
+"voice_listening" = "Listening...";
+
+// Settings
+"settings_language" = "Language";
+"settings_api" = "API Settings";
+"settings_api_url" = "Server URL";
+"settings_version" = "Version";
+"status_connected" = "Connected";
+
+// Errors
+"error_invalid_url" = "Invalid URL";
+"error_parsing" = "Failed to parse response";
+"error_no_data" = "No data received";
+"error_speech_permission" = "Speech recognition permission denied";
+"error_mic_permission" = "Microphone permission denied";
+"error_speech_unavailable" = "Speech recognition unavailable";

@@ -1,0 +1,83 @@
+/* Chinese (Simplified) Localizations for MedBotWatch */
+
+// Features
+"feature_symptoms" = "症状";
+"feature_medication" = "药物";
+"feature_records" = "报告";
+"feature_doctors" = "医生";
+"feature_clinics" = "诊所";
+"feature_settings" = "设置";
+
+// Symptoms
+"symptom_tap_or_speak" = "点击麦克风或输入症状";
+"quick_headache" = "头痛";
+"quick_fever" = "发烧";
+"quick_cough" = "咳嗽";
+"result_symptoms" = "分析结果";
+
+// Medication
+"medication_placeholder" = "输入药品名称...";
+"medication_common" = "常用药物";
+"medication_warnings" = "注意事项";
+"result_medication" = "药物信息";
+
+// Records
+"records_select_type" = "选择报告类型";
+"records_type_general" = "常规";
+"records_type_lab" = "化验结果";
+"records_type_diagnosis" = "诊断报告";
+"records_type_prescription" = "处方";
+"records_placeholder" = "输入化验数值...";
+"records_example" = "示例数值";
+"records_abnormal" = "异常数值";
+"result_records" = "分析结果";
+
+// Doctors
+"doctor_placeholder" = "查找医生...";
+"doctor_specialty" = "专科";
+"doctor_language" = "语言";
+
+// Clinics
+"clinic_placeholder" = "查找诊所...";
+"clinic_postal" = "邮编";
+"clinic_area" = "选择区域";
+
+// Severity
+"severity_low" = "低";
+"severity_medium" = "中";
+"severity_high" = "高";
+"severity_emergency" = "紧急";
+
+// Actions
+"action_self_care" = "自我护理";
+"action_see_doctor" = "就医";
+"action_emergency" = "紧急求助";
+"action_info" = "信息";
+
+// Buttons
+"button_analyze" = "分析";
+"button_search" = "搜索";
+"button_retry" = "重试";
+"button_emergency" = "紧急呼叫";
+"button_test" = "测试连接";
+"button_save" = "保存";
+
+// Voice
+"voice_start" = "开始录音";
+"voice_stop" = "停止录音";
+"voice_listening" = "正在聆听...";
+
+// Settings
+"settings_language" = "语言";
+"settings_api" = "API设置";
+"settings_api_url" = "服务器地址";
+"settings_version" = "版本";
+"status_connected" = "已连接";
+
+// Errors
+"error_invalid_url" = "无效的URL";
+"error_parsing" = "解析响应失败";
+"error_no_data" = "未收到数据";
+"error_speech_permission" = "语音识别权限被拒绝";
+"error_mic_permission" = "麦克风权限被拒绝";
+"error_speech_unavailable" = "语音识别不可用";
