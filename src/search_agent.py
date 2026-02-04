@@ -1,12 +1,13 @@
 """Medical search agent for finding doctors and specialists."""
 import json
 import os
+from typing import Optional, Dict
 
 import pandas as pd
 from rapidfuzz import fuzz, process
 
 from .config import PROJECT_ROOT
-from .llm import get_default_model, get_llm_client
+from .llm import get_response
 
 class MedicalSearchAgent:
     """Agent for searching doctors and specialists."""
@@ -51,7 +52,7 @@ class MedicalSearchAgent:
             print(f"Error loading doctor data: {e}")
             self.df = pd.DataFrame()
 
-    def think(self, query: str) -> dict | None:
+    def think(self, query: str) -> Optional[Dict]:
         """Analyze search intent using LLM."""
         system_prompt = """You are a medical search intent analyzer.
 Target Data: Doctors (Fields: Name, Specialty, Languages, Services)
@@ -89,17 +90,14 @@ Output JSON Format:
 CRITICAL: Return ONLY a valid JSON object."""
 
         try:
-            client = get_llm_client()
-            response = client.chat.completions.create(
-                model=get_default_model(),
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": query}
-                ],
-                temperature=0.1
-            )
-            content = response.choices[0].message.content.strip()
-            return json.loads(self._extract_json(content))
+            # Use temperature=0 for deterministic JSON output
+            # Falls back to default if model doesn't support temperature
+            messages = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": query}
+            ]
+            content = get_response(messages, temperature=0)
+            return json.loads(self._extract_json(content.strip()))
         except Exception as e:
             print(f"Intent analysis failed: {e}")
             return None

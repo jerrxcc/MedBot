@@ -33,3 +33,6 @@ folium>=0.14.0
 
 # Modern UI
 chainlit>=1.0.0
+
+# CLI interface
+prompt-toolkit>=3.0.0
