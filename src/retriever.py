@@ -59,7 +59,9 @@ def retrieve(query: str, collection_name: str, top_k: int = 5) -> dict:
     Retrieve relevant documents for a query.
 
     Args:
-        query: User's question (should already be translated by caller if needed)
+        query: User's question (English queries yield best results since
+               the knowledge base is English-optimized; use retrieve_with_fallback()
+               for automatic translation of non-English queries)
         collection_name: Name of collection to search
         top_k: Number of results to return
 

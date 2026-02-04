@@ -53,7 +53,7 @@ def _get_client():
             api_key = os.getenv("OPENAI_API_KEY")
             if not api_key:
                 raise APIKeyMissingError(
-                    "OPENAI_API_KEY is set but empty. Please provide a valid API key.\n"
+                    "OPENAI_API_KEY is not configured or is empty. Please provide a valid API key.\n"
                     "Get your key at: https://platform.openai.com/"
                 )
             base_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
@@ -62,7 +62,7 @@ def _get_client():
             api_key = os.getenv("DEEPSEEK_API_KEY")
             if not api_key:
                 raise APIKeyMissingError(
-                    "DEEPSEEK_API_KEY is set but empty. Please provide a valid API key.\n"
+                    "DEEPSEEK_API_KEY is not configured or is empty. Please provide a valid API key.\n"
                     "Get your key at: https://platform.deepseek.com/"
                 )
             base_url = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
