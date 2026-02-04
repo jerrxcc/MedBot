@@ -11,8 +11,9 @@ class ConversationHistory:
     Keeps last 10 turns (20 messages) for context.
     """
 
-    # Valid role values for OpenAI/DeepSeek API compatibility
-    VALID_ROLES = ('user', 'assistant', 'system')
+    # Valid role values for conversation history
+    # Note: 'system' role is handled separately in build_messages(), not in history
+    VALID_ROLES = ('user', 'assistant')
 
     def __init__(self, max_turns: int = 10):
         """

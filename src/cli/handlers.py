@@ -2,7 +2,6 @@
 Feature handlers for routing queries to appropriate MedBot functionality.
 """
 
-import sys
 from typing import Optional
 
 from ..retriever import retrieve_with_fallback, format_context
@@ -125,13 +124,21 @@ class FeatureHandler:
 
         Returns:
             Response string
+
+        Raises:
+            APIKeyMissingError: If API key is not configured
+            APICallError: If API call fails
         """
         try:
             if search_type == 'doctors':
                 return self._handle_doctor_search(query)
             else:
                 return self._handle_clinic_search(query)
+        except (APIKeyMissingError, APICallError):
+            # Let API errors propagate for consistent handling in REPL
+            raise
         except Exception as e:
+            # Catch other errors (file not found, data errors, etc.)
             return f"Search error: {str(e)}"
 
     def _handle_doctor_search(self, query: str) -> str:

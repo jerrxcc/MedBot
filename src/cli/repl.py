@@ -118,9 +118,10 @@ class MedBotREPL:
             intent = self.intent_detector.detect(user_input, mode)
             confidence = self.intent_detector.get_confidence(user_input, intent)
 
-            # Show detected intent
+            # Show detected intent with confidence indicator
             if mode is None:
-                print(f"[Detected: {intent}]")
+                confidence_indicator = "" if confidence >= 0.7 else " (?)"
+                print(f"[Detected: {intent}{confidence_indicator}]")
             else:
                 print(f"[Mode: {intent}]")
 

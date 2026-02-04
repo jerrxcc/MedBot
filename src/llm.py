@@ -116,9 +116,21 @@ def get_response(messages: list, model: str = None, temperature: float = None) -
                 response = client.chat.completions.create(**kwargs)
                 return response.choices[0].message.content
             except Exception as e:
-                # If temperature is not supported, retry without it
+                # Check if error is related to temperature parameter
                 error_msg = str(e).lower()
-                if "temperature" in error_msg and "unsupported" in error_msg:
+                # Match various error message formats from different API providers:
+                # - "temperature ... unsupported"
+                # - "parameter temperature is not valid"
+                # - "temperature not supported/allowed"
+                # - "invalid parameter: temperature"
+                is_temperature_error = (
+                    "temperature" in error_msg and
+                    any(keyword in error_msg for keyword in [
+                        "unsupported", "not supported", "not allowed",
+                        "invalid", "not valid", "does not support"
+                    ])
+                )
+                if is_temperature_error:
                     # Model doesn't support temperature, fall back
                     del kwargs["temperature"]
                 else:
