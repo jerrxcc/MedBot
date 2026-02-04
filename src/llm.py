@@ -18,23 +18,61 @@ class APICallError(Exception):
     pass
 
 
+def _get_provider() -> str:
+    """
+    Detect which LLM provider to use based on environment variables.
+    Prefers OpenAI if configured, falls back to DeepSeek.
+    """
+    if os.getenv("OPENAI_API_KEY"):
+        return "openai"
+    elif os.getenv("DEEPSEEK_API_KEY"):
+        return "deepseek"
+    return "none"
+
+
+def get_provider() -> str:
+    """Get the current LLM provider name."""
+    return _get_provider()
+
+
+def get_default_model() -> str:
+    """Get the default model for the current provider."""
+    provider = _get_provider()
+    if provider == "openai":
+        return os.getenv("OPENAI_MODEL", "gpt-4o")
+    return os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
+
+
 def _get_client():
-    """Get or initialize the OpenAI client (lazy loading)."""
+    """Get or initialize the OpenAI-compatible client (lazy loading)."""
     global _client
     if _client is None:
-        api_key = os.getenv("DEEPSEEK_API_KEY")
-        if not api_key:
+        provider = _get_provider()
+
+        if provider == "openai":
+            api_key = os.getenv("OPENAI_API_KEY")
+            base_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+            _client = OpenAI(api_key=api_key, base_url=base_url)
+        elif provider == "deepseek":
+            api_key = os.getenv("DEEPSEEK_API_KEY")
+            base_url = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
+            _client = OpenAI(api_key=api_key, base_url=base_url)
+        else:
             raise APIKeyMissingError(
-                "DeepSeek API key not found. Please set DEEPSEEK_API_KEY in your .env file.\n"
+                "No LLM API key found. Please set OPENAI_API_KEY or DEEPSEEK_API_KEY in your .env file.\n"
                 "1. Copy .env.example to .env\n"
-                "2. Add your API key: DEEPSEEK_API_KEY=your_key_here\n"
-                "3. Get a key at: https://platform.deepseek.com/"
+                "2. Add your API key: OPENAI_API_KEY=your_key or DEEPSEEK_API_KEY=your_key\n"
+                "3. Get keys at: https://platform.openai.com/ or https://platform.deepseek.com/"
             )
-        _client = OpenAI(
-            api_key=api_key,
-            base_url=os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
-        )
     return _client
+
+
+def get_llm_client():
+    """
+    Public API to get the LLM client.
+    Use this instead of _get_client() for external modules.
+    """
+    return _get_client()
 
 
 def is_api_configured() -> bool:
@@ -44,11 +82,11 @@ def is_api_configured() -> bool:
 
 def get_response(messages: list, model: str = None) -> str:
     """
-    Send messages to DeepSeek API and get response.
+    Send messages to LLM API and get response.
 
     Args:
         messages: List of message dicts with 'role' and 'content'
-        model: Model name to use (defaults to DEEPSEEK_MODEL env var)
+        model: Model name to use (defaults to provider's default model)
 
     Returns:
         Response content string
@@ -58,7 +96,7 @@ def get_response(messages: list, model: str = None) -> str:
         APICallError: If API call fails
     """
     if model is None:
-        model = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
+        model = get_default_model()
     try:
         client = _get_client()
         response = client.chat.completions.create(

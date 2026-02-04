@@ -1,16 +1,29 @@
+import torch
 from sentence_transformers import SentenceTransformer
-from src.config import EMBEDDING_MODEL
+from .config import EMBEDDING_MODEL
 
-# Load embedding model
-model = None
+# Load embedding model (lazy initialization)
+_model = None
+
+
+def _get_device():
+    """Detect best available device for inference."""
+    if torch.cuda.is_available():
+        return "cuda"
+    elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+        return "mps"  # Apple Silicon GPU
+    return "cpu"
 
 
 def get_model():
     """Get or initialize the embedding model."""
-    global model
-    if model is None:
-        model = SentenceTransformer(EMBEDDING_MODEL)
-    return model
+    global _model
+    if _model is None:
+        device = _get_device()
+        print(f"[INFO] Loading embedding model: {EMBEDDING_MODEL}")
+        print(f"[INFO] Using device: {device}")
+        _model = SentenceTransformer(EMBEDDING_MODEL, device=device)
+    return _model
 
 
 def embed_text(text: str) -> list:
@@ -39,5 +52,5 @@ def embed_texts(texts: list) -> list:
         List of embedding vectors
     """
     model = get_model()
-    embeddings = model.encode(texts)
+    embeddings = model.encode(texts, show_progress_bar=len(texts) > 100)
     return embeddings.tolist()

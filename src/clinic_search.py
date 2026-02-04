@@ -10,7 +10,7 @@ from typing import List, Dict, Any, Optional, Tuple
 
 from rapidfuzz import process, fuzz
 
-from .llm import _get_client
+from .llm import get_llm_client, get_default_model
 from .config import PROJECT_ROOT
 from .location import (
     calculate_postal_distance,
@@ -136,9 +136,9 @@ class ClinicSearchAgent:
         """
 
         try:
-            client = _get_client()
+            client = get_llm_client()
             response = client.chat.completions.create(
-                model=os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
+                model=get_default_model(),
                 messages=[
                     {"role": "system", "content": system_prompt + "\n\nCRITICAL: Return ONLY valid JSON."},
                     {"role": "user", "content": query}
@@ -148,9 +148,9 @@ class ClinicSearchAgent:
             content = response.choices[0].message.content.strip()
 
             # Extract JSON from potential code blocks
-            if content.startswith("```json"):
-                content = content.split("```json")[-1].split("```")[0].strip()
-            elif content.startswith("```"):
+            if "```json" in content:
+                content = content.split("```json")[1].split("```")[0].strip()
+            elif "```" in content:
                 content = content.split("```")[1].split("```")[0].strip()
 
             return json.loads(content)

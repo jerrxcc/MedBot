@@ -2,7 +2,7 @@ import pandas as pd
 import json
 import os
 from rapidfuzz import process, fuzz
-from .llm import get_response, build_messages, _get_client
+from .llm import get_response, build_messages, get_llm_client, get_default_model
 from .config import PROJECT_ROOT
 
 class MedicalSearchAgent:
@@ -81,9 +81,9 @@ class MedicalSearchAgent:
         """
 
         try:
-            client = _get_client()
+            client = get_llm_client()
             response = client.chat.completions.create(
-                model=os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
+                model=get_default_model(),
                 messages=[
                     {"role": "system", "content": system_prompt + "\n\nCRITICAL: Return ONLY a valid JSON object. No other text, no markdown code blocks."},
                     {"role": "user", "content": query}
@@ -93,10 +93,10 @@ class MedicalSearchAgent:
             content = response.choices[0].message.content.strip()
             
             # Extract JSON from potential code blocks
-            if content.startswith("```json"):
-                content = content.split("```json")[-1].split("```")[0].strip()
-            elif content.startswith("```"):
-                content = content.split("```")[-1].split("```")[0].strip()
+            if "```json" in content:
+                content = content.split("```json")[1].split("```")[0].strip()
+            elif "```" in content:
+                content = content.split("```")[1].split("```")[0].strip()
             
             return json.loads(content)
         except Exception as e:

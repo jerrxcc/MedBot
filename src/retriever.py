@@ -54,8 +54,6 @@ def add_documents(collection_name: str, documents: list, metadatas: list = None,
     )
 
 
-from .translator import translate_query_for_retrieval
-
 def retrieve(query: str, collection_name: str, top_k: int = 5) -> dict:
     """
     Retrieve relevant documents for a query.
@@ -71,7 +69,7 @@ def retrieve(query: str, collection_name: str, top_k: int = 5) -> dict:
     collection = get_or_create_collection(collection_name)
     
     # Translate query for better matching with English database
-    search_query = translate_query_for_retrieval(query)
+    search_query = translate_to_english(query)
     query_embedding = embed_text(search_query)
 
     results = collection.query(
