@@ -1,6 +1,6 @@
 import chromadb
 from .embeddings import embed_text
-from .translator import translate_query_for_retrieval as translate_to_english
+from .translator import translate_query_for_retrieval
 from .config import (
     VECTORSTORE_PATH,
     DEFAULT_TOP_K,
@@ -57,9 +57,9 @@ def add_documents(collection_name: str, documents: list, metadatas: list = None,
 def retrieve(query: str, collection_name: str, top_k: int = 5) -> dict:
     """
     Retrieve relevant documents for a query.
-    
+
     Args:
-        query: User's question (will be translated if needed)
+        query: User's question (should already be translated by caller if needed)
         collection_name: Name of collection to search
         top_k: Number of results to return
 
@@ -67,10 +67,7 @@ def retrieve(query: str, collection_name: str, top_k: int = 5) -> dict:
         Dict with 'documents', 'metadatas', 'distances'
     """
     collection = get_or_create_collection(collection_name)
-    
-    # Translate query for better matching with English database
-    search_query = translate_to_english(query)
-    query_embedding = embed_text(search_query)
+    query_embedding = embed_text(query)
 
     results = collection.query(
         query_embeddings=[query_embedding],
@@ -192,7 +189,7 @@ def retrieve_with_fallback(query: str, primary_collection: str, top_k: int = 5) 
     """
     # Translate query to English for better retrieval
     # (knowledge base and embeddings are English-optimized)
-    translated_query = translate_to_english(query)
+    translated_query = translate_query_for_retrieval(query)
 
     # First try primary collection with translated query
     results = retrieve_with_confidence(translated_query, primary_collection, top_k)

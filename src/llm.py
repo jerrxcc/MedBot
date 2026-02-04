@@ -76,8 +76,8 @@ def get_llm_client():
 
 
 def is_api_configured() -> bool:
-    """Check if API key is configured (without initializing client)."""
-    return bool(os.getenv("DEEPSEEK_API_KEY"))
+    """Check if any API key is configured (without initializing client)."""
+    return bool(os.getenv("OPENAI_API_KEY") or os.getenv("DEEPSEEK_API_KEY"))
 
 
 def get_response(messages: list, model: str = None) -> str:
