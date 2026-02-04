@@ -7,9 +7,11 @@ from src.retriever import retrieve, format_context
 from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError
 from src.prompts import get_prompt
 from src.search_agent import MedicalSearchAgent
+from src.clinic_search import get_clinic_agent
 
-# Initialize search agent
+# Initialize search agents
 search_agent = MedicalSearchAgent()
+clinic_agent = get_clinic_agent()
 
 # =============================================================================
 # Translations
@@ -25,6 +27,8 @@ TRANSLATIONS = {
         "records_desc": "**Understand medical reports**, lab results, and diagnoses.\n\nGet explanations in plain language.",
         "doctor_name": "Find Doctor",
         "doctor_desc": "**Find specialists and clinics** in Singapore.\n\nSearch by specialty, name, or symptoms.",
+        "clinic_name": "Find Clinic",
+        "clinic_desc": "**Find nearby clinics** in Singapore.\n\nSearch by postal code or area name.",
 
         # Symptom starters
         "starter_headache": "Headache & Dizziness",
@@ -107,6 +111,8 @@ TRANSLATIONS = {
         "records_desc": "**理解医疗报告**、化验结果和诊断。\n\n用通俗语言解释医学术语。",
         "doctor_name": "找医生",
         "doctor_desc": "**查找新加坡专家和诊所**。\n\n按专科、姓名或症状进行搜索。",
+        "clinic_name": "找诊所",
+        "clinic_desc": "**查找附近诊所**。\n\n按邮政编码或地区名称搜索。",
 
         # Symptom starters
         "starter_headache": "头痛头晕",
@@ -201,6 +207,10 @@ FEATURES = {
     "doctors": {
         "icon": "👨‍⚕️",
         "name_key": "doctor_name"
+    },
+    "clinics": {
+        "icon": "🏥",
+        "name_key": "clinic_name"
     }
 }
 
@@ -209,7 +219,8 @@ PROFILE_TO_FEATURE = {
     "Symptom Analysis": "symptoms",
     "Medication Info": "medication",
     "Records Analysis": "records",
-    "Find Doctor": "doctors"
+    "Find Doctor": "doctors",
+    "Find Clinic": "clinics"
 }
 
 
@@ -315,6 +326,29 @@ def get_bilingual_starters(profile: str):
                 icon="https://api.iconify.design/mdi:account-search.svg?color=%238b5cf6",
             ),
         ]
+    elif profile == "clinics":
+        return [
+            cl.Starter(
+                label="邮编搜索 Postal Code",
+                message="找离邮编 641652 最近的诊所。/ Find clinic nearest to postal code 641652.",
+                icon="https://api.iconify.design/mdi:map-marker.svg?color=%23ef4444",
+            ),
+            cl.Starter(
+                label="淡滨尼 Tampines",
+                message="淡滨尼附近有什么诊所？/ What clinics are near Tampines?",
+                icon="https://api.iconify.design/mdi:hospital-building.svg?color=%233b82f6",
+            ),
+            cl.Starter(
+                label="勿洛 Bedok",
+                message="勿洛区最近的诊所。/ Nearest clinic in Bedok area.",
+                icon="https://api.iconify.design/mdi:map-search.svg?color=%2310b981",
+            ),
+            cl.Starter(
+                label="裕廊西 Jurong West",
+                message="裕廊西诊所。/ Clinics in Jurong West.",
+                icon="https://api.iconify.design/mdi:city.svg?color=%23f59e0b",
+            ),
+        ]
 
 
 @cl.set_chat_profiles
@@ -344,6 +378,12 @@ async def chat_profile():
             markdown_description="**找医生 Find Doctor**\n\n查找新加坡医疗专家和诊所。\nFind specialists and clinics in Singapore.",
             icon="https://api.iconify.design/mdi:doctor.svg?color=%23f59e0b",
             starters=get_bilingual_starters("doctors"),
+        ),
+        cl.ChatProfile(
+            name="Find Clinic",
+            markdown_description="**找诊所 Find Clinic**\n\n按邮编或地区查找附近诊所。\nFind nearby clinics by postal code or area.",
+            icon="https://api.iconify.design/mdi:hospital-building.svg?color=%2322c55e",
+            starters=get_bilingual_starters("clinics"),
         ),
     ]
 
@@ -473,6 +513,17 @@ async def main(message: cl.Message):
             await msg.stream_token("🔍 " + t('searching', lang, feature=feature_name) + "\n\n")
             # Use make_async for blocking search call
             response = await cl.make_async(search_agent.search)(user_input)
+            msg.content = response
+            await msg.update()
+            return
+
+        # Special logic for clinic search
+        if feature == "clinics":
+            await msg.stream_token("🔍 " + t('searching', lang, feature=feature_name) + "\n\n")
+            # Use make_async for blocking search call (skip map generation for now)
+            results, plan, _ = await cl.make_async(clinic_agent.search)(user_input)
+            response = clinic_agent.format_results(results, plan)
+
             msg.content = response
             await msg.update()
             return

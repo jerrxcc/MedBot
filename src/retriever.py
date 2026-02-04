@@ -1,6 +1,6 @@
 import chromadb
 from .embeddings import embed_text
-from .llm import translate_to_english
+from .translator import translate_query_for_retrieval as translate_to_english
 from .config import (
     VECTORSTORE_PATH,
     DEFAULT_TOP_K,
