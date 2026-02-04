@@ -85,9 +85,15 @@ def is_api_configured() -> bool:
     return bool(os.getenv("OPENAI_API_KEY") or os.getenv("DEEPSEEK_API_KEY"))
 
 
-def get_response(messages: list, model: str = None) -> str:
+def get_response(messages: list, model: str = None, temperature: float = None) -> str:
     """
     Send messages to LLM API and get response.
+
+    Args:
+        messages: List of message dictionaries with 'role' and 'content'
+        model: Optional model name, defaults to provider default
+        temperature: Optional temperature (0.0-2.0). Some models (e.g., GPT-5 reasoning)
+                    may not support custom temperature values.
 
     Raises:
         APIKeyMissingError: If API key is not configured
@@ -95,10 +101,32 @@ def get_response(messages: list, model: str = None) -> str:
     """
     try:
         client = get_llm_client()
-        response = client.chat.completions.create(
-            model=model or get_default_model(),
-            messages=messages
-        )
+        model_name = model or get_default_model()
+
+        # Build kwargs with optional temperature
+        kwargs = {
+            "model": model_name,
+            "messages": messages
+        }
+
+        # Try with temperature if specified
+        if temperature is not None:
+            try:
+                kwargs["temperature"] = temperature
+                response = client.chat.completions.create(**kwargs)
+                return response.choices[0].message.content
+            except Exception as e:
+                # If temperature is not supported, retry without it
+                error_msg = str(e).lower()
+                if "temperature" in error_msg and "unsupported" in error_msg:
+                    # Model doesn't support temperature, fall back
+                    del kwargs["temperature"]
+                else:
+                    # Different error, re-raise
+                    raise
+
+        # Call without temperature (or after fallback)
+        response = client.chat.completions.create(**kwargs)
         return response.choices[0].message.content
     except APIKeyMissingError:
         raise

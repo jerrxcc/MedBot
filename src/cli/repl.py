@@ -75,7 +75,8 @@ class MedBotREPL:
                 if 'deepseek' in str(client.base_url).lower():
                     return "deepseek connected"
             return "openai connected"
-        except:
+        except Exception:
+            # Catch only standard exceptions, not KeyboardInterrupt/SystemExit
             return "error"
 
     def _show_banner(self):

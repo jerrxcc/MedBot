@@ -11,6 +11,9 @@ class ConversationHistory:
     Keeps last 10 turns (20 messages) for context.
     """
 
+    # Valid role values for OpenAI/DeepSeek API compatibility
+    VALID_ROLES = ('user', 'assistant', 'system')
+
     def __init__(self, max_turns: int = 10):
         """
         Initialize conversation history.
@@ -28,7 +31,16 @@ class ConversationHistory:
         Args:
             role: Message role ('user' or 'assistant')
             content: Message content
+
+        Raises:
+            ValueError: If role is not a valid value
         """
+        # Validate role to ensure API compatibility
+        if role not in self.VALID_ROLES:
+            raise ValueError(
+                f"Invalid role: '{role}'. Must be one of: {', '.join(self.VALID_ROLES)}"
+            )
+
         self.messages.append({
             'role': role,
             'content': content
