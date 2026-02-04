@@ -1,22 +1,22 @@
+"""Vector store retrieval with confidence scoring and fallback support."""
 import chromadb
+
+from .config import (
+    ALL_COLLECTIONS,
+    CONFIDENCE_HIGH,
+    CONFIDENCE_LOW,
+    CONFIDENCE_MEDIUM,
+    ENABLE_CROSS_COLLECTION_FALLBACK,
+    VECTORSTORE_PATH,
+)
 from .embeddings import embed_text
 from .translator import translate_query_for_retrieval
-from .config import (
-    VECTORSTORE_PATH,
-    DEFAULT_TOP_K,
-    CONFIDENCE_HIGH,
-    CONFIDENCE_MEDIUM,
-    CONFIDENCE_LOW,
-    ENABLE_CROSS_COLLECTION_FALLBACK,
-    ALL_COLLECTIONS
-)
 
-# ChromaDB client (lazy initialization)
 _client = None
 
 
 def get_client():
-    """Get or initialize ChromaDB client."""
+    """Get or initialize ChromaDB client (lazy loading)."""
     global _client
     if _client is None:
         _client = chromadb.PersistentClient(path=str(VECTORSTORE_PATH))
@@ -25,61 +25,27 @@ def get_client():
 
 def get_or_create_collection(name: str):
     """Get or create a collection by name."""
-    client = get_client()
-    return client.get_or_create_collection(name=name)
+    return get_client().get_or_create_collection(name=name)
 
 
 def add_documents(collection_name: str, documents: list, metadatas: list = None, ids: list = None):
-    """
-    Add documents to a collection.
-
-    Args:
-        collection_name: Name of the collection
-        documents: List of document texts
-        metadatas: Optional list of metadata dicts
-        ids: Optional list of document IDs
-    """
+    """Add documents to a collection."""
     collection = get_or_create_collection(collection_name)
-
-    if ids is None:
-        ids = [f"{collection_name}_{i}" for i in range(len(documents))]
-
+    ids = ids or [f"{collection_name}_{i}" for i in range(len(documents))]
     embeddings = [embed_text(doc) for doc in documents]
 
-    collection.add(
-        documents=documents,
-        embeddings=embeddings,
-        metadatas=metadatas,
-        ids=ids
-    )
+    collection.add(documents=documents, embeddings=embeddings, metadatas=metadatas, ids=ids)
 
 
 def retrieve(query: str, collection_name: str, top_k: int = 5) -> dict:
-    """
-    Retrieve relevant documents for a query.
-
-    Args:
-        query: User's question (English queries yield best results since
-               the knowledge base is English-optimized; use retrieve_with_fallback()
-               for automatic translation of non-English queries)
-        collection_name: Name of collection to search
-        top_k: Number of results to return
-
-    Returns:
-        Dict with 'documents', 'metadatas', 'distances'
-    """
+    """Retrieve relevant documents for a query."""
     collection = get_or_create_collection(collection_name)
-    query_embedding = embed_text(query)
-
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=top_k
-    )
+    results = collection.query(query_embeddings=[embed_text(query)], n_results=top_k)
 
     return {
         "documents": results["documents"][0] if results["documents"] else [],
         "metadatas": results["metadatas"][0] if results["metadatas"] else [],
-        "distances": results["distances"][0] if results["distances"] else []
+        "distances": results["distances"][0] if results["distances"] else [],
     }
 
 
@@ -87,54 +53,27 @@ def distance_to_relevance(distance: float) -> float:
     """
     Convert L2 distance to relevance percentage (0-100).
 
-    For 768-dim embeddings (PubMedBERT):
-    - Very similar: 15-25 -> high relevance
-    - Somewhat related: 25-35 -> medium relevance
-    - Unrelated: 35-50+ -> low relevance
-
-    Args:
-        distance: L2 distance from ChromaDB
-
-    Returns:
-        Relevance percentage (0-100)
+    For 768-dim embeddings: 15-25 = high, 25-35 = medium, 35-50+ = low
     """
-    # 768维嵌入的典型距离范围: 15-50
-    # 调整：更宽松的映射以提升常见症状的相关度显示
-    # 15 -> 117% (capped to 100), 50 -> 0%
     relevance = max(0, min(100, (50 - distance) / 30 * 100))
     return round(relevance, 1)
 
 
-def calculate_confidence(distances: list) -> tuple:
+def calculate_confidence(distances: list) -> tuple[float, str]:
     """
     Calculate confidence score from retrieval distances.
 
-    Args:
-        distances: List of L2 distances from ChromaDB
-
-    Returns:
-        Tuple of (confidence_score, confidence_level)
-        - confidence_score: float between 0 and 1
-        - confidence_level: 'high', 'medium', 'low', 'very_low', or 'none'
+    Returns tuple of (confidence_score 0-1, confidence_level string).
     """
     if not distances:
         return 0.0, "none"
 
-    # ChromaDB uses L2 distance: lower is better
-    # For 768-dim embeddings (PubMedBERT), typical distances are:
-    # - Very similar: 15-25
-    # - Somewhat related: 25-35
-    # - Unrelated: 35-50+
-    min_distance = min(distances)
-    avg_distance = sum(distances) / len(distances)
+    # Weighted combination of min and average distance
+    min_dist = min(distances)
+    avg_dist = sum(distances) / len(distances)
+    combined_dist = 0.6 * min_dist + 0.4 * avg_dist
 
-    # Convert distance to confidence (inverse relationship)
-    # Scale for 768-dim embeddings: good results typically < 30
-    combined_dist = 0.6 * min_distance + 0.4 * avg_distance
-
-    # 调整：更宽松的映射以提升常见症状的置信度
-    # 原公式: (45 - combined_dist) / 30, 距离31-33 → 54-56%
-    # 新公式: (50 - combined_dist) / 30, 距离31-33 → 63-67%
+    # Convert to confidence score (lower distance = higher confidence)
     confidence = max(0, min(1, (50 - combined_dist) / 30))
 
     # Determine confidence level
@@ -151,26 +90,15 @@ def calculate_confidence(distances: list) -> tuple:
 
 
 def retrieve_with_confidence(query: str, collection_name: str, top_k: int = 5) -> dict:
-    """
-    Retrieve documents with confidence scoring.
-
-    Args:
-        query: User's question
-        collection_name: Name of collection to search
-        top_k: Number of results to return
-
-    Returns:
-        Dict with 'documents', 'metadatas', 'distances', 'confidence', 'confidence_level'
-    """
+    """Retrieve documents with confidence scoring."""
     results = retrieve(query, collection_name, top_k)
-
     confidence, level = calculate_confidence(results.get("distances", []))
 
     return {
         **results,
         "confidence": confidence,
         "confidence_level": level,
-        "collection": collection_name
+        "collection": collection_name,
     }
 
 
@@ -178,105 +106,80 @@ def retrieve_with_fallback(query: str, primary_collection: str, top_k: int = 5) 
     """
     Retrieve documents with cross-collection fallback when confidence is low.
 
-    When the primary collection returns low-confidence results, this function
-    searches all available collections and returns the best results.
-
-    Args:
-        query: User's question (can be in any language)
-        primary_collection: Primary collection to search first
-        top_k: Number of results to return
-
-    Returns:
-        Dict with results including 'fallback_used' flag and translation info
+    Translates non-English queries and searches across collections if needed.
     """
-    # Translate query to English for better retrieval
-    # (knowledge base and embeddings are English-optimized)
     translated_query = translate_query_for_retrieval(query)
-
-    # First try primary collection with translated query
     results = retrieve_with_confidence(translated_query, primary_collection, top_k)
 
-    # Store query translation info
     results["original_query"] = query
     results["translated_query"] = translated_query if translated_query != query else None
+    results["fallback_used"] = False
 
-    # If confidence is acceptable or fallback is disabled, return primary results
+    # Return early if fallback disabled or confidence is acceptable
     if not ENABLE_CROSS_COLLECTION_FALLBACK:
-        results["fallback_used"] = False
         return results
-
     if results["confidence_level"] in ["high", "medium"]:
-        results["fallback_used"] = False
         return results
 
-    # Low confidence - try searching all collections
+    # Low confidence - search all collections
+    all_results = _search_all_collections(translated_query, top_k=3)
+    if not all_results:
+        return results
+
+    # Sort by distance and take top_k
+    all_results.sort(key=lambda x: x["distance"])
+    top_results = all_results[:top_k]
+
+    new_distances = [r["distance"] for r in top_results]
+    new_confidence, new_level = calculate_confidence(new_distances)
+
+    # Only use fallback if it improves confidence
+    if new_confidence <= results["confidence"]:
+        return results
+
+    return {
+        "documents": [r["document"] for r in top_results],
+        "metadatas": [r["metadata"] for r in top_results],
+        "distances": new_distances,
+        "confidence": new_confidence,
+        "confidence_level": new_level,
+        "collection": "mixed",
+        "fallback_used": True,
+        "original_collection": primary_collection,
+        "original_confidence": results["confidence"],
+        "original_query": query,
+        "translated_query": translated_query if translated_query != query else None,
+    }
+
+
+def _search_all_collections(query: str, top_k: int = 3) -> list:
+    """Search all collections and return combined results."""
     all_results = []
 
     for coll_name in ALL_COLLECTIONS:
         try:
-            coll_results = retrieve(translated_query, coll_name, top_k=3)
+            coll_results = retrieve(query, coll_name, top_k=top_k)
             for doc, dist, meta in zip(
                 coll_results.get("documents", []),
                 coll_results.get("distances", []),
                 coll_results.get("metadatas", [])
             ):
-                all_results.append({
-                    "document": doc,
-                    "distance": dist,
-                    "metadata": {**meta, "from_collection": coll_name} if meta else {"from_collection": coll_name}
-                })
+                metadata = {**(meta or {}), "from_collection": coll_name}
+                all_results.append({"document": doc, "distance": dist, "metadata": metadata})
         except Exception:
-            # Skip collections that fail (might not exist yet)
             continue
 
-    if not all_results:
-        results["fallback_used"] = False
-        return results
-
-    # Sort by distance (lower is better) and take top_k
-    all_results.sort(key=lambda x: x["distance"])
-    top_results = all_results[:top_k]
-
-    # Recalculate confidence with new results
-    new_distances = [r["distance"] for r in top_results]
-    new_confidence, new_level = calculate_confidence(new_distances)
-
-    # Only use fallback if it actually improves confidence
-    if new_confidence > results["confidence"]:
-        return {
-            "documents": [r["document"] for r in top_results],
-            "metadatas": [r["metadata"] for r in top_results],
-            "distances": new_distances,
-            "confidence": new_confidence,
-            "confidence_level": new_level,
-            "collection": "mixed",
-            "fallback_used": True,
-            "original_collection": primary_collection,
-            "original_confidence": results["confidence"],
-            "original_query": query,
-            "translated_query": translated_query if translated_query != query else None
-        }
-
-    results["fallback_used"] = False
-    return results
+    return all_results
 
 
 def format_context(results: dict) -> str:
-    """
-    Format retrieved results into context string.
-
-    Args:
-        results: Dict from retrieve()
-
-    Returns:
-        Formatted context string with sources
-    """
+    """Format retrieved results into context string with sources."""
     if not results["documents"]:
         return ""
 
-    context_parts = []
+    parts = []
     for i, (doc, meta) in enumerate(zip(results["documents"], results["metadatas"]), 1):
-        source = meta.get("source", "Unknown") if meta else "Unknown"
-        context_parts.append(f"[{i}] (Source: {source})\n{doc}")
+        source = (meta or {}).get("source", "Unknown")
+        parts.append(f"[{i}] (Source: {source})\n{doc}")
 
-    return "\n\n".join(context_parts)
+    return "\n\n".join(parts)

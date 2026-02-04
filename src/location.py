@@ -2,36 +2,31 @@
 Location services for Singapore clinic search.
 Provides postal code distance calculation, geocoding, and map generation.
 """
+import random
 import re
 import time
-from typing import Optional, Tuple, List, Dict, Any
+from typing import Any, Dict, List, Optional, Tuple
 
-# Lazy imports for optional dependencies
+# Lazy-loaded dependencies
 _geolocator = None
 _folium = None
 
 
 def get_geolocator():
-    """Get or initialize the geocoder."""
+    """Get or initialize the geocoder (lazy loading)."""
     global _geolocator
     if _geolocator is None:
-        try:
-            from geopy.geocoders import Nominatim
-            _geolocator = Nominatim(user_agent="medbot_clinic_search")
-        except ImportError:
-            raise ImportError("geopy is required for geocoding. Install with: pip install geopy")
+        from geopy.geocoders import Nominatim
+        _geolocator = Nominatim(user_agent="medbot_clinic_search")
     return _geolocator
 
 
 def get_folium():
-    """Get folium module for map generation."""
+    """Get folium module (lazy loading)."""
     global _folium
     if _folium is None:
-        try:
-            import folium
-            _folium = folium
-        except ImportError:
-            raise ImportError("folium is required for map generation. Install with: pip install folium")
+        import folium
+        _folium = folium
     return _folium
 
 
@@ -88,62 +83,43 @@ def calculate_postal_distance(postal1: int, postal2: int) -> float:
     """
     Calculate distance between two Singapore postal codes.
 
-    Singapore postal codes follow a pattern where:
-    - First 2 digits represent the district/area (01-99)
-    - Last 4 digits represent specific location within the area
-
-    Args:
-        postal1: First postal code (6 digits)
-        postal2: Second postal code (6 digits)
+    Singapore postal codes: first 2 digits = district/area (01-99),
+    last 4 digits = specific location within the area.
 
     Returns:
         Estimated distance score (lower is closer)
     """
-    # Extract 2-digit area codes
-    area1 = postal1 // 10000
-    area2 = postal2 // 10000
+    area1, area2 = postal1 // 10000, postal2 // 10000
 
-    # Same area - use last 4 digits difference
+    # Same area: use direct difference
     if area1 == area2:
         return abs(postal1 - postal2)
 
     # Cross-area distance mapping based on Singapore geography
-    area_distances = {
+    adjacent_areas = {
         # Central (01-09)
         (1, 2): 1, (1, 3): 2, (1, 4): 3, (1, 5): 4, (1, 6): 5,
         (1, 7): 6, (1, 8): 7, (1, 9): 8, (1, 10): 9,
-
         # North (72-73, 75-82)
         (75, 76): 1, (75, 77): 2, (75, 78): 3, (75, 79): 4,
         (79, 80): 1, (80, 81): 1, (81, 82): 1,
-
         # South (10-16)
         (10, 11): 1, (11, 12): 1, (12, 13): 1, (13, 14): 1,
         (14, 15): 1, (15, 16): 1,
-
         # East (46-52)
         (46, 47): 1, (47, 48): 1, (48, 49): 1, (49, 50): 1,
         (50, 51): 1, (51, 52): 1,
-
         # West (60-69)
         (60, 61): 1, (61, 62): 1, (62, 63): 1, (63, 64): 1,
         (64, 65): 1, (65, 66): 1, (66, 67): 1, (67, 68): 1,
         (68, 69): 1,
-
         # Northeast (53-59)
         (53, 54): 1, (54, 55): 1, (55, 56): 1, (56, 57): 1,
         (57, 58): 1, (58, 59): 1,
     }
 
-    # Check direct mapping
     area_pair = tuple(sorted([area1, area2]))
-    if area_pair in area_distances:
-        base_distance = area_distances[area_pair] * 10000
-    else:
-        # Default cross-area distance based on area code difference
-        base_distance = abs(area1 - area2) * 10000
-
-    # Add sub-area distance
+    base_distance = adjacent_areas.get(area_pair, abs(area1 - area2)) * 10000
     sub_distance = abs((postal1 % 10000) - (postal2 % 10000)) / 100
 
     return base_distance + sub_distance
@@ -151,55 +127,42 @@ def calculate_postal_distance(postal1: int, postal2: int) -> float:
 
 def extract_postal_code(address: str) -> Optional[str]:
     """Extract Singapore postal code from address string."""
+    # Try "Singapore XXXXXX" format first
     match = re.search(r'Singapore\s+(\d{6})', address, re.IGNORECASE)
     if match:
         return match.group(1)
-    # Also try standalone 6-digit postal code
+    # Fallback to any standalone 6-digit number
     match = re.search(r'\b(\d{6})\b', address)
-    if match:
-        return match.group(1)
-    return None
+    return match.group(1) if match else None
 
 
 def get_coordinates(address: str, area: str = None) -> Optional[Tuple[float, float]]:
-    """
-    Get coordinates for an address using geocoding with fallbacks.
-
-    Args:
-        address: Full address string
-        area: Optional area name for fallback
-
-    Returns:
-        Tuple of (latitude, longitude) or None
-    """
+    """Get coordinates for an address using geocoding with fallbacks."""
     try:
         geolocator = get_geolocator()
-
-        # Clean address
         clean_address = address.replace('\n', ' ').replace('  ', ' ').strip()
 
-        # Try 1: Full address geocoding
-        location = geolocator.geocode(f"{clean_address}", timeout=5)
+        # Try full address geocoding
+        location = geolocator.geocode(clean_address, timeout=5)
         if location:
             return location.latitude, location.longitude
 
-        # Try 2: Extract and geocode street address
-        postal_match = re.search(r'(\d+\s+[\w\s]+Street\s+\d+)', clean_address)
-        if postal_match:
-            street_address = postal_match.group(1) + ', Singapore'
+        # Try street address extraction
+        street_match = re.search(r'(\d+\s+[\w\s]+Street\s+\d+)', clean_address)
+        if street_match:
             time.sleep(0.5)
-            location = geolocator.geocode(street_address, timeout=5)
+            location = geolocator.geocode(f"{street_match.group(1)}, Singapore", timeout=5)
             if location:
                 return location.latitude, location.longitude
 
-        # Try 3: Use area name
+        # Try area name
         if area:
             time.sleep(0.5)
             location = geolocator.geocode(f"{area}, Singapore", timeout=5)
             if location:
                 return location.latitude, location.longitude
 
-        # Try 4: Fallback to predefined area coordinates
+        # Fallback to predefined coordinates
         if area and area in SINGAPORE_AREA_COORDS:
             return SINGAPORE_AREA_COORDS[area]
 
@@ -211,8 +174,7 @@ def get_coordinates(address: str, area: str = None) -> Optional[Tuple[float, flo
 
 def get_nearby_areas(area: str) -> List[str]:
     """Get list of nearby areas for fallback search."""
-    area_lower = area.lower()
-    return NEARBY_AREAS.get(area_lower, [])
+    return NEARBY_AREAS.get(area.lower(), [])
 
 
 def create_clinic_map(
@@ -220,90 +182,33 @@ def create_clinic_map(
     query_postal: str = None,
     query_area: str = None
 ) -> Any:
-    """
-    Create an interactive map showing clinic locations.
-
-    Args:
-        clinic_results: List of clinic data dicts with 'Name', 'Address', 'Area' fields
-        query_postal: Optional postal code that was queried
-        query_area: Optional area name that was queried
-
-    Returns:
-        Folium map object
-    """
+    """Create an interactive map showing clinic locations."""
     folium = get_folium()
-
-    # Singapore center
     singapore_center = [1.3521, 103.8198]
 
-    # Create map
-    m = folium.Map(
-        location=singapore_center,
-        zoom_start=12,
-        tiles='OpenStreetMap'
-    )
+    m = folium.Map(location=singapore_center, zoom_start=12, tiles='OpenStreetMap')
 
-    # Add query location marker if postal code provided
+    # Add query location marker
     if query_postal:
-        try:
-            query_coords = get_coordinates(f"Singapore {query_postal}")
-            if query_coords:
-                folium.Marker(
-                    query_coords,
-                    popup=f"Your Location (Postal: {query_postal})",
-                    icon=folium.Icon(color='red', icon='home')
-                ).add_to(m)
-        except Exception as e:
-            print(f"Error adding query marker: {e}")
+        query_coords = get_coordinates(f"Singapore {query_postal}")
+        if query_coords:
+            folium.Marker(
+                query_coords,
+                popup=f"Your Location (Postal: {query_postal})",
+                icon=folium.Icon(color='red', icon='home')
+            ).add_to(m)
 
-    # Add clinic markers
-    import random
-    for i, clinic in enumerate(clinic_results[:15]):  # Limit to 15 clinics
+    # Add clinic markers (limit to 15)
+    for i, clinic in enumerate(clinic_results[:15]):
         name = clinic.get('Name', 'Unknown Clinic')
         address = clinic.get('Address', '')
         area = clinic.get('Area', '')
         distance = clinic.get('_distance')
 
-        # Get coordinates (may make API call)
-        coords = get_coordinates(address, area)
-        used_geocoding_api = coords is not None  # If we got coords, API may have been called
+        coords, used_api = _get_clinic_coordinates(name, address, area)
 
-        if not coords and area in SINGAPORE_AREA_COORDS:
-            # Add small offset for each clinic to spread them out (no API call)
-            base_lat, base_lng = SINGAPORE_AREA_COORDS[area]
-            random.seed(hash(name) % 1000)
-            offset_lat = (random.random() - 0.5) * 0.01
-            offset_lng = (random.random() - 0.5) * 0.01
-            coords = (base_lat + offset_lat, base_lng + offset_lng)
-            used_geocoding_api = False
-
-        if not coords:
-            # Fallback to Singapore center with offset (no API call)
-            random.seed(hash(name) % 1000)
-            coords = (1.3521 + (random.random() - 0.5) * 0.05,
-                     103.8198 + (random.random() - 0.5) * 0.05)
-            used_geocoding_api = False
-
-        # Create popup content
-        popup_html = f"""
-        <div style='font-family: Arial; width: 220px;'>
-            <h4 style='margin: 0 0 8px 0; color: #2E8B57;'>{name}</h4>
-            <p style='margin: 4px 0;'><b>Area:</b> {area}</p>
-            <p style='margin: 4px 0;'><b>Address:</b> {address[:100]}{'...' if len(address) > 100 else ''}</p>
-            {f'<p style="margin: 4px 0;"><b>Distance:</b> {distance:.0f}</p>' if distance else ''}
-        </div>
-        """
-
-        # Determine marker color based on distance
-        if distance is not None:
-            if distance <= 2000:
-                color = 'green'
-            elif distance <= 10000:
-                color = 'orange'
-            else:
-                color = 'gray'
-        else:
-            color = 'blue'
+        popup_html = _build_popup_html(name, area, address, distance)
+        color = _get_marker_color(distance)
 
         folium.Marker(
             coords,
@@ -312,11 +217,55 @@ def create_clinic_map(
             icon=folium.Icon(color=color, icon='plus-sign')
         ).add_to(m)
 
-        # Only rate limit when we actually made a geocoding API call
-        if used_geocoding_api:
+        if used_api:
             time.sleep(0.1)
 
     return m
+
+
+def _get_clinic_coordinates(name: str, address: str, area: str) -> Tuple[Tuple[float, float], bool]:
+    """Get coordinates for a clinic, with fallbacks."""
+    coords = get_coordinates(address, area)
+    if coords:
+        return coords, True
+
+    # Fallback to area coordinates with offset
+    if area in SINGAPORE_AREA_COORDS:
+        base_lat, base_lng = SINGAPORE_AREA_COORDS[area]
+        random.seed(hash(name) % 1000)
+        offset = lambda: (random.random() - 0.5) * 0.01
+        return (base_lat + offset(), base_lng + offset()), False
+
+    # Final fallback: Singapore center with offset
+    random.seed(hash(name) % 1000)
+    offset = lambda: (random.random() - 0.5) * 0.05
+    return (1.3521 + offset(), 103.8198 + offset()), False
+
+
+def _build_popup_html(name: str, area: str, address: str, distance: float) -> str:
+    """Build HTML for clinic popup."""
+    truncated_address = address[:100] + '...' if len(address) > 100 else address
+    distance_html = f'<p style="margin: 4px 0;"><b>Distance:</b> {distance:.0f}</p>' if distance else ''
+
+    return f"""
+    <div style='font-family: Arial; width: 220px;'>
+        <h4 style='margin: 0 0 8px 0; color: #2E8B57;'>{name}</h4>
+        <p style='margin: 4px 0;'><b>Area:</b> {area}</p>
+        <p style='margin: 4px 0;'><b>Address:</b> {truncated_address}</p>
+        {distance_html}
+    </div>
+    """
+
+
+def _get_marker_color(distance: float) -> str:
+    """Determine marker color based on distance."""
+    if distance is None:
+        return 'blue'
+    if distance <= 2000:
+        return 'green'
+    if distance <= 10000:
+        return 'orange'
+    return 'gray'
 
 
 def map_to_html(m) -> str:
