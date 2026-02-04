@@ -39,7 +39,7 @@ def get_default_model() -> str:
     """Get the default model for the current provider."""
     provider = _get_provider()
     if provider == "openai":
-        return os.getenv("OPENAI_MODEL", "gpt-4o")
+        return os.getenv("OPENAI_MODEL", "gpt-5.2-2025-12-11")
     return os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 
 
@@ -51,10 +51,20 @@ def _get_client():
 
         if provider == "openai":
             api_key = os.getenv("OPENAI_API_KEY")
+            if not api_key:
+                raise APIKeyMissingError(
+                    "OPENAI_API_KEY is set but empty. Please provide a valid API key.\n"
+                    "Get your key at: https://platform.openai.com/"
+                )
             base_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
             _client = OpenAI(api_key=api_key, base_url=base_url)
         elif provider == "deepseek":
             api_key = os.getenv("DEEPSEEK_API_KEY")
+            if not api_key:
+                raise APIKeyMissingError(
+                    "DEEPSEEK_API_KEY is set but empty. Please provide a valid API key.\n"
+                    "Get your key at: https://platform.deepseek.com/"
+                )
             base_url = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
             _client = OpenAI(api_key=api_key, base_url=base_url)
         else:

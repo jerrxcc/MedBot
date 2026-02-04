@@ -1,5 +1,5 @@
 import gradio as gr
-from src.retriever import retrieve, format_context
+from src.retriever import retrieve_with_fallback, format_context
 from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError
 from src.prompts import get_prompt
 from src.search_agent import MedicalSearchAgent
@@ -80,7 +80,7 @@ def chat_handler(message: str, history: list, feature: str) -> str:
 
         # RAG Logic for other features
         collection_name = COLLECTIONS.get(feature, "medquad_symptoms")
-        results = retrieve(message, collection_name, top_k=5)
+        results = retrieve_with_fallback(message, collection_name, top_k=5)
         context = format_context(results)
 
         system_prompt = get_prompt(feature)

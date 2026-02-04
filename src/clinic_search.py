@@ -209,20 +209,35 @@ class ClinicSearchAgent:
             return []
 
         results = []
+        seen_clinics = set()  # Track seen clinics by unique key (name + address)
         area_lower = area.lower()
+
+        def get_clinic_key(clinic_dict: Dict) -> str:
+            """Generate unique key for clinic deduplication."""
+            name = clinic_dict.get('Name', '').strip().lower()
+            address = clinic_dict.get('Address', '').strip().lower()[:50]
+            return f"{name}|{address}"
+
+        def add_clinic(clinic_dict: Dict) -> bool:
+            """Add clinic if not already seen. Returns True if added."""
+            key = get_clinic_key(clinic_dict)
+            if key not in seen_clinics:
+                seen_clinics.add(key)
+                results.append(clinic_dict)
+                return True
+            return False
 
         # Search in Area column first
         if 'Area' in self.df.columns:
             area_matches = self.df[self.df['Area'].str.lower().str.contains(area_lower, na=False)]
-            results.extend([dict(row) for _, row in area_matches.iterrows()])
+            for _, row in area_matches.iterrows():
+                add_clinic(dict(row))
 
         # Also search in Address column
         if len(results) < top_k and 'Address' in self.df.columns:
             addr_matches = self.df[self.df['Address'].str.lower().str.contains(area_lower, na=False)]
             for _, row in addr_matches.iterrows():
-                row_dict = dict(row)
-                if row_dict not in results:
-                    results.append(row_dict)
+                add_clinic(dict(row))
 
         # If not enough results, search nearby areas
         if len(results) < 5:
@@ -233,8 +248,7 @@ class ClinicSearchAgent:
                     for _, row in nearby_matches.iterrows():
                         row_dict = dict(row)
                         row_dict['_from_nearby'] = nearby_area.title()
-                        if row_dict not in results:
-                            results.append(row_dict)
+                        add_clinic(row_dict)
                 if len(results) >= top_k:
                     break
 

@@ -54,3 +54,14 @@ def embed_texts(texts: list) -> list:
     model = get_model()
     embeddings = model.encode(texts, show_progress_bar=len(texts) > 100)
     return embeddings.tolist()
+
+
+def get_embedding_dimension() -> int:
+    """
+    Get the actual embedding dimension from the loaded model.
+
+    Returns:
+        Embedding dimension (e.g., 768 for PubMedBERT)
+    """
+    model = get_model()
+    return model.get_sentence_embedding_dimension()

@@ -264,22 +264,25 @@ def create_clinic_map(
         area = clinic.get('Area', '')
         distance = clinic.get('_distance')
 
-        # Get coordinates
+        # Get coordinates (may make API call)
         coords = get_coordinates(address, area)
+        used_geocoding_api = coords is not None  # If we got coords, API may have been called
 
         if not coords and area in SINGAPORE_AREA_COORDS:
-            # Add small offset for each clinic to spread them out
+            # Add small offset for each clinic to spread them out (no API call)
             base_lat, base_lng = SINGAPORE_AREA_COORDS[area]
             random.seed(hash(name) % 1000)
             offset_lat = (random.random() - 0.5) * 0.01
             offset_lng = (random.random() - 0.5) * 0.01
             coords = (base_lat + offset_lat, base_lng + offset_lng)
+            used_geocoding_api = False
 
         if not coords:
-            # Fallback to Singapore center with offset
+            # Fallback to Singapore center with offset (no API call)
             random.seed(hash(name) % 1000)
             coords = (1.3521 + (random.random() - 0.5) * 0.05,
                      103.8198 + (random.random() - 0.5) * 0.05)
+            used_geocoding_api = False
 
         # Create popup content
         popup_html = f"""
@@ -309,7 +312,9 @@ def create_clinic_map(
             icon=folium.Icon(color=color, icon='plus-sign')
         ).add_to(m)
 
-        time.sleep(0.1)  # Rate limiting for geocoding
+        # Only rate limit when we actually made a geocoding API call
+        if used_geocoding_api:
+            time.sleep(0.1)
 
     return m
 
