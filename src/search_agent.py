@@ -1,6 +1,7 @@
 """Medical search agent for finding doctors and specialists."""
 import json
 import os
+from typing import Optional, Dict
 
 import pandas as pd
 from rapidfuzz import fuzz, process
@@ -51,7 +52,7 @@ class MedicalSearchAgent:
             print(f"Error loading doctor data: {e}")
             self.df = pd.DataFrame()
 
-    def think(self, query: str) -> dict | None:
+    def think(self, query: str) -> Optional[Dict]:
         """Analyze search intent using LLM."""
         system_prompt = """You are a medical search intent analyzer.
 Target Data: Doctors (Fields: Name, Specialty, Languages, Services)
@@ -95,8 +96,7 @@ CRITICAL: Return ONLY a valid JSON object."""
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": query}
-                ],
-                temperature=0.1
+                ]
             )
             content = response.choices[0].message.content.strip()
             return json.loads(self._extract_json(content))

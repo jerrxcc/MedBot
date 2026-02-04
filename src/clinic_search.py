@@ -117,8 +117,7 @@ CRITICAL: Return ONLY valid JSON."""
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": query}
-                ],
-                temperature=0.1
+                ]
             )
             content = response.choices[0].message.content.strip()
             return json.loads(self._extract_json(content))
