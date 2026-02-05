@@ -73,12 +73,17 @@ class IntentDetector:
         # Pre-compile regex patterns for efficiency
         self.patterns = {}
         for intent, keywords in self.KEYWORDS.items():
-            # Create word boundary pattern for each keyword
-            pattern = '|'.join(re.escape(kw) for kw in keywords)
-            self.patterns[intent] = re.compile(
-                rf'\b({pattern})\b',
-                re.IGNORECASE
-            )
+            # Create patterns with word boundaries for English,
+            # but allow direct substring matching for CJK keywords.
+            parts = []
+            for kw in keywords:
+                escaped = re.escape(kw)
+                if re.search(r'[\u4e00-\u9fff]', kw):
+                    parts.append(escaped)
+                else:
+                    parts.append(rf'\b{escaped}\b')
+            pattern = '|'.join(parts)
+            self.patterns[intent] = re.compile(pattern, re.IGNORECASE)
 
     def detect(self, query: str, mode: Optional[str] = None) -> str:
         """

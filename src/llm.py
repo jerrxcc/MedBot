@@ -1,5 +1,7 @@
 """LLM client management and API utilities."""
 import os
+import re
+from typing import Optional
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -151,8 +153,14 @@ def rewrite_query_with_context(user_message: str, history: list, max_history: in
     When users ask follow-up questions like "what about fever?", this function
     rewrites the query to include relevant context from history.
     """
-    if not history or len(user_message) > 50:
+    if not history or len(user_message) > 80:
         return user_message
+    if not _looks_like_followup(user_message):
+        return user_message
+
+    heuristic = _heuristic_rewrite(user_message, history)
+    if heuristic:
+        return heuristic
 
     recent_history = history[-max_history:]
     history_text = "\n".join([
@@ -178,6 +186,79 @@ Rewritten query:"""
     except Exception as e:
         print(f"[WARN] Query rewrite failed: {e}")
         return user_message
+
+
+def _looks_like_followup(user_message: str) -> bool:
+    """Heuristic check for whether a query is a follow-up."""
+    text = user_message.strip()
+    if not text:
+        return False
+
+    lower = text.lower()
+
+    followup_prefixes = ["what about", "how about", "and ", "also ", "then ", "so ", "what if"]
+    followup_contains = ["what about", "how about", "and also", "also", "too", "else", "another", "besides"]
+
+    if any(lower.startswith(p) for p in followup_prefixes):
+        return True
+    if any(p in lower for p in followup_contains) and len(lower.split()) <= 12:
+        return True
+
+    # Chinese follow-up markers
+    if re.search(r"[那这].{0,4}呢$", text) or "还有" in text or "另外" in text or "也" in text:
+        return True
+
+    standalone_patterns = [
+        r"\bwhat is\b",
+        r"\bwhat's\b",
+        r"\bdefine\b",
+        r"\bdefinition of\b",
+        r"\bexplain\b",
+        r"\bmeaning of\b",
+        r"\bside effects?\b",
+        r"\bsymptoms of\b",
+        r"\btreatment of\b",
+        r"\bcauses of\b",
+        r"\buses of\b",
+        r"\bdosage\b",
+        r"\bdose\b",
+        r"\bcontraindications?\b",
+        r"\bhow to take\b",
+    ]
+    if any(re.search(pat, lower) for pat in standalone_patterns):
+        return False
+
+    chinese_standalone = ["什么是", "解释", "定义", "副作用", "症状", "治疗", "用法", "剂量", "原因"]
+    if any(term in text for term in chinese_standalone):
+        return False
+
+    # Very short queries often rely on context (e.g., "nausea?")
+    word_count = len([w for w in re.split(r"\s+", text) if w])
+    if word_count <= 3 or len(text) <= 12:
+        # If user explicitly states their own symptom, treat as standalone
+        if re.search(r"\b(i|my|me)\b", lower) or "我" in text:
+            return False
+        return True
+
+    return False
+
+
+def _heuristic_rewrite(user_message: str, history: list) -> Optional[str]:
+    """Fast follow-up rewrite to avoid an extra LLM call."""
+    last_user = None
+    for msg in reversed(history):
+        if msg.get("role") == "user":
+            last_user = msg.get("content", "").strip()
+            break
+    if not last_user:
+        return None
+
+    # Keep heuristic rewrites short to avoid noise
+    if len(last_user) > 140 or len(user_message) > 60:
+        return None
+
+    # Simple concatenation works well for retrieval
+    return f"{last_user}. Follow-up: {user_message}"
 
 
 def build_messages(system_prompt: str, user_message: str, context: str = "", history: list = None) -> list:

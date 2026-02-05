@@ -25,13 +25,14 @@ class ConversationHistory:
         self.max_turns = max_turns
         self.messages: List[Dict[str, str]] = []
 
-    def add(self, role: str, content: str) -> None:
+    def add(self, role: str, content: str, intent: Optional[str] = None) -> None:
         """
         Add a message to history.
 
         Args:
             role: Message role ('user' or 'assistant')
             content: Message content
+            intent: Optional intent label for routing/rewriting
 
         Raises:
             ValueError: If role is not a valid value
@@ -42,10 +43,10 @@ class ConversationHistory:
                 f"Invalid role: '{role}'. Must be one of: {', '.join(self.VALID_ROLES)}"
             )
 
-        self.messages.append({
-            'role': role,
-            'content': content
-        })
+        msg = {'role': role, 'content': content}
+        if intent:
+            msg['intent'] = intent
+        self.messages.append(msg)
 
         # Maintain sliding window (2 messages per turn)
         max_messages = self.max_turns * 2
@@ -64,6 +65,29 @@ class ConversationHistory:
             List of message dictionaries with 'role' and 'content' keys
         """
         return self.messages.copy()
+
+    def get_messages_for_intent(
+        self,
+        intent: Optional[str],
+        max_turns: Optional[int] = None
+    ) -> List[Dict[str, str]]:
+        """
+        Get messages filtered by intent.
+
+        Args:
+            intent: Intent label to filter by
+            max_turns: Optional max turns to keep (defaults to history max_turns)
+
+        Returns:
+            Filtered list of message dictionaries
+        """
+        if not intent:
+            return self.get_messages()
+
+        filtered = [msg for msg in self.messages if msg.get('intent') == intent]
+        max_turns = self.max_turns if max_turns is None else max_turns
+        max_messages = max_turns * 2
+        return filtered[-max_messages:]
 
     def get_summary(self) -> str:
         """

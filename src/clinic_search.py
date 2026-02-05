@@ -14,10 +14,8 @@ from .config import PROJECT_ROOT
 from .llm import get_response
 from .location import (
     calculate_postal_distance,
-    create_clinic_map,
     extract_postal_code,
     get_nearby_areas,
-    map_to_html,
 )
 
 
@@ -207,14 +205,14 @@ CRITICAL: Return ONLY valid JSON."""
         matches = process.extract(name, self.df['Name'].tolist(), limit=top_k, scorer=fuzz.token_set_ratio)
         return [dict(self.df.iloc[idx]) for _, score, idx in matches if score > 40]
 
-    def search(self, query: str) -> Tuple[List[Dict], Dict, Optional[str]]:
+    def search(self, query: str) -> Tuple[List[Dict], Dict]:
         """Perform intelligent clinic search based on query."""
         if self.df is None or self.df.empty:
-            return [], {"error": "Clinic database not loaded"}, None
+            return [], {"error": "Clinic database not loaded"}
 
         plan = self.think(query)
         if not plan:
-            return [], {"error": "Failed to analyze query"}, None
+            return [], {"error": "Failed to analyze query"}
 
         postal_code = plan.get('postal_code', '').strip()
         area = plan.get('area', '').strip()
@@ -223,27 +221,14 @@ CRITICAL: Return ONLY valid JSON."""
         # Determine search type and execute
         if postal_code and len(postal_code) == 6:
             results = self.search_by_postal(postal_code)
-            map_html = self._generate_map(results, query_postal=postal_code)
         elif area:
             results = self.search_by_area(area)
-            map_html = self._generate_map(results, query_area=area)
         elif clinic_name:
             results = self.search_by_name(clinic_name)
-            map_html = None
         else:
-            results = []
-            map_html = None
+            return [], {"error": "Please provide a postal code (6 digits), an area (e.g., Tampines), or a clinic name."}
 
-        return results, plan, map_html
-
-    def _generate_map(self, results: List[Dict], query_postal: str = None, query_area: str = None) -> Optional[str]:
-        """Generate map HTML from search results."""
-        try:
-            m = create_clinic_map(results, query_postal=query_postal, query_area=query_area)
-            return map_to_html(m)
-        except Exception as e:
-            print(f"Map generation error: {e}")
-            return None
+        return results, plan
 
     def format_results(self, results: List[Dict], plan: Dict = None) -> str:
         """Format search results as Markdown."""

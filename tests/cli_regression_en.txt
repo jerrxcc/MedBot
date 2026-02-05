@@ -1,0 +1,17 @@
+/status
+I have a sore throat and fever for 2 days.
+what about a dry cough?
+/mode medication
+side effects of ibuprofen
+can I take ibuprofen with alcohol?
+/mode records
+explain hypertension
+what is HbA1c?
+/mode doctors
+find a cardiologist who speaks Mandarin
+find Dr. Ng
+/mode clinics
+clinic near 520123
+clinic in Tampines
+/clear
+/quit

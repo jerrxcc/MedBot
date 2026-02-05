@@ -67,6 +67,7 @@ Logic for parsing:
   - baby/kid/child/infant -> "Family & Community Medicine"
   - emergency/urgent/serious -> "Emergency Medicine"
   - heart/chest pain/cardiac -> "Cardiology"
+  - rash/skin/eczema/acne -> "Dermatology"
   - stomach/gut/digestive -> "Gastroenterology"
   - bone/fracture/injury -> "Orthopaedic Surgery"
   - eye/vision -> "Ophthalmology"
@@ -120,12 +121,14 @@ CRITICAL: Return ONLY a valid JSON object."""
             return "Failed to analyze search intent."
 
         filtered_df = self._apply_filters(plan.get('filters', {}))
+
         results = self._find_matches(filtered_df, plan.get('keywords', ''))
 
         if not results:
             return "No matching doctors found."
 
-        return self._format_results(results)
+        formatted = self._format_results(results)
+        return formatted
 
     def _apply_filters(self, filters: dict) -> pd.DataFrame:
         """Apply specialty and language filters to the dataframe."""

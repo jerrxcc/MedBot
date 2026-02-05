@@ -594,8 +594,8 @@ async def main(message: cl.Message):
         # Special logic for clinic search
         if feature == "clinics":
             await msg.stream_token("🔍 " + t('searching', lang, feature=feature_name) + "\n\n")
-            # Use make_async for blocking search call (skip map generation for now)
-            results, plan, _ = await cl.make_async(clinic_agent.search)(user_input)
+            # Use make_async for blocking search call
+            results, plan = await cl.make_async(clinic_agent.search)(user_input)
             response = clinic_agent.format_results(results, plan)
 
             msg.content = response

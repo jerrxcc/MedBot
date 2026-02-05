@@ -28,8 +28,6 @@ rapidfuzz>=3.0.0
 openpyxl>=3.1.0
 
 # Location services (for clinic search)
-geopy>=2.4.0
-folium>=0.14.0
 
 # Modern UI
 chainlit>=1.0.0

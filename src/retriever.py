@@ -97,6 +97,7 @@ def retrieve_with_confidence(query: str, collection_name: str, top_k: int = 5) -
     return {
         **results,
         "confidence": confidence,
+        "confidence_score": confidence,
         "confidence_level": level,
         "collection": collection_name,
     }
@@ -142,6 +143,7 @@ def retrieve_with_fallback(query: str, primary_collection: str, top_k: int = 5) 
         "metadatas": [r["metadata"] for r in top_results],
         "distances": new_distances,
         "confidence": new_confidence,
+        "confidence_score": new_confidence,
         "confidence_level": new_level,
         "collection": "mixed",
         "fallback_used": True,
