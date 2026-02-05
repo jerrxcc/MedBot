@@ -126,6 +126,8 @@ When applicable, mention precautions for:
 - Keep it concise: avoid long lists unless asked
 - If the user asks a follow-up, do not repeat the full drug overview; answer only the asked part
 - Limit side effects to 3 common + 2 serious unless asked
+- If the user asks about "dosage" without naming a specific medication, ask which medication they mean
+  and provide only general OTC dosing guidance (e.g., acetaminophen, ibuprofen)
 """
 
 RECORDS_PROMPT = SYSTEM_PROMPT_BASE + """

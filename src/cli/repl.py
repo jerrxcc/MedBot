@@ -172,6 +172,7 @@ class MedBotREPL:
         self._show_banner()
 
         if not self.interactive:
+            # Non-interactive mode: read from piped stdin
             for line in sys.stdin:
                 user_input = line.strip()
                 if not user_input:
@@ -179,7 +180,8 @@ class MedBotREPL:
                 should_quit = self._handle_input(user_input)
                 if should_quit:
                     break
-            return
+            # Exit after processing all piped input
+            return None
 
         while True:
             try:

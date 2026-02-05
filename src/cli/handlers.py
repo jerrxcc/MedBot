@@ -84,7 +84,9 @@ class FeatureHandler:
             "fallback_used": False,
         }
 
-        skip_retrieval = feature == "symptoms" and _is_unspecified_dosage_question(query)
+        # Skip retrieval for unspecified dosage questions in both symptoms and medication modes
+        # since neither collection will have useful info without a specific medication name
+        skip_retrieval = feature in ("symptoms", "medication") and _is_unspecified_dosage_question(query)
         if not skip_retrieval:
             print(f"Searching {feature} knowledge base...")
             results = retrieve_with_fallback(search_query, collection, top_k=5)

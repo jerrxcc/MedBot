@@ -69,25 +69,42 @@ class ConversationHistory:
     def get_messages_for_intent(
         self,
         intent: Optional[str],
-        max_turns: Optional[int] = None
+        max_turns: Optional[int] = None,
+        recent_context_turns: int = 3
     ) -> List[Dict[str, str]]:
         """
-        Get messages filtered by intent.
+        Get messages with intent awareness while preserving cross-intent context.
+
+        This method keeps recent messages regardless of intent to maintain
+        conversation context when users switch topics mid-conversation
+        (e.g., asking about symptoms then medication).
 
         Args:
-            intent: Intent label to filter by
+            intent: Intent label to prioritize
             max_turns: Optional max turns to keep (defaults to history max_turns)
+            recent_context_turns: Number of recent turns to always include
+                                  regardless of intent (default: 3)
 
         Returns:
-            Filtered list of message dictionaries
+            List of message dictionaries with recent context preserved
         """
         if not intent:
             return self.get_messages()
 
-        filtered = [msg for msg in self.messages if msg.get('intent') == intent]
         max_turns = self.max_turns if max_turns is None else max_turns
         max_messages = max_turns * 2
-        return filtered[-max_messages:]
+        recent_messages = recent_context_turns * 2
+
+        # Always include the most recent messages for cross-intent context
+        recent = self.messages[-recent_messages:] if len(self.messages) >= recent_messages else self.messages[:]
+
+        # Get older messages filtered by intent
+        older = self.messages[:-recent_messages] if len(self.messages) > recent_messages else []
+        older_filtered = [msg for msg in older if msg.get('intent') == intent]
+
+        # Combine: intent-filtered older messages + all recent messages
+        combined = older_filtered + recent
+        return combined[-max_messages:]
 
     def get_summary(self) -> str:
         """

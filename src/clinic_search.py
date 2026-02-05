@@ -206,7 +206,16 @@ CRITICAL: Return ONLY valid JSON."""
         return [dict(self.df.iloc[idx]) for _, score, idx in matches if score > 40]
 
     def search(self, query: str) -> Tuple[List[Dict], Dict]:
-        """Perform intelligent clinic search based on query."""
+        """
+        Perform intelligent clinic search based on query.
+
+        Returns:
+            Tuple of (results list, search plan dict).
+
+        Note:
+            Map generation was removed in favor of simpler distance-based results.
+            Previous signature returned 3 values (results, plan, map_html).
+        """
         if self.df is None or self.df.empty:
             return [], {"error": "Clinic database not loaded"}
 
