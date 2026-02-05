@@ -1,4 +1,5 @@
 import torch
+from functools import lru_cache
 from sentence_transformers import SentenceTransformer
 from .config import EMBEDDING_MODEL
 
@@ -26,6 +27,14 @@ def get_model():
     return _model
 
 
+@lru_cache(maxsize=256)
+def _embed_text_cached(text: str) -> tuple:
+    """Cache embeddings for repeated queries to reduce latency."""
+    model = get_model()
+    embedding = model.encode(text)
+    return tuple(float(x) for x in embedding.tolist())
+
+
 def embed_text(text: str) -> list:
     """
     Convert text to embedding vector.
@@ -36,9 +45,7 @@ def embed_text(text: str) -> list:
     Returns:
         Embedding vector as list
     """
-    model = get_model()
-    embedding = model.encode(text)
-    return embedding.tolist()
+    return list(_embed_text_cached(text))
 
 
 def embed_texts(texts: list) -> list:

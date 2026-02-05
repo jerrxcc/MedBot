@@ -25,13 +25,14 @@ class ConversationHistory:
         self.max_turns = max_turns
         self.messages: List[Dict[str, str]] = []
 
-    def add(self, role: str, content: str) -> None:
+    def add(self, role: str, content: str, intent: Optional[str] = None) -> None:
         """
         Add a message to history.
 
         Args:
             role: Message role ('user' or 'assistant')
             content: Message content
+            intent: Optional intent label for routing/rewriting
 
         Raises:
             ValueError: If role is not a valid value
@@ -42,10 +43,10 @@ class ConversationHistory:
                 f"Invalid role: '{role}'. Must be one of: {', '.join(self.VALID_ROLES)}"
             )
 
-        self.messages.append({
-            'role': role,
-            'content': content
-        })
+        msg = {'role': role, 'content': content}
+        if intent:
+            msg['intent'] = intent
+        self.messages.append(msg)
 
         # Maintain sliding window (2 messages per turn)
         max_messages = self.max_turns * 2
@@ -64,6 +65,46 @@ class ConversationHistory:
             List of message dictionaries with 'role' and 'content' keys
         """
         return self.messages.copy()
+
+    def get_messages_for_intent(
+        self,
+        intent: Optional[str],
+        max_turns: Optional[int] = None,
+        recent_context_turns: int = 3
+    ) -> List[Dict[str, str]]:
+        """
+        Get messages with intent awareness while preserving cross-intent context.
+
+        This method keeps recent messages regardless of intent to maintain
+        conversation context when users switch topics mid-conversation
+        (e.g., asking about symptoms then medication).
+
+        Args:
+            intent: Intent label to prioritize
+            max_turns: Optional max turns to keep (defaults to history max_turns)
+            recent_context_turns: Number of recent turns to always include
+                                  regardless of intent (default: 3)
+
+        Returns:
+            List of message dictionaries with recent context preserved
+        """
+        if not intent:
+            return self.get_messages()
+
+        max_turns = self.max_turns if max_turns is None else max_turns
+        max_messages = max_turns * 2
+        recent_messages = recent_context_turns * 2
+
+        # Always include the most recent messages for cross-intent context
+        recent = self.messages[-recent_messages:] if len(self.messages) >= recent_messages else self.messages[:]
+
+        # Get older messages filtered by intent
+        older = self.messages[:-recent_messages] if len(self.messages) > recent_messages else []
+        older_filtered = [msg for msg in older if msg.get('intent') == intent]
+
+        # Combine: intent-filtered older messages + all recent messages
+        combined = older_filtered + recent
+        return combined[-max_messages:]
 
     def get_summary(self) -> str:
         """

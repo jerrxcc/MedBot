@@ -127,11 +127,10 @@ Searching symptoms knowledge base...
 
 #### Test 2.5: Clinic Search
 **Input:** `clinic near 520123`
-**Expected:** Search using ClinicSearchAgent with map
+**Expected:** Search using ClinicSearchAgent with distance calculation
 **Result:** ✅ PASS
 - Loaded Clinics.xlsx
 - Calculated distances
-- Generated map HTML file
 - Returned formatted clinic list
 
 ### 3. Command Tests
@@ -355,7 +354,7 @@ Loaded 850 doctors from Specialists.xlsx
 | Intent Detection | <100ms | Regex-based, very fast |
 | RAG Query | 3-5s | Includes retrieval + LLM call |
 | Doctor Search | 2-4s | Includes LLM intent analysis |
-| Clinic Search | 2-4s | Includes distance calculation + map |
+| Clinic Search | 2-4s | Includes distance calculation |
 | Command Execution | <50ms | Instant |
 
 ## Dependencies Verified
@@ -365,8 +364,6 @@ Loaded 850 doctors from Specialists.xlsx
 - `rapidfuzz>=3.0.0` - Fuzzy matching for search
 - `openpyxl>=3.1.0` - Excel file reading
 - `pandas>=2.0.0` - Data processing
-- `folium>=0.14.0` - Map generation
-- `geopy>=2.4.0` - Location services
 - All other dependencies from `requirements.txt`
 
 ## Feature Parity Verification

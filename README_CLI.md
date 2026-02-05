@@ -8,7 +8,7 @@ This CLI is a **developer tool** for quick testing and debugging of MedBot funct
 
 ```bash
 # Install dependencies
-pip3 install prompt-toolkit rapidfuzz openpyxl folium geopy
+pip3 install prompt-toolkit rapidfuzz openpyxl pandas
 
 # Run CLI
 python3 cli.py
@@ -86,7 +86,7 @@ cli.py (entry point)
 - [x] Medication queries → FDA data retrieved
 - [x] Records queries → Medical info retrieved
 - [x] Doctor search → Agent returns results
-- [x] Clinic search → Location search + map
+- [x] Clinic search → Location search + distance calculation
 - [x] Follow-up questions → Context preserved
 - [x] Mode switching → Forces specific intent
 - [x] Error handling → API errors caught

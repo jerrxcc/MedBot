@@ -3,6 +3,7 @@ Feature handlers for routing queries to appropriate MedBot functionality.
 """
 
 from typing import Optional
+import re
 
 from ..retriever import retrieve_with_fallback, format_context
 from ..llm import (
@@ -66,7 +67,6 @@ class FeatureHandler:
         Returns:
             Response string
         """
-        # Rewrite query with context for follow-ups
         search_query = query
         if history:
             search_query = rewrite_query_with_context(query, history)
@@ -75,8 +75,21 @@ class FeatureHandler:
 
         # Retrieve relevant documents
         collection = self.COLLECTIONS[feature]
-        print(f"Searching {feature} knowledge base...")
-        results = retrieve_with_fallback(search_query, collection, top_k=5)
+        results = {
+            "documents": [],
+            "metadatas": [],
+            "distances": [],
+            "confidence_score": None,
+            "confidence_level": "none",
+            "fallback_used": False,
+        }
+
+        # Skip retrieval for unspecified dosage questions in both symptoms and medication modes
+        # since neither collection will have useful info without a specific medication name
+        skip_retrieval = feature in ("symptoms", "medication") and _is_unspecified_dosage_question(query)
+        if not skip_retrieval:
+            print(f"Searching {feature} knowledge base...")
+            results = retrieve_with_fallback(search_query, collection, top_k=5)
 
         # Show confidence warning
         confidence = results.get('confidence_level', 'low')
@@ -90,6 +103,15 @@ class FeatureHandler:
 
         # Get system prompt
         system_prompt = get_prompt(feature)
+        confidence_level = results.get("confidence_level", "none")
+        if confidence_level in ["low", "very_low", "none"]:
+            system_prompt += (
+                "\n\n## Retrieval Confidence\n"
+                "The retrieved context may be weak or partially irrelevant. "
+                "Avoid over-specific claims and ask one clarifying question. "
+                "If context seems unrelated, say so briefly and answer more generally. "
+                "Keep the response brief (about 100–150 words) unless the user asks for more."
+            )
 
         # Build messages and get response
         messages = build_messages(
@@ -112,6 +134,7 @@ class FeatureHandler:
             response += "\n\n" + "\n".join(metadata_lines)
 
         return response
+
 
     def _handle_search(self, query: str, search_type: str) -> str:
         """
@@ -173,9 +196,11 @@ class FeatureHandler:
             self.clinic_agent = ClinicSearchAgent()
 
         print("Searching for clinics...")
-        results, metadata, html_path = self.clinic_agent.search(query)
+        results, metadata = self.clinic_agent.search(query)
 
         if not results:
+            if metadata.get('error'):
+                return metadata['error']
             return "No clinics found matching your criteria."
 
         # Format results
@@ -200,14 +225,28 @@ class FeatureHandler:
 
             lines.append("")  # Blank line
 
-        # Add map info if available
-        if html_path:
-            lines.append(f"📍 Map saved to: {html_path}")
-
         # Add search metadata
         if metadata.get('postal_code'):
             lines.append(f"\nSearch center: Postal {metadata['postal_code']}")
         elif metadata.get('area'):
             lines.append(f"\nSearch area: {metadata['area']}")
+        if metadata.get('postal_code') or metadata.get('area'):
+            lines.append("")
 
         return "\n".join(lines)
+
+
+def _is_unspecified_dosage_question(query: str) -> bool:
+    """Detect dosage questions without a specific medication name."""
+    q = query.lower()
+    dosage_terms = [r"\bdosage\b", r"\bdose\b", r"\bmg\b", r"\bmilligram"]
+    if not any(re.search(pat, q) for pat in dosage_terms):
+        return False
+
+    medication_terms = [
+        "ibuprofen", "paracetamol", "acetaminophen", "aspirin", "naproxen",
+        "tylenol", "advil", "motrin", "amoxicillin", "doxycycline",
+        "antibiotic", "antibiotics", "cetirizine", "loratadine",
+        "diphenhydramine", "dextromethorphan", "guaifenesin"
+    ]
+    return not any(term in q for term in medication_terms)

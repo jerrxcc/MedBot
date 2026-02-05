@@ -206,7 +206,6 @@ Found 10 clinics:
    Address: 248 Simei Street 3...
 ...
 
-📍 Map saved to: /path/to/map.html
 Search center: Postal 520123
 ```
 

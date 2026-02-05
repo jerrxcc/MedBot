@@ -37,30 +37,34 @@ class MedBotREPL:
             api_status_func=self._get_api_status
         )
 
-        # Setup prompt-toolkit
-        self.prompt_history = InMemoryHistory()
-        self.completer = CommandCompleter(
-            self.command_handler.get_completions()
-        )
+        self.interactive = sys.stdin.isatty()
+        self.session = None
 
-        # Create key bindings
-        kb = KeyBindings()
+        if self.interactive:
+            # Setup prompt-toolkit
+            self.prompt_history = InMemoryHistory()
+            self.completer = CommandCompleter(
+                self.command_handler.get_completions()
+            )
 
-        @kb.add('c-c')
-        def _(event):
-            """Cancel current input on Ctrl+C."""
-            event.app.current_buffer.reset()
+            # Create key bindings
+            kb = KeyBindings()
 
-        @kb.add('c-d')
-        def _(event):
-            """Exit on Ctrl+D."""
-            event.app.exit(result='__exit__')
+            @kb.add('c-c')
+            def _(event):
+                """Cancel current input on Ctrl+C."""
+                event.app.current_buffer.reset()
 
-        self.session = PromptSession(
-            history=self.prompt_history,
-            completer=self.completer,
-            key_bindings=kb,
-        )
+            @kb.add('c-d')
+            def _(event):
+                """Exit on Ctrl+D."""
+                event.app.exit(result='__exit__')
+
+            self.session = PromptSession(
+                history=self.prompt_history,
+                completer=self.completer,
+                key_bindings=kb,
+            )
 
     def _get_api_status(self) -> str:
         """Get current API configuration status."""
@@ -126,15 +130,16 @@ class MedBotREPL:
                 print(f"[Mode: {intent}]")
 
             # Get response from feature handler
+            history_for_intent = self.history.get_messages_for_intent(intent)
             response = self.feature_handler.handle(
                 query=user_input,
                 intent=intent,
-                history=self.history.get_messages()
+                history=history_for_intent,
             )
 
             # Update conversation history
-            self.history.add('user', user_input)
-            self.history.add('assistant', response)
+            self.history.add('user', user_input, intent=intent)
+            self.history.add('assistant', response, intent=intent)
 
             # Display response
             print()
@@ -165,6 +170,18 @@ class MedBotREPL:
         Run the REPL loop.
         """
         self._show_banner()
+
+        if not self.interactive:
+            # Non-interactive mode: read from piped stdin
+            for line in sys.stdin:
+                user_input = line.strip()
+                if not user_input:
+                    continue
+                should_quit = self._handle_input(user_input)
+                if should_quit:
+                    break
+            # Exit after processing all piped input
+            return None
 
         while True:
             try:
