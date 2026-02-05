@@ -249,7 +249,7 @@ def format_retrieval_display(results: dict) -> str:
     if not results.get("documents"):
         return ""
 
-    confidence = results.get("confidence", 0)
+    confidence = results.get("confidence_score", results.get("confidence", 0))
     confidence_pct = int(confidence * 100)
 
     # Confidence indicator with color hint
