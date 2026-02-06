@@ -3,6 +3,7 @@ MedBot - Chainlit Interface
 A modern chat UI for the medical assistant.
 """
 import asyncio
+import re
 import chainlit as cl
 from src.retriever import retrieve_with_fallback, format_context, distance_to_relevance
 from src.llm import get_response, get_response_stream, build_messages, is_api_configured, APIKeyMissingError, APICallError, rewrite_query_with_context
@@ -132,6 +133,22 @@ def t(key: str, lang: str = "en", **kwargs) -> str:
     return text
 
 
+def _demote_markdown_headings(text: str) -> str:
+    """
+    Chainlit renders Markdown headings with very large font sizes.
+    To keep answers readable, demote '# ...' / '## ...' lines into bold text.
+    """
+    out_lines = []
+    for line in text.splitlines():
+        m = re.match(r"^(#{1,6})\\s+(.*)$", line)
+        if not m:
+            out_lines.append(line)
+            continue
+        title = m.group(2).strip()
+        out_lines.append(f"**{title}**" if title else "")
+    return "\\n".join(out_lines)
+
+
 def format_retrieval_display(results: dict) -> str:
     """
     Format retrieval results for user display.
@@ -197,7 +214,7 @@ def format_retrieval_display(results: dict) -> str:
         lines.append(f"> {preview}")
         lines.append("")
 
-    return "\n".join(lines)
+    return _demote_markdown_headings("\n".join(lines))
 
 
 def get_starters(profile: str):
@@ -494,8 +511,8 @@ async def main(message: cl.Message):
         # Add confidence warning for low-quality retrievals
         confidence_level = results.get("confidence_level", "medium")
         if confidence_level in ["low", "very_low", "none"]:
-            # Render as a subtle callout (smaller/less prominent than bold text).
-            warning = "\n\n> ⚠️ Note: Limited information available in the knowledge base. Please verify with a healthcare professional."
+            # Render as a small footer; Chainlit supports basic HTML tags like <small>.
+            warning = "\n\n<small>⚠️ Note: Limited information available in the knowledge base. Please verify with a healthcare professional.</small>"
             response += warning
 
         # Add retrieval visualization (shows what documents were used)
@@ -504,7 +521,7 @@ async def main(message: cl.Message):
             response += retrieval_info
 
         # Update with final response (includes any appended warnings/retrieval info)
-        msg.content = response
+        msg.content = _demote_markdown_headings(response)
         await msg.update()
 
     except APIKeyMissingError:
