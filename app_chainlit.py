@@ -518,17 +518,17 @@ async def main(message: cl.Message):
     feature_config = FEATURES[feature]
     feature_name = t(feature_config["name_key"], lang)
 
-    # Show processing message
-    msg = cl.Message(content="", author="MedBot")
-    await msg.send()
+    # Don't send an empty assistant message immediately.
+    # Chainlit will show its built-in typing indicator (dots) while we work,
+    # similar to ChatGPT, until we actually send/stream the assistant message.
+    msg = None
 
     try:
         # Special logic for doctor search
         if feature == "doctors":
             # Use make_async for blocking search call
             response = await cl.make_async(search_agent.search)(user_input)
-            msg.content = response
-            await msg.update()
+            await cl.Message(content=response, author="MedBot").send()
             return
 
         # Special logic for clinic search
@@ -537,8 +537,7 @@ async def main(message: cl.Message):
             results, plan = await cl.make_async(clinic_agent.search)(user_input)
             response = clinic_agent.format_results(results, plan)
 
-            msg.content = response
-            await msg.update()
+            await cl.Message(content=response, author="MedBot").send()
             return
 
         # Get conversation history for context-aware retrieval
@@ -580,6 +579,9 @@ async def main(message: cl.Message):
             token = await queue.get()
             if token is None:
                 break
+            if msg is None:
+                msg = cl.Message(content="", author="MedBot")
+                await msg.send()
             await msg.stream_token(token)
             response += token
         await fut  # propagate any exception from the thread
@@ -607,11 +609,16 @@ async def main(message: cl.Message):
             response += retrieval_info
 
         # Update with final response (includes any appended warnings/retrieval info)
-        msg.content = response
-        await msg.update()
+        if msg is None:
+            # Extremely defensive: if the provider produced no tokens, still send something.
+            msg = cl.Message(content=response, author="MedBot")
+            await msg.send()
+        else:
+            msg.content = response
+            await msg.update()
 
     except APIKeyMissingError:
-        msg.content = f"""## ⚠️ {t('error_api_title', lang)}
+        content = f"""## ⚠️ {t('error_api_title', lang)}
 
 {t('error_api_text', lang)}
 
@@ -620,23 +627,35 @@ async def main(message: cl.Message):
 3. Get your key at [platform.deepseek.com](https://platform.deepseek.com/)
 4. Restart the application
 """
-        await msg.update()
+        if msg is None:
+            await cl.Message(content=content, author="MedBot").send()
+        else:
+            msg.content = content
+            await msg.update()
 
     except APICallError as e:
-        msg.content = f"""## ⚠️ {t('error_connection', lang)}
+        content = f"""## ⚠️ {t('error_connection', lang)}
 
 {t('error_connection_text', lang)}
 
 **Error:** {str(e)}
 """
-        await msg.update()
+        if msg is None:
+            await cl.Message(content=content, author="MedBot").send()
+        else:
+            msg.content = content
+            await msg.update()
 
     except Exception as e:
-        msg.content = f"""## ⚠️ {t('error_generic', lang)}
+        content = f"""## ⚠️ {t('error_generic', lang)}
 
 {t('error_generic_text', lang, error=str(e))}
 """
-        await msg.update()
+        if msg is None:
+            await cl.Message(content=content, author="MedBot").send()
+        else:
+            msg.content = content
+            await msg.update()
 
 
 # Run with: chainlit run app_chainlit.py
