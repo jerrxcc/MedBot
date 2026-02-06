@@ -100,36 +100,37 @@ Stop Chainlit:
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                                   UI                                     │
 │                                                                          │
-│   Chainlit: app_chainlit.py  (http://localhost:8000)                      │
-│   Gradio:   app.py          (http://localhost:7860)                       │
-│   CLI:      cli.py          (python3 cli.py)                              │
+│   Chainlit: app_chainlit.py (http://localhost:8000)                      │
+│   Gradio:   app.py          (http://localhost:7860)                      │
+│   CLI:      cli.py          (python3 cli.py)                             │
 └───────────────────────────────┬───────────────────────────────┬──────────┘
                                 │                               │
                                 │ RAG modes                     │ Search modes
                                 │ (symptoms/medication/records) │ (doctors/clinics)
                                 ▼                               ▼
 ┌──────────────────────────────────────────────────┐   ┌───────────────────────────────┐
-│ Query Prep (optional / best-effort)              │   │ Intent Parsing (LLM JSON plan) │
+│ Query Prep (optional / best-effort)              │   │ Intent Parsing (LLM JSON plan)│
 │  - Follow-up rewrite: src/llm.py                 │   └───────────────┬───────────────┘
 │  - zh -> en keywords: src/translator.py          │                   │
 └───────────────────────────────┬──────────────────┘                   │
                                 │                                      │
                                 ▼                                      ▼
 ┌──────────────────────────────────────────────────────────────────┐   ┌───────────────────────────────┐
-│ Retrieval: ChromaDB PersistentClient (vectorstore/)               │   │ Search Agents                  │
-│  - Primary collection by mode                                     │   │  - MedicalSearchAgent          │
-│  - Confidence scoring (distances -> level)                        │   │  - ClinicSearchAgent           │
-│  - Low-confidence cross-collection fallback (ALL_COLLECTIONS)     │   │ Data: Specialists.xlsx/Clinics.xlsx │
+│ Retrieval: ChromaDB PersistentClient (vectorstore/)              │   │ Search Agents                 │
+│  - Primary collection by mode                                    │   │  - MedicalSearchAgent         │
+│  - Confidence scoring (distances -> level)                       │   │  - ClinicSearchAgent          │
+│  - Low-confidence cross-collection fallback (ALL_COLLECTIONS)    │   │ Data: Specialists.xlsx        │
+│                                                                  │   │       Clinics.xlsx            │
 └───────────────────────────────┬──────────────────────────────────┘   └───────────────┬───────────────┘
                                 │                                      │
                                 ▼                                      │
 ┌──────────────────────────────────────────────────┐                   │
-│ Context Formatting: src/retriever.py              │                   │
+│ Context Formatting: src/retriever.py             │                   │
 └───────────────────────────────┬──────────────────┘                   │
                                 │                                      │
                                 ▼                                      ▼
 ┌──────────────────────────────────────────────────────────────────────────┐
-│ LLM Response: src/llm.py (OpenAI / DeepSeek, OpenAI-compatible client)    │
+│ LLM Response: src/llm.py (OpenAI / DeepSeek, OpenAI-compatible client)   │
 └──────────────────────────────────────────────────────────────────────────┘
                                 │
                                 ▼
