@@ -105,7 +105,6 @@ ENABLE_CONTEXT_AWARE_RETRIEVAL = True
 DEEPSEEK_BASE_URL = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
 DEEPSEEK_MODEL = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 MAX_TOKENS = 1024
-TEMPERATURE = 0.7
 
 # =============================================================================
 # Data Source URLs
