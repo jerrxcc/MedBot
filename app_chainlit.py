@@ -518,17 +518,39 @@ async def main(message: cl.Message):
     feature_config = FEATURES[feature]
     feature_name = t(feature_config["name_key"], lang)
 
-    # Don't send an empty assistant message immediately.
-    # Chainlit will show its built-in typing indicator (dots) while we work,
-    # similar to ChatGPT, until we actually send/stream the assistant message.
-    msg = None
+    # Show a GPT-like animated dots loader while waiting for the first token.
+    # Once we start streaming the answer, we clear it and it disappears.
+    msg = cl.Message(content=".", author="MedBot")
+    await msg.send()
+
+    async def _animate_loader():
+        states = [".", "..", "..."]
+        i = 0
+        while True:
+            msg.content = states[i % len(states)]
+            await msg.update()
+            i += 1
+            await asyncio.sleep(0.4)
+
+    loader_task = asyncio.create_task(_animate_loader())
+
+    async def _stop_loader():
+        if loader_task.done():
+            return
+        loader_task.cancel()
+        try:
+            await loader_task
+        except asyncio.CancelledError:
+            pass
 
     try:
         # Special logic for doctor search
         if feature == "doctors":
             # Use make_async for blocking search call
             response = await cl.make_async(search_agent.search)(user_input)
-            await cl.Message(content=response, author="MedBot").send()
+            await _stop_loader()
+            msg.content = response
+            await msg.update()
             return
 
         # Special logic for clinic search
@@ -537,7 +559,9 @@ async def main(message: cl.Message):
             results, plan = await cl.make_async(clinic_agent.search)(user_input)
             response = clinic_agent.format_results(results, plan)
 
-            await cl.Message(content=response, author="MedBot").send()
+            await _stop_loader()
+            msg.content = response
+            await msg.update()
             return
 
         # Get conversation history for context-aware retrieval
@@ -574,17 +598,23 @@ async def main(message: cl.Message):
             finally:
                 asyncio.run_coroutine_threadsafe(queue.put(None), loop).result()
 
+        started_streaming = False
         fut = loop.run_in_executor(None, _produce_chunks)
         while True:
             token = await queue.get()
             if token is None:
                 break
-            if msg is None:
-                msg = cl.Message(content="", author="MedBot")
-                await msg.send()
+            if not started_streaming:
+                await _stop_loader()
+                msg.content = ""
+                await msg.update()
+                started_streaming = True
             await msg.stream_token(token)
             response += token
         await fut  # propagate any exception from the thread
+        if not started_streaming:
+            # If the provider produced no tokens, stop the loader anyway.
+            await _stop_loader()
 
         # Update conversation history (store original question without RAG context)
         history.append({"role": "user", "content": user_input})
@@ -609,16 +639,12 @@ async def main(message: cl.Message):
             response += retrieval_info
 
         # Update with final response (includes any appended warnings/retrieval info)
-        if msg is None:
-            # Extremely defensive: if the provider produced no tokens, still send something.
-            msg = cl.Message(content=response, author="MedBot")
-            await msg.send()
-        else:
-            msg.content = response
-            await msg.update()
+        msg.content = response
+        await msg.update()
 
     except APIKeyMissingError:
-        content = f"""## ⚠️ {t('error_api_title', lang)}
+        await _stop_loader()
+        msg.content = f"""## ⚠️ {t('error_api_title', lang)}
 
 {t('error_api_text', lang)}
 
@@ -627,35 +653,25 @@ async def main(message: cl.Message):
 3. Get your key at [platform.deepseek.com](https://platform.deepseek.com/)
 4. Restart the application
 """
-        if msg is None:
-            await cl.Message(content=content, author="MedBot").send()
-        else:
-            msg.content = content
-            await msg.update()
+        await msg.update()
 
     except APICallError as e:
-        content = f"""## ⚠️ {t('error_connection', lang)}
+        await _stop_loader()
+        msg.content = f"""## ⚠️ {t('error_connection', lang)}
 
 {t('error_connection_text', lang)}
 
 **Error:** {str(e)}
 """
-        if msg is None:
-            await cl.Message(content=content, author="MedBot").send()
-        else:
-            msg.content = content
-            await msg.update()
+        await msg.update()
 
     except Exception as e:
-        content = f"""## ⚠️ {t('error_generic', lang)}
+        await _stop_loader()
+        msg.content = f"""## ⚠️ {t('error_generic', lang)}
 
 {t('error_generic_text', lang, error=str(e))}
 """
-        if msg is None:
-            await cl.Message(content=content, author="MedBot").send()
-        else:
-            msg.content = content
-            await msg.update()
+        await msg.update()
 
 
 # Run with: chainlit run app_chainlit.py
