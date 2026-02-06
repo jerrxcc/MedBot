@@ -25,8 +25,6 @@ TRANSLATIONS = {
         "symptom_desc": "**Describe your symptoms** and get relevant medical information.\n\nPowered by 56,000+ medical Q&A pairs from NIH.",
         "medication_name": "Medication Info",
         "medication_desc": "**Ask about medications**, dosages, side effects, and drug interactions.\n\nData from FDA drug labels.",
-        "records_name": "Records Analysis",
-        "records_desc": "**Understand medical reports**, lab results, and diagnoses.\n\nGet explanations in plain language.",
         "doctor_name": "Find Doctor",
         "doctor_desc": "**Find specialists and clinics** in Singapore.\n\nSearch by specialty, name, or symptoms.",
         "clinic_name": "Find Clinic",
@@ -51,16 +49,6 @@ TRANSLATIONS = {
         "starter_interactions_msg": "Can I take aspirin with blood pressure medication? Are there any interactions?",
         "starter_painrelief": "Pain Relief Options",
         "starter_painrelief_msg": "What are the differences between acetaminophen and ibuprofen for pain relief?",
-
-        # Records starters
-        "starter_hemoglobin": "Hemoglobin Levels",
-        "starter_hemoglobin_msg": "What does a hemoglobin level of 10.5 g/dL mean? Is this normal?",
-        "starter_bp": "Blood Pressure Reading",
-        "starter_bp_msg": "What is considered a normal blood pressure reading? What do the numbers mean?",
-        "starter_diabetes": "Diabetes Diagnosis",
-        "starter_diabetes_msg": "Explain Type 2 Diabetes Mellitus diagnosis. What does it mean for daily life?",
-        "starter_cholesterol": "Cholesterol Report",
-        "starter_cholesterol_msg": "How do I interpret my cholesterol test results? What are healthy levels?",
 
         # UI messages
         "welcome_title": "Welcome to MedBot",
@@ -109,8 +97,6 @@ TRANSLATIONS = {
         "symptom_desc": "**描述您的症状**，获取相关医学信息。\n\n基于 NIH 的 56,000+ 医学问答对。",
         "medication_name": "药物信息",
         "medication_desc": "**查询药物**用法、副作用和药物相互作用。\n\n数据来源：FDA 药品标签。",
-        "records_name": "病历解读",
-        "records_desc": "**理解医疗报告**、化验结果和诊断。\n\n用通俗语言解释医学术语。",
         "doctor_name": "找医生",
         "doctor_desc": "**查找新加坡专家和诊所**。\n\n按专科、姓名或症状进行搜索。",
         "clinic_name": "找诊所",
@@ -135,16 +121,6 @@ TRANSLATIONS = {
         "starter_interactions_msg": "阿司匹林可以和降压药一起吃吗？有相互作用吗？",
         "starter_painrelief": "止痛药对比",
         "starter_painrelief_msg": "对乙酰氨基酚和布洛芬在止痛方面有什么区别？",
-
-        # Records starters
-        "starter_hemoglobin": "血红蛋白水平",
-        "starter_hemoglobin_msg": "血红蛋白 10.5 g/dL 是什么意思？正常吗？",
-        "starter_bp": "血压读数",
-        "starter_bp_msg": "正常血压是多少？这些数字代表什么？",
-        "starter_diabetes": "糖尿病诊断",
-        "starter_diabetes_msg": "请解释 2 型糖尿病诊断，对日常生活有什么影响？",
-        "starter_cholesterol": "胆固醇报告",
-        "starter_cholesterol_msg": "如何解读胆固醇检测结果？健康水平是多少？",
 
         # UI messages
         "welcome_title": "欢迎使用 MedBot",
@@ -201,11 +177,6 @@ FEATURES = {
         "icon": "💊",
         "name_key": "medication_name"
     },
-    "records": {
-        "collection": "medical_records",
-        "icon": "📋",
-        "name_key": "records_name"
-    },
     "doctors": {
         "icon": "👨‍⚕️",
         "name_key": "doctor_name"
@@ -220,7 +191,6 @@ FEATURES = {
 PROFILE_TO_FEATURE = {
     "Symptom Analysis": "symptoms",
     "Medication Info": "medication",
-    "Records Analysis": "records",
     "Find Doctor": "doctors",
     "Find Clinic": "clinics"
 }
@@ -354,29 +324,6 @@ def get_bilingual_starters(profile: str):
                 icon="https://api.iconify.design/mdi:medical-bag.svg?color=%2310b981",
             ),
         ]
-    elif profile == "records":
-        return [
-            cl.Starter(
-                label="血红蛋白 Hemoglobin",
-                message="血红蛋白 10.5 g/dL 正常吗？/ What does a hemoglobin level of 10.5 g/dL mean?",
-                icon="https://api.iconify.design/mdi:water.svg?color=%23ef4444",
-            ),
-            cl.Starter(
-                label="血压 Blood Pressure",
-                message="正常血压是多少？/ What is considered a normal blood pressure reading?",
-                icon="https://api.iconify.design/mdi:heart-pulse.svg?color=%23ec4899",
-            ),
-            cl.Starter(
-                label="糖尿病 Diabetes",
-                message="请解释 2 型糖尿病诊断。/ Explain Type 2 Diabetes Mellitus diagnosis.",
-                icon="https://api.iconify.design/mdi:diabetes.svg?color=%23f59e0b",
-            ),
-            cl.Starter(
-                label="胆固醇 Cholesterol",
-                message="如何解读胆固醇检测结果？/ How do I interpret my cholesterol test results?",
-                icon="https://api.iconify.design/mdi:chart-line.svg?color=%233b82f6",
-            ),
-        ]
     elif profile == "doctors":
         return [
             cl.Starter(
@@ -440,12 +387,6 @@ async def chat_profile():
             markdown_description="**药物信息 Medication Info**\n\n查询药物用法和副作用。\nQuery drug usage and side effects.",
             icon="https://api.iconify.design/mdi:pill.svg?color=%233b82f6",
             starters=get_bilingual_starters("medication"),
-        ),
-        cl.ChatProfile(
-            name="Records Analysis",
-            markdown_description="**病历解读 Records Analysis**\n\n理解医疗报告和化验结果。\nUnderstand medical reports and lab results.",
-            icon="https://api.iconify.design/mdi:file-document.svg?color=%2310b981",
-            starters=get_bilingual_starters("records"),
         ),
         cl.ChatProfile(
             name="Find Doctor",
@@ -541,7 +482,6 @@ async def main(message: cl.Message):
 1. {t('help_step1', lang)}
    - 🩺 {t('symptom_name', lang)}
    - 💊 {t('medication_name', lang)}
-   - 📋 {t('records_name', lang)}
 
 2. {t('help_step2', lang)}
 

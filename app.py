@@ -14,7 +14,6 @@ search_agent = MedicalSearchAgent()
 COLLECTIONS = {
     "symptoms": "medquad_symptoms",
     "medication": "fda_drugs",
-    "records": "medical_records",
 }
 
 FEATURES = {
@@ -38,16 +37,6 @@ FEATURES = {
             "Can I take aspirin with blood pressure medication?",
         ],
     },
-    "records": {
-        "title": "Records Analysis",
-        "icon": "clipboard",
-        "placeholder": "Paste or describe medical records... (e.g., What does a hemoglobin of 10.5 mean?)",
-        "examples": [
-            "What does a hemoglobin level of 10.5 g/dL mean?",
-            "Explain this diagnosis: Type 2 Diabetes Mellitus",
-            "What is a normal blood pressure reading?",
-        ],
-    },
     "doctors": {
         "title": "Find Doctor",
         "icon": "user-md",
@@ -64,7 +53,6 @@ FEATURES = {
 FEATURE_ICONS = {
     "symptoms": "stethoscope",
     "medication": "pill",
-    "records": "clipboard",
     "doctors": "user-md",
 }
 
@@ -118,7 +106,7 @@ def chat_handler(message: str, history: list, feature: str) -> str:
 
 
 def _handle_rag_query(message: str, feature: str) -> str:
-    """Handle RAG-based queries for symptoms, medication, and records."""
+    """Handle RAG-based queries for symptoms and medication."""
     collection_name = COLLECTIONS.get(feature, "medquad_symptoms")
     results = retrieve_with_fallback(message, collection_name, top_k=5)
 
@@ -146,7 +134,7 @@ CUSTOM_CSS = """
 .submit-btn { background: #764ba2 !important; color: white !important; }
 """
 
-TAB_ICONS = {"symptoms": "stethoscope", "medication": "pill", "records": "clipboard", "doctors": "user-md"}
+TAB_ICONS = {"symptoms": "stethoscope", "medication": "pill", "doctors": "user-md"}
 
 
 def create_tab(feature_key: str, feature_info: dict):

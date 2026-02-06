@@ -12,7 +12,7 @@ class CommandHandler:
 
     COMMANDS = {
         '/help': 'Show usage instructions',
-        '/mode': 'Switch feature mode (auto/symptoms/medication/records/doctors/clinics)',
+        '/mode': 'Switch feature mode (auto/symptoms/medication/doctors/clinics)',
         '/clear': 'Clear conversation history',
         '/status': 'Show current mode and API status',
         '/history': 'Show recent conversation',
@@ -20,7 +20,7 @@ class CommandHandler:
         '/exit': 'Exit MedBot CLI',
     }
 
-    VALID_MODES = ['auto', 'symptoms', 'medication', 'records', 'doctors', 'clinics']
+    VALID_MODES = ['auto', 'symptoms', 'medication', 'doctors', 'clinics']
 
     def __init__(self, history, api_status_func):
         """
@@ -90,7 +90,6 @@ class CommandHandler:
             "FEATURES:",
             "  • Symptoms - Describe symptoms for medical information",
             "  • Medication - Ask about drugs and medicines",
-            "  • Records - Query medical conditions and diagnoses",
             "  • Doctors - Search for healthcare providers",
             "  • Clinics - Find medical facilities near you",
             "",

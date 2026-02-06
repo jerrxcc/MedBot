@@ -31,7 +31,6 @@ VECTORSTORE_PATH = PROJECT_ROOT / "vectorstore"
 COLLECTIONS = {
     "symptoms": "medquad_symptoms",
     "medication": "fda_drugs",
-    "records": "medical_records",
     "pubmedqa": "pubmedqa",
     "medqa": "medqa"
 }
@@ -40,13 +39,12 @@ COLLECTIONS = {
 DATA_FILES = {
     "medquad_symptoms": PROCESSED_DATA_DIR / "symptoms.jsonl",
     "fda_drugs": PROCESSED_DATA_DIR / "medications.jsonl",
-    "medical_records": PROCESSED_DATA_DIR / "records.jsonl",
     "pubmedqa": PROCESSED_DATA_DIR / "pubmedqa.jsonl",
     "medqa": PROCESSED_DATA_DIR / "medqa.jsonl"
 }
 
 # All searchable collections for fallback
-ALL_COLLECTIONS = ["medquad_symptoms", "fda_drugs", "medical_records", "pubmedqa", "medqa"]
+ALL_COLLECTIONS = ["medquad_symptoms", "fda_drugs", "pubmedqa", "medqa"]
 
 # =============================================================================
 # Embedding Configuration
@@ -146,4 +144,4 @@ DATA_SOURCES = {
 # =============================================================================
 
 VALID_SOURCES = ["MedQuAD", "FDA", "MTSamples", "PubMedQA", "MedQA"]
-VALID_CATEGORIES = ["Symptoms", "Diagnosis", "Treatment", "Medication", "Record"]
+VALID_CATEGORIES = ["Symptoms", "Diagnosis", "Treatment", "Medication"]

@@ -102,7 +102,6 @@ def test_config():
     def test_collections():
         assert COLLECTIONS["symptoms"] == "medquad_symptoms"
         assert COLLECTIONS["medication"] == "fda_drugs"
-        assert COLLECTIONS["records"] == "medical_records"
 
     run_test(result, "EMBEDDING_MODEL == PubMedBERT", test_embedding_model)
     run_test(result, "EMBEDDING_DIM == 768", test_embedding_dim)
@@ -375,15 +374,8 @@ def test_data_validation():
         print(f"     MedQuAD symptoms: {count} documents")
         assert count > 30000, f"Expected > 30000, got {count}"
 
-    def test_medical_records_exists():
-        coll = get_or_create_collection("medical_records")
-        count = coll.count()
-        print(f"     Medical records: {count} documents")
-        assert count > 0, "Medical records collection is empty"
-
     run_test(result, "FDA drugs > 1500 docs", test_fda_drugs_count)
     run_test(result, "MedQuAD symptoms > 30000 docs", test_medquad_symptoms_count)
-    run_test(result, "Medical records exists", test_medical_records_exists)
 
     print(f"\n{result.summary()}")
     return result

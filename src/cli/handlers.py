@@ -27,7 +27,6 @@ class FeatureHandler:
     COLLECTIONS = {
         'symptoms': 'medquad_symptoms',
         'medication': 'fda_drugs',
-        'records': 'medical_records',
     }
 
     def __init__(self):
@@ -57,7 +56,7 @@ class FeatureHandler:
 
     def _handle_rag(self, query: str, feature: str, history: list) -> str:
         """
-        Handle RAG-based queries (symptoms, medication, records).
+        Handle RAG-based queries (symptoms, medication).
 
         Args:
             query: User query
