@@ -179,8 +179,14 @@ def get_response_stream(messages: list, model: str = None, temperature: float = 
                 kwargs["temperature"] = temperature
                 stream = client.chat.completions.create(**kwargs)
                 for chunk in stream:
-                    if chunk.choices and chunk.choices[0].delta.content:
-                        yield chunk.choices[0].delta.content
+                    if not chunk.choices:
+                        continue
+                    delta = chunk.choices[0].delta
+                    if not delta:
+                        continue
+                    content = getattr(delta, "content", None)
+                    if content is not None:
+                        yield content
                 return
             except Exception as e:
                 error_msg = str(e).lower()
@@ -196,8 +202,14 @@ def get_response_stream(messages: list, model: str = None, temperature: float = 
         # Stream without temperature (or after fallback)
         stream = client.chat.completions.create(**kwargs)
         for chunk in stream:
-            if chunk.choices and chunk.choices[0].delta.content:
-                yield chunk.choices[0].delta.content
+            if not chunk.choices:
+                continue
+            delta = chunk.choices[0].delta
+            if not delta:
+                continue
+            content = getattr(delta, "content", None)
+            if content is not None:
+                yield content
     except APIKeyMissingError:
         raise
     except Exception as e:

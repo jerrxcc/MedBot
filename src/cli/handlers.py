@@ -8,7 +8,6 @@ import re
 
 from ..retriever import retrieve_with_fallback, format_context
 from ..llm import (
-    get_response,
     get_response_stream,
     build_messages,
     rewrite_query_with_context,
@@ -139,6 +138,10 @@ class FeatureHandler:
             metadata_lines.append(f"[Confidence: {int(results['confidence_score'] * 100)}%]")
 
         if metadata_lines:
+            # Mirror how chat clients behave: stream the answer first, then print
+            # a short postamble (citations/metadata) once generation finishes.
+            sys.stdout.write("\n" + "\n".join(metadata_lines) + "\n")
+            sys.stdout.flush()
             response += "\n\n" + "\n".join(metadata_lines)
 
         return response

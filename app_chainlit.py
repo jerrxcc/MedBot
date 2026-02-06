@@ -563,15 +563,17 @@ async def main(message: cl.Message):
         messages = build_messages(system_prompt, user_input, context, history)
 
         response = ""
-        queue: asyncio.Queue = asyncio.Queue()
-        loop = asyncio.get_event_loop()
+        # Bound the queue to avoid unbounded growth under UI/network backpressure.
+        queue: asyncio.Queue = asyncio.Queue(maxsize=256)
+        loop = asyncio.get_running_loop()
 
         def _produce_chunks():
             try:
                 for token in get_response_stream(messages):
-                    loop.call_soon_threadsafe(queue.put_nowait, token)
+                    # Apply backpressure if the consumer is slower than the producer.
+                    asyncio.run_coroutine_threadsafe(queue.put(token), loop).result()
             finally:
-                loop.call_soon_threadsafe(queue.put_nowait, None)
+                asyncio.run_coroutine_threadsafe(queue.put(None), loop).result()
 
         fut = loop.run_in_executor(None, _produce_chunks)
         while True:
