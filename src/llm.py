@@ -146,6 +146,45 @@ def get_response(messages: list, model: str = None, temperature: float = None) -
         raise APICallError(f"API call failed: {str(e)}")
 
 
+def get_response_stream(messages: list, model: str = None, temperature: float = None):
+    """
+    Send messages to LLM API and yield response chunks as they arrive.
+
+    Args:
+        messages: List of message dictionaries with 'role' and 'content'
+        model: Optional model name, defaults to provider default
+        temperature: Optional temperature (0.0-2.0).
+
+    Yields:
+        str: Text chunks as they stream from the API
+
+    Raises:
+        APIKeyMissingError: If API key is not configured
+        APICallError: If API call fails
+    """
+    try:
+        client = get_llm_client()
+        model_name = model or get_default_model()
+
+        kwargs = {
+            "model": model_name,
+            "messages": messages,
+            "stream": True,
+        }
+
+        if temperature is not None:
+            kwargs["temperature"] = temperature
+
+        stream = client.chat.completions.create(**kwargs)
+        for chunk in stream:
+            if chunk.choices and chunk.choices[0].delta.content:
+                yield chunk.choices[0].delta.content
+    except APIKeyMissingError:
+        raise
+    except Exception as e:
+        raise APICallError(f"API call failed: {str(e)}")
+
+
 def rewrite_query_with_context(user_message: str, history: list, max_history: int = 4) -> str:
     """
     Rewrite user query with conversation context for better RAG retrieval.

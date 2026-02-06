@@ -2,9 +2,10 @@
 MedBot - Chainlit Interface (Bilingual: English/Chinese)
 A modern chat UI for the medical assistant.
 """
+import asyncio
 import chainlit as cl
 from src.retriever import retrieve_with_fallback, format_context, distance_to_relevance
-from src.llm import get_response, build_messages, is_api_configured, APIKeyMissingError, APICallError, rewrite_query_with_context
+from src.llm import get_response, get_response_stream, build_messages, is_api_configured, APIKeyMissingError, APICallError, rewrite_query_with_context
 from src.prompts import get_prompt
 from src.config import DEFAULT_TOP_K, ENABLE_CONTEXT_AWARE_RETRIEVAL
 from src.embeddings import get_model
@@ -524,7 +525,6 @@ async def main(message: cl.Message):
     try:
         # Special logic for doctor search
         if feature == "doctors":
-            await msg.stream_token("🔍 " + t('searching', lang, feature=feature_name) + "\n\n")
             # Use make_async for blocking search call
             response = await cl.make_async(search_agent.search)(user_input)
             msg.content = response
@@ -533,7 +533,6 @@ async def main(message: cl.Message):
 
         # Special logic for clinic search
         if feature == "clinics":
-            await msg.stream_token("🔍 " + t('searching', lang, feature=feature_name) + "\n\n")
             # Use make_async for blocking search call
             results, plan = await cl.make_async(clinic_agent.search)(user_input)
             response = clinic_agent.format_results(results, plan)
@@ -556,19 +555,32 @@ async def main(message: cl.Message):
                 print(f"[Context] Rewritten: {search_query}")
 
         # Step 2: Retrieve relevant documents with confidence scoring
-        await msg.stream_token(f"🔍 {t('searching', lang, feature=feature_name)}\n\n")
         results = await cl.make_async(retrieve_with_fallback)(search_query, collection_name, top_k=DEFAULT_TOP_K)
         context = format_context(results)
 
-        num_docs = len(results.get("documents", []))
-        await msg.stream_token(f"📚 {t('found_docs', lang, count=num_docs)}\n\n")
-        await msg.stream_token(f"💭 {t('generating', lang)}\n\n---\n\n")
-
-        # Step 3: Generate response (with conversation history)
+        # Step 3: Stream LLM response token-by-token
         system_prompt = get_prompt(feature)
         messages = build_messages(system_prompt, user_input, context, history)
-        # Use make_async for blocking LLM call
-        response = await cl.make_async(get_response)(messages)
+
+        response = ""
+        queue: asyncio.Queue = asyncio.Queue()
+        loop = asyncio.get_event_loop()
+
+        def _produce_chunks():
+            try:
+                for token in get_response_stream(messages):
+                    loop.call_soon_threadsafe(queue.put_nowait, token)
+            finally:
+                loop.call_soon_threadsafe(queue.put_nowait, None)
+
+        fut = loop.run_in_executor(None, _produce_chunks)
+        while True:
+            token = await queue.get()
+            if token is None:
+                break
+            await msg.stream_token(token)
+            response += token
+        await fut  # propagate any exception from the thread
 
         # Update conversation history (store original question without RAG context)
         history.append({"role": "user", "content": user_input})
@@ -585,33 +597,16 @@ async def main(message: cl.Message):
         confidence_level = results.get("confidence_level", "medium")
         if confidence_level in ["low", "very_low", "none"]:
             warning = "\n\n---\n⚠️ **Note:** Limited information available in knowledge base. Please verify with a healthcare professional."
-            response = response + warning
+            response += warning
 
         # Add retrieval visualization (shows what documents were used)
         retrieval_info = format_retrieval_display(results)
         if retrieval_info:
             response += retrieval_info
 
-        # Update with final response
+        # Update with final response (includes any appended warnings/retrieval info)
         msg.content = response
         await msg.update()
-
-        # Add sources as elements
-        if results.get("metadatas"):
-            sources_text = f"**{t('sources_used', lang)}**\n"
-            for i, meta in enumerate(results["metadatas"][:5], 1):
-                source = meta.get("source", "Unknown")
-                category = meta.get("category", "")
-                if category:
-                    sources_text += f"- [{i}] {source} ({category})\n"
-                else:
-                    sources_text += f"- [{i}] {source}\n"
-
-            await cl.Message(
-                content=sources_text,
-                author="MedBot",
-                parent_id=msg.id
-            ).send()
 
     except APIKeyMissingError:
         msg.content = f"""## ⚠️ {t('error_api_title', lang)}
