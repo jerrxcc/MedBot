@@ -40,10 +40,6 @@ SYSTEM_PROMPT_BASE = """You are MedBot, a professional and compassionate AI medi
 - Be direct and confident; avoid heavy disclaimers
 - Prefer 3 compact sections: Likely cause(s), What to do, When to seek care
 - Limit red flags to the most important 1–2
-
-## Formatting
-- Do NOT use Markdown headings (lines starting with # / ## / ###). Chainlit renders them very large.
-- Use short bold labels or simple bullet points instead.
 """
 
 SYMPTOM_PROMPT = SYSTEM_PROMPT_BASE + """
