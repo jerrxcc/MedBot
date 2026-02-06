@@ -124,6 +124,10 @@ PROFILE_TO_FEATURE = {
     "Find Clinic": "clinics"
 }
 
+def _contains_cjk(text: str) -> bool:
+    """Return True if text contains any CJK Unified Ideographs (common Chinese chars)."""
+    return any('\u4e00' <= c <= '\u9fff' for c in text)
+
 def t(key: str, lang: str = "en", **kwargs) -> str:
     """Get translation for a key."""
     text = TRANSLATIONS.get(lang, TRANSLATIONS["en"]).get(key, key)
@@ -369,6 +373,7 @@ async def main(message: cl.Message):
     """Handle incoming messages."""
     user_input = message.content.strip()
     lang = "en"
+    user_lang = "zh" if _contains_cjk(user_input) else "en"
 
     # Handle help command
     if user_input.lower() in ["/help", "/h"]:
@@ -439,6 +444,11 @@ async def main(message: cl.Message):
 
         # Get conversation history for context-aware retrieval
         history = cl.user_session.get("conversation_history", [])
+        last_user_lang = cl.user_session.get("last_user_lang")
+        if last_user_lang and last_user_lang != user_lang:
+            # Avoid language locking via prior history (common with bilingual models).
+            history = []
+        cl.user_session.set("last_user_lang", user_lang)
 
         # Step 1: Context-aware query rewriting for better follow-up handling
         collection_name = feature_config["collection"]
@@ -456,6 +466,10 @@ async def main(message: cl.Message):
 
         # Step 3: Stream LLM response token-by-token
         system_prompt = get_prompt(feature)
+        if user_lang == "en":
+            system_prompt += "\n\nImportant: Respond in English only. Do not use any Chinese characters."
+        else:
+            system_prompt += "\n\nImportant: Respond in Chinese."
         messages = build_messages(system_prompt, user_input, context, history)
 
         response = ""

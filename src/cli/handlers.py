@@ -19,6 +19,11 @@ from ..search_agent import MedicalSearchAgent
 from ..clinic_search import ClinicSearchAgent
 
 
+def _contains_cjk(text: str) -> bool:
+    """Return True if text contains any CJK Unified Ideographs (common Chinese chars)."""
+    return any('\u4e00' <= c <= '\u9fff' for c in text)
+
+
 class FeatureHandler:
     """
     Handles routing and execution of different MedBot features.
@@ -69,6 +74,12 @@ class FeatureHandler:
         Returns:
             Response string
         """
+        # Avoid bilingual-model language locking: if the current query is English but
+        # history contains Chinese, drop history for this turn.
+        if history and not _contains_cjk(query):
+            if any(_contains_cjk(msg.get("content", "")) for msg in history):
+                history = []
+
         search_query = query
         if history:
             search_query = rewrite_query_with_context(query, history)
@@ -105,6 +116,10 @@ class FeatureHandler:
 
         # Get system prompt
         system_prompt = get_prompt(feature)
+        if _contains_cjk(query):
+            system_prompt += "\n\nImportant: Respond in Chinese."
+        else:
+            system_prompt += "\n\nImportant: Respond in English only. Do not use any Chinese characters."
         confidence_level = results.get("confidence_level", "none")
         if confidence_level in ["low", "very_low", "none"]:
             system_prompt += (
