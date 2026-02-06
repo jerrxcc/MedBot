@@ -494,7 +494,8 @@ async def main(message: cl.Message):
         # Add confidence warning for low-quality retrievals
         confidence_level = results.get("confidence_level", "medium")
         if confidence_level in ["low", "very_low", "none"]:
-            warning = "\n\n---\n⚠️ **Note:** Limited information available in knowledge base. Please verify with a healthcare professional."
+            # Render as a subtle callout (smaller/less prominent than bold text).
+            warning = "\n\n> ⚠️ Note: Limited information available in the knowledge base. Please verify with a healthcare professional."
             response += warning
 
         # Add retrieval visualization (shows what documents were used)
