@@ -153,7 +153,8 @@ def get_response_stream(messages: list, model: str = None, temperature: float = 
     Args:
         messages: List of message dictionaries with 'role' and 'content'
         model: Optional model name, defaults to provider default
-        temperature: Optional temperature (0.0-2.0).
+        temperature: Optional temperature (0.0-2.0). Some models (e.g., GPT-5 reasoning)
+                    may not support custom temperature values.
 
     Yields:
         str: Text chunks as they stream from the API
@@ -172,9 +173,27 @@ def get_response_stream(messages: list, model: str = None, temperature: float = 
             "stream": True,
         }
 
+        # Try with temperature if specified, with fallback for unsupported models
         if temperature is not None:
-            kwargs["temperature"] = temperature
+            try:
+                kwargs["temperature"] = temperature
+                stream = client.chat.completions.create(**kwargs)
+                for chunk in stream:
+                    if chunk.choices and chunk.choices[0].delta.content:
+                        yield chunk.choices[0].delta.content
+                return
+            except Exception as e:
+                error_msg = str(e).lower()
+                is_temperature_error = (
+                    "temperature" in error_msg and
+                    any(kw in error_msg for kw in TEMPERATURE_ERROR_KEYWORDS)
+                )
+                if is_temperature_error:
+                    del kwargs["temperature"]
+                else:
+                    raise
 
+        # Stream without temperature (or after fallback)
         stream = client.chat.completions.create(**kwargs)
         for chunk in stream:
             if chunk.choices and chunk.choices[0].delta.content:
