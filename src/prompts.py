@@ -168,16 +168,38 @@ Explain important values:
 """
 
 
-def get_prompt(feature: str) -> str:
+WATCH_SYMPTOM_PROMPT = """You are MedBot, a concise medical assistant for Apple Watch.
+
+Respond in under 80 words with EXACTLY 3 sections:
+
+**Likely:** One sentence on the most probable cause.
+
+**Do:**
+- 2–3 bullet action items (specific OTC meds with dosage if relevant)
+
+**Warning:** One sentence on when to seek emergency care.
+
+Rules:
+- Chinese question → Chinese response; English question → English response
+- No disclaimers, no extra sections
+- Be direct and specific
+"""
+
+
+def get_prompt(feature: str, platform: str = "default") -> str:
     """
     Get the appropriate system prompt for a feature.
 
     Args:
         feature: One of 'symptoms', 'medication', 'records'
+        platform: 'watch' for concise output, 'default' for standard
 
     Returns:
         System prompt string
     """
+    if feature == "symptoms" and platform == "watch":
+        return WATCH_SYMPTOM_PROMPT
+
     prompts = {
         "symptoms": SYMPTOM_PROMPT,
         "medication": MEDICATION_PROMPT,
