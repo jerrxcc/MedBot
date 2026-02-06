@@ -97,29 +97,43 @@ Stop Chainlit:
 ### Overview
 
 ```
-┌────────────────────────────────────────────────────────────────────┐
-│ UI Layer                                                           │
-│  - Chainlit: app_chainlit.py  (http://localhost:8000)              │
-│  - Gradio:   app.py          (http://localhost:7860)               │
-│  - CLI:      cli.py          (python3 cli.py)                      │
-└────────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌────────────────────────────────────────────────────────────────────┐
-│ Core (src/)                                                        │
-│  1) RAG (symptoms / medication / records)                          │
-│     - (Optional) Context rewrite: rewrite_query_with_context()      │
-│     - (Chinese) Retrieval translation: translate_query_for_retrieval│
-│     - Chroma vector retrieval: chromadb.PersistentClient(vectorstore/)│
-│     - Confidence scoring: distances -> confidence_score/level       │
-│     - Low-confidence cross-collection fallback: ALL_COLLECTIONS     │
-│     - Prompts + LLM wrapper: src/prompts.py + src/llm.py            │
-│                                                                    │
-│  2) Structured Search (doctors / clinics)                           │
-│     - LLM intent parsing -> filters/search plan                     │
-│     - Excel/CSV + rapidfuzz fuzzy matching                          │
-│     - Clinics: Singapore postal distance heuristic + nearby map      │
-└────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────┐
+│                                   UI                                     │
+│                                                                          │
+│   Chainlit: app_chainlit.py  (http://localhost:8000)                      │
+│   Gradio:   app.py          (http://localhost:7860)                       │
+│   CLI:      cli.py          (python3 cli.py)                              │
+└───────────────────────────────┬───────────────────────────────┬──────────┘
+                                │                               │
+                                │ RAG modes                     │ Search modes
+                                │ (symptoms/medication/records) │ (doctors/clinics)
+                                ▼                               ▼
+┌──────────────────────────────────────────────────┐   ┌───────────────────────────────┐
+│ Query Prep (optional / best-effort)              │   │ Intent Parsing (LLM JSON plan) │
+│  - Follow-up rewrite: src/llm.py                 │   └───────────────┬───────────────┘
+│  - zh -> en keywords: src/translator.py          │                   │
+└───────────────────────────────┬──────────────────┘                   │
+                                │                                      │
+                                ▼                                      ▼
+┌──────────────────────────────────────────────────────────────────┐   ┌───────────────────────────────┐
+│ Retrieval: ChromaDB PersistentClient (vectorstore/)               │   │ Search Agents                  │
+│  - Primary collection by mode                                     │   │  - MedicalSearchAgent          │
+│  - Confidence scoring (distances -> level)                        │   │  - ClinicSearchAgent           │
+│  - Low-confidence cross-collection fallback (ALL_COLLECTIONS)     │   │ Data: Specialists.xlsx/Clinics.xlsx │
+└───────────────────────────────┬──────────────────────────────────┘   └───────────────┬───────────────┘
+                                │                                      │
+                                ▼                                      │
+┌──────────────────────────────────────────────────┐                   │
+│ Context Formatting: src/retriever.py              │                   │
+└───────────────────────────────┬──────────────────┘                   │
+                                │                                      │
+                                ▼                                      ▼
+┌──────────────────────────────────────────────────────────────────────────┐
+│ LLM Response: src/llm.py (OpenAI / DeepSeek, OpenAI-compatible client)    │
+└──────────────────────────────────────────────────────────────────────────┘
+                                │
+                                ▼
+                           Final Response
 ```
 
 Note:
