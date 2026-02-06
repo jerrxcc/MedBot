@@ -73,7 +73,7 @@ cli.py (entry point)
 
 ## Key Features
 
-- ✅ Auto intent detection (symptoms/medication/records/doctors/clinics)
+- ✅ Auto intent detection (symptoms/medication/doctors/clinics)
 - ✅ Slash commands for control (/help, /mode, /status, etc.)
 - ✅ Conversation history (10 turns)
 - ✅ Context-aware follow-ups
@@ -84,7 +84,6 @@ cli.py (entry point)
 
 - [x] Symptom queries → RAG retrieval works
 - [x] Medication queries → FDA data retrieved
-- [x] Records queries → Medical info retrieved
 - [x] Doctor search → Agent returns results
 - [x] Clinic search → Location search + distance calculation
 - [x] Follow-up questions → Context preserved

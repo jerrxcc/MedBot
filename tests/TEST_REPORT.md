@@ -31,7 +31,7 @@ All RAG optimization features have been thoroughly tested and verified working c
 | BM25_WEIGHT | 0.3 | 0.3 | ✅ |
 | DENSE_WEIGHT | 0.7 | 0.7 | ✅ |
 | Confidence thresholds | HIGH=0.7, MEDIUM=0.4, LOW=0.2 | Correct | ✅ |
-| Collection names | symptoms, medication, records | Correct | ✅ |
+| Collection names | symptoms, medication, pubmedqa, medqa | Correct | ✅ |
 
 ### 1.2 Embeddings Module Tests (6/6 Passed)
 
@@ -77,13 +77,12 @@ All RAG optimization features have been thoroughly tested and verified working c
 | hybrid_retrieve() function | Compatible format returned | ✅ |
 | get_documents_count() | Integer count returned | ✅ |
 
-### Data Validation Tests (3/3 Passed)
+### Data Validation Tests (2/2 Passed)
 
 | Collection | Expected | Actual | Status |
 |------------|----------|--------|--------|
 | fda_drugs | > 1,500 | **1,804** | ✅ (6.5x improvement) |
 | medquad_symptoms | > 30,000 | **35,087** | ✅ |
-| medical_records | > 0 | **6** | ✅ |
 
 ### Integration Tests (2/2 Passed)
 
@@ -133,21 +132,7 @@ All RAG optimization features have been thoroughly tested and verified working c
 | Side effects | Gastrointestinal (4-16% of patients) |
 | Sources cited | FDA (Nonsteroidal Anti-inflammatory Drug) |
 
-### 2.4 Records Analysis Tab ✅
-
-**Test Query:** "What does a hemoglobin level of 10.5 g/dL mean? Is this normal?"
-
-| Check | Result |
-|-------|--------|
-| Documents retrieved | 8 documents |
-| Confidence indicator | 🟡 Moderate relevance match |
-| Response quality | Accurate interpretation |
-| Normal ranges provided | Males: 13 g/dL, Females: 12 g/dL |
-| Diagnosis | Correctly identified as anemia |
-| Cross-collection fallback | ✅ "Information gathered from multiple sources" |
-| Sources cited | MedQuAD + FDA (multiple collections) |
-
-### 2.5 UI Interaction Tests ✅
+### 2.4 UI Interaction Tests ✅
 
 | Feature | Result |
 |---------|--------|
@@ -179,7 +164,6 @@ All RAG optimization features have been thoroughly tested and verified working c
 - **Retrieval confidence:** Appropriate for query types
   - Common drugs (ibuprofen) → High confidence
   - Symptoms (headache) → Medium confidence
-  - Lab values (hemoglobin) → Medium confidence (fallback used)
 
 ---
 
