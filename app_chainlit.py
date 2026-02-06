@@ -521,6 +521,10 @@ async def main(message: cl.Message):
     # Show processing message
     msg = cl.Message(content="", author="MedBot")
     await msg.send()
+    # Chainlit UI may not render an empty message bubble until it receives at least
+    # one streamed chunk. Prime the stream with a single whitespace token so the
+    # built-in typing indicator (blinking dots) shows up immediately.
+    await msg.stream_token(" ")
 
     try:
         # Special logic for doctor search
