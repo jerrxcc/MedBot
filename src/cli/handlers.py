@@ -2,12 +2,13 @@
 Feature handlers for routing queries to appropriate MedBot functionality.
 """
 
+import sys
 from typing import Optional
 import re
 
 from ..retriever import retrieve_with_fallback, format_context
 from ..llm import (
-    get_response,
+    get_response_stream,
     build_messages,
     rewrite_query_with_context,
     APIKeyMissingError,
@@ -34,7 +35,7 @@ class FeatureHandler:
         self.doctor_agent = None
         self.clinic_agent = None
 
-    def handle(self, query: str, intent: str, history: list) -> str:
+    def handle(self, query: str, intent: str, history: list) -> tuple[str, bool]:
         """
         Route query to appropriate handler based on intent.
 
@@ -44,15 +45,17 @@ class FeatureHandler:
             history: Conversation history
 
         Returns:
-            Response string
+            Tuple of (response string, already_streamed flag).
+            When already_streamed is True, the response was already
+            printed to stdout token-by-token.
 
         Raises:
             APIKeyMissingError: If API key is not configured
             APICallError: If API call fails
         """
         if intent in ['doctors', 'clinics']:
-            return self._handle_search(query, intent)
-        return self._handle_rag(query, intent, history)
+            return self._handle_search(query, intent), False
+        return self._handle_rag(query, intent, history), True
 
     def _handle_rag(self, query: str, feature: str, history: list) -> str:
         """
@@ -120,7 +123,12 @@ class FeatureHandler:
             history=history
         )
 
-        response = get_response(messages)
+        response = ""
+        for token in get_response_stream(messages):
+            sys.stdout.write(token)
+            sys.stdout.flush()
+            response += token
+        sys.stdout.write("\n")
 
         # Add metadata info
         metadata_lines = []
@@ -130,6 +138,10 @@ class FeatureHandler:
             metadata_lines.append(f"[Confidence: {int(results['confidence_score'] * 100)}%]")
 
         if metadata_lines:
+            # Mirror how chat clients behave: stream the answer first, then print
+            # a short postamble (citations/metadata) once generation finishes.
+            sys.stdout.write("\n" + "\n".join(metadata_lines) + "\n")
+            sys.stdout.flush()
             response += "\n\n" + "\n".join(metadata_lines)
 
         return response

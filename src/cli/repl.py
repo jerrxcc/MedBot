@@ -131,7 +131,7 @@ class MedBotREPL:
 
             # Get response from feature handler
             history_for_intent = self.history.get_messages_for_intent(intent)
-            response = self.feature_handler.handle(
+            response, streamed = self.feature_handler.handle(
                 query=user_input,
                 intent=intent,
                 history=history_for_intent,
@@ -141,10 +141,13 @@ class MedBotREPL:
             self.history.add('user', user_input, intent=intent)
             self.history.add('assistant', response, intent=intent)
 
-            # Display response
-            print()
-            print(response)
-            print()
+            # Display response (skip if already streamed to stdout)
+            if not streamed:
+                print()
+                print(response)
+                print()
+            else:
+                print()
 
             return False
 

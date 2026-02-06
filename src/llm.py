@@ -146,6 +146,76 @@ def get_response(messages: list, model: str = None, temperature: float = None) -
         raise APICallError(f"API call failed: {str(e)}")
 
 
+def get_response_stream(messages: list, model: str = None, temperature: float = None):
+    """
+    Send messages to LLM API and yield response chunks as they arrive.
+
+    Args:
+        messages: List of message dictionaries with 'role' and 'content'
+        model: Optional model name, defaults to provider default
+        temperature: Optional temperature (0.0-2.0). Some models (e.g., GPT-5 reasoning)
+                    may not support custom temperature values.
+
+    Yields:
+        str: Text chunks as they stream from the API
+
+    Raises:
+        APIKeyMissingError: If API key is not configured
+        APICallError: If API call fails
+    """
+    try:
+        client = get_llm_client()
+        model_name = model or get_default_model()
+
+        kwargs = {
+            "model": model_name,
+            "messages": messages,
+            "stream": True,
+        }
+
+        # Try with temperature if specified, with fallback for unsupported models
+        if temperature is not None:
+            try:
+                kwargs["temperature"] = temperature
+                stream = client.chat.completions.create(**kwargs)
+                for chunk in stream:
+                    if not chunk.choices:
+                        continue
+                    delta = chunk.choices[0].delta
+                    if not delta:
+                        continue
+                    content = getattr(delta, "content", None)
+                    if content is not None:
+                        yield content
+                return
+            except Exception as e:
+                error_msg = str(e).lower()
+                is_temperature_error = (
+                    "temperature" in error_msg and
+                    any(kw in error_msg for kw in TEMPERATURE_ERROR_KEYWORDS)
+                )
+                if is_temperature_error:
+                    del kwargs["temperature"]
+                else:
+                    raise
+
+        # Stream without temperature (or after fallback)
+        stream = client.chat.completions.create(**kwargs)
+        for chunk in stream:
+            if not chunk.choices:
+                continue
+            delta = chunk.choices[0].delta
+            if not delta:
+                continue
+            content = getattr(delta, "content", None)
+            if content is not None:
+                yield content
+    except APIKeyMissingError:
+        raise
+    except Exception as e:
+        raise APICallError(f"API call failed: {str(e)}")
+
+
 def rewrite_query_with_context(user_message: str, history: list, max_history: int = 4) -> str:
     """
     Rewrite user query with conversation context for better RAG retrieval.
