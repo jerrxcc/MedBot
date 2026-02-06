@@ -138,8 +138,8 @@ Stop Chainlit:
 ```
 
 Note:
-- `src/hybrid_retriever.py` implements BM25 + dense + RRF, but the current UIs
-  default to `src/retriever.py` (dense retrieval + confidence + fallback).
+- Default retrieval used by UIs is `src/retriever.py` (dense retrieval + confidence scoring + cross-collection fallback).
+- `src/hybrid_retriever.py` is **experimental** (BM25 + dense + RRF). It is kept for offline experiments and is not wired into the UIs.
 
 ## Data and Vector Store
 
@@ -221,7 +221,7 @@ MED_BOT/
 │   ├── embeddings.py             # SentenceTransformer embeddings + cache
 │   ├── retriever.py              # Chroma retrieval + confidence + fallback
 │   ├── translator.py             # Chinese -> English retrieval translation (LLM)
-│   ├── hybrid_retriever.py       # BM25 + Dense + RRF (not enabled by default)
+│   ├── hybrid_retriever.py       # (experimental) BM25 + Dense + RRF
 │   ├── search_agent.py           # Doctor search (LLM intent + Excel search)
 │   ├── clinic_search.py          # Clinic search (LLM intent + postal/area)
 │   ├── location.py               # Postal distance heuristic + nearby-area mapping

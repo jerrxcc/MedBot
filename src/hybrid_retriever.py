@@ -3,6 +3,18 @@ Hybrid Retriever combining BM25 (lexical) and Dense (semantic) search.
 
 Uses Reciprocal Rank Fusion (RRF) to combine results from both methods
 for improved retrieval quality, especially for medical terminology.
+
+Status: EXPERIMENTAL
+
+This module is intentionally not wired into the default UIs (Chainlit/Gradio/CLI).
+The production retrieval path is `src/retriever.py`, which provides:
+- confidence scoring based on vector distances
+- cross-collection fallback across `ALL_COLLECTIONS`
+
+Important tradeoff:
+BM25 indexing here loads *all* documents from a Chroma collection into memory
+to build an in-memory BM25 index. This is not suitable for very large
+collections (for example `pubmedqa`) in an interactive UI request path.
 """
 
 import re
