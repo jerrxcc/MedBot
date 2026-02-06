@@ -68,7 +68,6 @@ class TestConfigModule:
         from src.config import COLLECTIONS
         assert COLLECTIONS["symptoms"] == "medquad_symptoms"
         assert COLLECTIONS["medication"] == "fda_drugs"
-        assert COLLECTIONS["records"] == "medical_records"
 
 
 # =============================================================================
@@ -363,14 +362,6 @@ class TestDataValidation:
         count = collection.count()
         assert count > 30000, f"Expected > 30000 symptoms, got {count}"
         print(f"MedQuAD symptoms collection: {count} documents")
-
-    def test_medical_records_collection_exists(self):
-        """Verify medical records collection exists."""
-        from src.retriever import get_or_create_collection
-        collection = get_or_create_collection("medical_records")
-        count = collection.count()
-        assert count > 0, "Medical records collection is empty"
-        print(f"Medical records collection: {count} documents")
 
 
 # =============================================================================

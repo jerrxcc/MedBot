@@ -36,16 +36,6 @@ class IntentDetector:
             '药', '药物', '处方', '剂量', '副作用', '服用', '止痛药', '抗生素',
             '阿司匹林', '布洛芬', '扑热息痛',
         ],
-        'records': [
-            # English records
-            'record', 'history', 'diagnosis', 'treatment', 'condition',
-            'disease', 'disorder', 'syndrome', 'medical history',
-            'past', 'previously', 'diagnosed with',
-            'diabetes', 'hypertension', 'asthma', 'arthritis', 'cancer',
-            'what is', 'tell me about', 'information about',
-            # Chinese records
-            '病历', '诊断', '治疗', '疾病', '病史', '糖尿病', '高血压', '哮喘',
-        ],
         'doctors': [
             # English doctor search
             'doctor', 'physician', 'specialist', 'dentist', 'surgeon',
@@ -94,7 +84,7 @@ class IntentDetector:
             mode: Optional forced mode (e.g., from /mode command)
 
         Returns:
-            Detected intent: 'symptoms', 'medication', 'records', 'doctors', 'clinics'
+            Detected intent: 'symptoms', 'medication', 'doctors', 'clinics'
         """
         # If mode is forced, use it
         if mode and mode in self.KEYWORDS:

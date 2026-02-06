@@ -1,6 +1,6 @@
 # MedBot - AI Medical Assistant (RAG)
 
-MedBot is a Retrieval-Augmented Generation (RAG) medical information assistant. It supports symptom Q&A, medication information, medical-record explanation, plus Singapore-specific doctor and clinic search.
+MedBot is a Retrieval-Augmented Generation (RAG) medical information assistant. It supports symptom Q&A, medication information, plus Singapore-specific doctor and clinic search.
 
 **Project Type:** Deep Learning with Python - Final Project  
 **Team:** C. Cai | Y. Liao | D. Liu | Y. Qian | X. Wang | Y. Wang
@@ -11,7 +11,6 @@ MedBot is a Retrieval-Augmented Generation (RAG) medical information assistant. 
 |---|---|---|
 | Symptom analysis | Retrieves medical Q&A context and generates guidance | Chainlit / Gradio / CLI |
 | Medication info | Uses FDA label data for usage, side effects, interactions | Chainlit / Gradio / CLI |
-| Records analysis | Explains terms and meaning in medical reports / labs | Chainlit / Gradio / CLI |
 | Find doctor (Singapore) | Searches `Specialists.xlsx` by specialty/language/name | Chainlit / Gradio / CLI |
 | Find clinic (Singapore) | Searches `Clinics.xlsx` by postal code/area/name with a distance heuristic | Chainlit / CLI |
 
@@ -106,7 +105,7 @@ Stop Chainlit:
 └───────────────────────────────┬───────────────────────────────┬──────────┘
                                 │                               │
                                 │ RAG modes                     │ Search modes
-                                │ (symptoms/medication/records) │ (doctors/clinics)
+                                │ (symptoms/medication)         │ (doctors/clinics)
                                 ▼                               ▼
 ┌──────────────────────────────────────────────────┐   ┌───────────────────────────────┐
 │ Query Prep (optional / best-effort)              │   │ Intent Parsing (LLM JSON plan)│
@@ -176,7 +175,7 @@ python3 scripts/build_vectorstore.py --clear
 |---|---|---|
 | MedQuAD | NIH medical Q&A (symptoms/diagnosis/treatment, etc.) | [abachaa/MedQuAD](https://github.com/abachaa/MedQuAD) |
 | OpenFDA Drug Label | Medication labels (usage, warnings, adverse reactions) | [open.fda.gov](https://open.fda.gov) |
-| MTSamples | Medical record/transcription samples (records mode) | [mtsamples.com](https://mtsamples.com) |
+| MTSamples | Medical record/transcription samples (dataset; UI mode removed) | [mtsamples.com](https://mtsamples.com) |
 | PubMedQA | Biomedical Q&A (can be hit by fallback retrieval) | [qiaojin/PubMedQA](https://huggingface.co/datasets/qiaojin/PubMedQA) |
 | MedQA | USMLE-style medical Q&A (can be hit by fallback retrieval) | [bigbio/med_qa](https://huggingface.co/datasets/bigbio/med_qa) |
 

@@ -1,6 +1,6 @@
 # MedBot CLI Test Report
 
-**Date:** 2026-02-05
+**Date:** 2026-02-06
 **Version:** 1.0.0
 **Status:** ✅ All tests passed
 
@@ -8,13 +8,13 @@
 
 | Category | Tests Run | Passed | Failed |
 |----------|-----------|--------|--------|
-| Intent Detection | 8 | 8 | 0 |
-| Feature Handlers | 5 | 5 | 0 |
+| Intent Detection | 7 | 7 | 0 |
+| Feature Handlers | 4 | 4 | 0 |
 | Commands | 7 | 7 | 0 |
 | Context & History | 3 | 3 | 0 |
 | Error Handling | 4 | 4 | 0 |
 | Edge Cases | 6 | 6 | 0 |
-| **TOTAL** | **33** | **33** | **0** |
+| **TOTAL** | **31** | **31** | **0** |
 
 ## Detailed Test Results
 
@@ -38,16 +38,7 @@ Searching symptoms knowledge base...
 Searching medication knowledge base...
 ```
 
-#### Test 1.3: Records Query Detection
-**Input:** `what is diabetes`
-**Expected:** records
-**Result:** ✅ PASS
-```
-[Detected: records]
-Searching records knowledge base...
-```
-
-#### Test 1.4: Doctor Search Detection
+#### Test 1.3: Doctor Search Detection
 **Input:** `find a cardiologist`
 **Expected:** doctors
 **Result:** ✅ PASS
@@ -57,7 +48,7 @@ Loading doctor database...
 Searching for doctors...
 ```
 
-#### Test 1.5: Clinic Search Detection
+#### Test 1.4: Clinic Search Detection
 **Input:** `clinic near Orchard`
 **Expected:** clinics
 **Result:** ✅ PASS
@@ -67,7 +58,7 @@ Loading clinic database...
 Searching for clinics...
 ```
 
-#### Test 1.6: Chinese Query Detection
+#### Test 1.5: Chinese Query Detection
 **Input:** `我头痛`
 **Expected:** symptoms
 **Result:** ✅ PASS
@@ -76,7 +67,7 @@ Searching for clinics...
 Searching symptoms knowledge base...
 ```
 
-#### Test 1.7: Mixed Intent Priority
+#### Test 1.6: Mixed Intent Priority
 **Input:** `find a cardiologist near me who speaks Chinese`
 **Expected:** doctors (priority over clinics)
 **Result:** ✅ PASS
@@ -84,7 +75,7 @@ Searching symptoms knowledge base...
 [Detected: doctors]
 ```
 
-#### Test 1.8: Side Effect Priority
+#### Test 1.7: Side Effect Priority
 **Input:** `side effects of aspirin`
 **Expected:** medication (explicit priority rule)
 **Result:** ✅ PASS
@@ -110,14 +101,7 @@ Searching symptoms knowledge base...
 - Provided dosage, side effects, and warnings
 - Included fallback collection info
 
-#### Test 2.3: Records Analysis
-**Input:** `what is diabetes`
-**Expected:** RAG retrieval from medical_records + LLM response
-**Result:** ✅ PASS
-- Retrieved medical condition information
-- Explained in plain language
-
-#### Test 2.4: Doctor Search
+#### Test 2.3: Doctor Search
 **Input:** `find a dentist`
 **Expected:** Search using MedicalSearchAgent
 **Result:** ✅ PASS
@@ -125,7 +109,7 @@ Searching symptoms knowledge base...
 - Used LLM intent analysis
 - Returned formatted doctor list with details
 
-#### Test 2.5: Clinic Search
+#### Test 2.4: Clinic Search
 **Input:** `clinic near 520123`
 **Expected:** Search using ClinicSearchAgent with distance calculation
 **Result:** ✅ PASS
@@ -174,7 +158,7 @@ Switched to 'symptoms' mode.
 **Result:** ✅ PASS
 ```
 Invalid mode: invalid_mode
-Valid modes: auto, symptoms, medication, records, doctors, clinics
+Valid modes: auto, symptoms, medication, doctors, clinics
 ```
 
 #### Test 3.5: Clear Command
@@ -374,7 +358,6 @@ Compared with `app.py` (Gradio) and `app_chainlit.py` (Chainlit):
 |---------|--------|----------|-----|-------|
 | Symptom Analysis | ✅ | ✅ | ✅ | Full parity |
 | Medication Info | ✅ | ✅ | ✅ | Full parity |
-| Records Analysis | ✅ | ✅ | ✅ | Full parity |
 | Doctor Search | ✅ | ✅ | ✅ | Full parity |
 | Clinic Search | ❌ | ✅ | ✅ | CLI matches Chainlit |
 | Conversation History | ✅ | ✅ | ✅ | 10 turns max |
@@ -413,7 +396,7 @@ Compared with `app.py` (Gradio) and `app_chainlit.py` (Chainlit):
 ## Conclusion
 
 The MedBot CLI implementation is **production-ready** with:
-- ✅ All 5 features working correctly
+- ✅ All 4 features working correctly
 - ✅ Robust error handling
 - ✅ 100% feature parity with web clients
 - ✅ No critical bugs

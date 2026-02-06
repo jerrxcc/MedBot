@@ -12,7 +12,7 @@ python3 cli.py
 
 ## Features
 
-The CLI supports all 5 core MedBot features:
+The CLI supports all 4 core MedBot features:
 
 ### 1. Symptom Analysis
 Ask about symptoms and get medical information.
@@ -34,17 +34,7 @@ medbot> what is ibuprofen used for?
 medbot> can I take aspirin with blood pressure medication?
 ```
 
-### 3. Medical Records Analysis
-Understand medical reports, lab results, and diagnoses.
-
-**Examples:**
-```
-medbot> what is diabetes?
-medbot> explain hemoglobin level of 10.5
-medbot> what is a normal blood pressure?
-```
-
-### 4. Doctor Search
+### 3. Doctor Search
 Find doctors and specialists in Singapore.
 
 **Examples:**
@@ -54,7 +44,7 @@ medbot> looking for a Chinese speaking cardiologist
 medbot> find Dr. Tan
 ```
 
-### 5. Clinic Search
+### 4. Clinic Search
 Find nearby clinics in Singapore.
 
 **Examples:**
@@ -69,7 +59,7 @@ medbot> medical center near Orchard
 | Command | Description |
 |---------|-------------|
 | `/help` | Show usage instructions |
-| `/mode <feature>` | Switch to specific mode (auto/symptoms/medication/records/doctors/clinics) |
+| `/mode <feature>` | Switch to specific mode (auto/symptoms/medication/doctors/clinics) |
 | `/clear` | Clear conversation history |
 | `/status` | Show current mode and API status |
 | `/history` | Show recent conversation |
@@ -127,7 +117,6 @@ The CLI automatically detects your intent using keywords:
 |--------|------------------|
 | Symptoms | pain, ache, dizzy, fever, cough, feel, symptom |
 | Medication | medicine, drug, pill, side effect, aspirin, ibuprofen |
-| Records | disease, diabetes, diagnosis, what is, condition |
 | Doctors | doctor, dentist, specialist, cardiologist, find |
 | Clinics | clinic, hospital, near, nearby, postal code |
 
@@ -163,7 +152,7 @@ History: 0 messages
 
 ## Output Format
 
-### RAG Queries (Symptoms/Medication/Records)
+### RAG Queries (Symptoms/Medication)
 
 ```
 [Detected: symptoms]
@@ -309,7 +298,7 @@ Ensure these files exist:
 ## Feature Parity
 
 The CLI has **100% feature parity** with web interfaces:
-- ✅ All 5 features (symptoms, medication, records, doctors, clinics)
+- ✅ All 4 features (symptoms, medication, doctors, clinics)
 - ✅ Conversation history and context
 - ✅ Query rewriting for follow-ups
 - ✅ Confidence scoring
