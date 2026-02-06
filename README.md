@@ -1,292 +1,270 @@
-# MedBot - AI Medical Assistant
+# MedBot - AI Medical Assistant (RAG)
 
-A RAG-based (Retrieval-Augmented Generation) medical assistant powered by deep learning.
+MedBot is a Retrieval-Augmented Generation (RAG) medical information assistant. It supports symptom Q&A, medication information, medical-record explanation, plus Singapore-specific doctor and clinic search.
 
-**Project Type:** Deep Learning with Python - Final Project
+**Project Type:** Deep Learning with Python - Final Project  
 **Team:** C. Cai | Y. Liao | D. Liu | Y. Qian | X. Wang | Y. Wang
-
----
 
 ## Features
 
-| Feature | Description |
-|---------|-------------|
-| **Symptom Consultation** | Describe symptoms, get possible conditions and advice |
-| **Medication Information** | Query drug usage, side effects, interactions |
-| **Medical Records Analysis** | Analyze and explain medical documents |
+| Feature | What it does | Entry points |
+|---|---|---|
+| Symptom analysis | Retrieves medical Q&A context and generates guidance | Chainlit / Gradio / CLI |
+| Medication info | Uses FDA label data for usage, side effects, interactions | Chainlit / Gradio / CLI |
+| Records analysis | Explains terms and meaning in medical reports / labs | Chainlit / Gradio / CLI |
+| Find doctor (Singapore) | Searches `Specialists.xlsx` by specialty/language/name | Chainlit / Gradio / CLI |
+| Find clinic (Singapore) | Searches `Clinics.xlsx` by postal code/area/name with a distance heuristic | Chainlit / CLI |
 
----
-
-## Screenshots
-
-### Chainlit Interface (Recommended)
-Modern chat UI similar to ChatGPT with dark/light theme support.
-
-### Gradio Interface
-Classic tabbed interface for quick access to different features.
-
----
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        Web UI                               │
-│         ┌──────────────┐    ┌──────────────┐               │
-│         │   Chainlit   │    │    Gradio    │               │
-│         │  (Port 8000) │    │  (Port 7860) │               │
-│         └──────┬───────┘    └──────┬───────┘               │
-└────────────────┼───────────────────┼────────────────────────┘
-                 │                   │
-                 └─────────┬─────────┘
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                     RAG Pipeline                            │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
-│  │  Embedding  │───▶│  ChromaDB   │───▶│  Retriever  │     │
-│  │(S-PubMedBERT)│   │ (Vector DB) │    │(Hybrid+RRF) │     │
-│  └─────────────┘    └─────────────┘    └──────┬──────┘     │
-└───────────────────────────────────────────────┼─────────────┘
-                                                │
-                                                ▼
-┌─────────────────────────────────────────────────────────────┐
-│              LLM API (OpenAI / DeepSeek)                    │
-│           (Context-aware response generation)               │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### Deep Learning Components
-
-1. **Sentence Transformers** - Medical-specialized embedding model (S-PubMedBert-MS-MARCO, 768-dim)
-2. **Hybrid Retrieval** - BM25 + Dense search with Reciprocal Rank Fusion (RRF)
-3. **Large Language Model** - OpenAI GPT or DeepSeek with auto-detection
-
----
+Note: The Gradio UI includes the Doctor search tab, but does not include the Clinic search mode. Clinic search is available in Chainlit and the CLI.
 
 ## Quick Start
 
-### Option A: One-Click Setup (Recommended)
+### 1. Install Dependencies
+
+macOS/Linux:
 
 ```bash
-# Clone repository
-git clone https://github.com/jerrxcc/MedBot.git
-cd MedBot
-
-# Run setup script
-bash setup.sh        # macOS/Linux
-# or
-setup.bat            # Windows (double-click)
+bash setup.sh
 ```
 
-### Option B: Manual Setup
+Windows:
 
-```bash
-# Clone repository
-git clone https://github.com/jerrxcc/MedBot.git
-cd MedBot
-
-# Create virtual environment (recommended)
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies (includes Chainlit)
-pip install -r requirements.txt
+```bat
+setup.bat
 ```
+
+These scripts:
+
+- Create a `venv/`
+- Install `requirements.txt`
+- Create `.env` from `.env.example` (if missing)
+- Optionally download datasets and build the vector store (interactive prompt)
 
 ### 2. Configure API Key
 
+MedBot requires an OpenAI or DeepSeek API key. The key is used for response generation and also for:
+
+- Chinese -> English retrieval keyword translation (`src/translator.py`)
+- Context-aware query rewriting for follow-up questions (`src/llm.py`)
+
 ```bash
-# Copy environment template
 cp .env.example .env
-
-# Edit .env and add your API key (choose one):
-# OPENAI_API_KEY=your_openai_key_here     # Recommended
-# DEEPSEEK_API_KEY=your_deepseek_key_here # Alternative
 ```
 
-Get your API key at:
-- OpenAI: https://platform.openai.com/
-- DeepSeek: https://platform.deepseek.com/
+Then set at least one of:
 
-**Note:** The app auto-detects which API key is available. OpenAI is preferred if both are set.
-
-### 3. Get Vector Database
-
-**Option A: Download Pre-built (Recommended)**
-
-```bash
-./scripts/download_vectorstore.sh
-```
-
-This downloads the pre-built vector database (~446MB, 56K records) from [GitHub Release](https://github.com/jerrxcc/MedBot/releases/tag/v1.1.0).
-
-**Option B: Build from Scratch**
-
-```bash
-# Download all datasets
-python scripts/download_all.py
-
-# Build vector store (takes a few minutes)
-python scripts/build_vectorstore.py
-```
-
-### 4. Run Application
-
-**Quick Start (Recommended):**
-
-```bash
-./run.sh          # macOS/Linux
+```dotenv
+OPENAI_API_KEY=...
 # or
-run.bat           # Windows (double-click)
+DEEPSEEK_API_KEY=...
 ```
 
-**Stop Application:**
+### 3. Run
+
+Chainlit (recommended, port 8000):
 
 ```bash
-./stop.sh         # macOS/Linux
-# or Ctrl+C in the terminal
+# Activate the virtual environment (if created by setup scripts)
+source venv/bin/activate  # Windows: venv\Scripts\activate
+./run.sh
+# Windows: run.bat
 ```
 
-**Manual Start:**
+Open `http://localhost:8000`.
+
+Gradio (classic UI, port 7860):
 
 ```bash
-# Chainlit (Modern UI) - http://localhost:8000
-chainlit run app_chainlit.py
-
-# Gradio (Classic UI) - http://localhost:7860
-python app.py
+source venv/bin/activate  # Windows: venv\Scripts\activate
+python3 app.py
 ```
 
----
+CLI (developer / regression tool):
 
-## User Interfaces
+```bash
+source venv/bin/activate  # Windows: venv\Scripts\activate
+python3 cli.py
+```
 
-### Chainlit Interface
+Stop Chainlit:
 
-Modern, ChatGPT-like interface with:
-- Dark/Light theme toggle
-- Real-time streaming responses
-- Markdown formatting support
-- Copy button for responses
-- File upload support
+```bash
+./stop.sh
+```
 
-**Commands:**
-| Command | Description |
-|---------|-------------|
-| `/help` | Show help message |
+## Architecture (Matches the Code)
 
-**Mode Switching:** Use the dropdown menu in the top-left corner to switch between Symptom Analysis, Medication Info, and Records Analysis.
+### Overview
 
-**Language:** Automatically responds in the same language as your question (Chinese/English).
+```
+┌────────────────────────────────────────────────────────────────────┐
+│ UI Layer                                                           │
+│  - Chainlit: app_chainlit.py  (http://localhost:8000)              │
+│  - Gradio:   app.py          (http://localhost:7860)               │
+│  - CLI:      cli.py          (python3 cli.py)                      │
+└────────────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────────────────┐
+│ Core (src/)                                                        │
+│  1) RAG (symptoms / medication / records)                          │
+│     - (Optional) Context rewrite: rewrite_query_with_context()      │
+│     - (Chinese) Retrieval translation: translate_query_for_retrieval│
+│     - Chroma vector retrieval: chromadb.PersistentClient(vectorstore/)│
+│     - Confidence scoring: distances -> confidence_score/level       │
+│     - Low-confidence cross-collection fallback: ALL_COLLECTIONS     │
+│     - Prompts + LLM wrapper: src/prompts.py + src/llm.py            │
+│                                                                    │
+│  2) Structured Search (doctors / clinics)                           │
+│     - LLM intent parsing -> filters/search plan                     │
+│     - Excel/CSV + rapidfuzz fuzzy matching                          │
+│     - Clinics: Singapore postal distance heuristic + nearby map      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
-### Gradio Interface
+Note:
+- `src/hybrid_retriever.py` implements BM25 + dense + RRF, but the current UIs
+  default to `src/retriever.py` (dense retrieval + confidence + fallback).
 
-Classic tabbed interface with:
-- Three separate tabs for each feature
-- Example questions for quick start
-- API status indicator
-- Clear chat button
+## Data and Vector Store
 
----
+### Processed Data
+
+Processed data lives in `data/processed/*.jsonl` (JSONL: one `{id, content, metadata}` per line).
+
+To inspect counts locally:
+
+```bash
+wc -l data/processed/*.jsonl
+```
+
+### Chroma Vector Store
+
+MedBot uses `vectorstore/` for ChromaDB persistent storage. If `vectorstore/` is missing, you can:
+
+Download a prebuilt vector store (GitHub release asset `vectorstore.zip`):
+
+```bash
+bash scripts/download_vectorstore.sh
+```
+
+Build from scratch (slow: downloads + processes datasets, then embeds and builds collections):
+
+```bash
+python3 scripts/download_all.py
+python3 scripts/build_vectorstore.py --clear
+```
+
+## Datasets / Sources
+
+| Dataset | Used for | Source |
+|---|---|---|
+| MedQuAD | NIH medical Q&A (symptoms/diagnosis/treatment, etc.) | [abachaa/MedQuAD](https://github.com/abachaa/MedQuAD) |
+| OpenFDA Drug Label | Medication labels (usage, warnings, adverse reactions) | [open.fda.gov](https://open.fda.gov) |
+| MTSamples | Medical record/transcription samples (records mode) | [mtsamples.com](https://mtsamples.com) |
+| PubMedQA | Biomedical Q&A (can be hit by fallback retrieval) | [qiaojin/PubMedQA](https://huggingface.co/datasets/qiaojin/PubMedQA) |
+| MedQA | USMLE-style medical Q&A (can be hit by fallback retrieval) | [bigbio/med_qa](https://huggingface.co/datasets/bigbio/med_qa) |
+
+## Configuration
+
+Common environment variables (put them in `.env`):
+
+| Variable | Meaning | Default |
+|---|---|---|
+| `OPENAI_API_KEY` | OpenAI key | - |
+| `OPENAI_BASE_URL` | OpenAI base URL | `https://api.openai.com/v1` |
+| `OPENAI_MODEL` | OpenAI model name | `gpt-5.2-2025-12-11` |
+| `DEEPSEEK_API_KEY` | DeepSeek key | - |
+| `DEEPSEEK_BASE_URL` | DeepSeek base URL | `https://api.deepseek.com` |
+| `DEEPSEEK_MODEL` | DeepSeek model name | `deepseek-chat` |
+| `EMBEDDING_MODEL` | SentenceTransformer embedding model | `pritamdeka/S-PubMedBert-MS-MARCO` |
+| `TOP_K_RESULTS` | Chainlit retrieval top_k | `8` |
+
+Code-level toggles (see `src/config.py`):
+
+| Setting | Meaning |
+|---|---|
+| `ENABLE_CROSS_COLLECTION_FALLBACK` | Search multiple collections when confidence is low |
+| `ENABLE_CONTEXT_AWARE_RETRIEVAL` | Rewrite short follow-ups using conversation context |
 
 ## Project Structure
 
 ```
-MedBot/
-├── app.py                      # Gradio application
-├── app_chainlit.py             # Chainlit application (recommended)
-├── requirements.txt            # Python dependencies
-├── .env.example                # Environment variables template
-├── README.md                   # This file
+MED_BOT/
+├── app_chainlit.py               # Chainlit UI (recommended)
+├── app.py                        # Gradio UI (classic)
+├── cli.py                        # CLI (developer / regression tool)
+├── requirements.txt              # Python dependencies
+├── .env.example                  # Environment template
+├── Clinics.xlsx                  # Clinic dataset (Singapore)
+├── Specialists.xlsx              # Specialist/doctor dataset (Singapore)
 │
-├── src/                        # Source code modules
-│   ├── __init__.py
-│   ├── config.py               # Configuration constants
-│   ├── embeddings.py           # Text embedding functions
-│   ├── retriever.py            # Vector search & retrieval
-│   ├── llm.py                  # LLM API wrapper (OpenAI/DeepSeek)
-│   └── prompts.py              # Prompt templates
+├── src/
+│   ├── config.py                 # Global config + paths + collection names
+│   ├── llm.py                    # OpenAI-compatible client wrapper (OpenAI/DeepSeek)
+│   ├── prompts.py                # System prompts
+│   ├── embeddings.py             # SentenceTransformer embeddings + cache
+│   ├── retriever.py              # Chroma retrieval + confidence + fallback
+│   ├── translator.py             # Chinese -> English retrieval translation (LLM)
+│   ├── hybrid_retriever.py       # BM25 + Dense + RRF (not enabled by default)
+│   ├── search_agent.py           # Doctor search (LLM intent + Excel search)
+│   ├── clinic_search.py          # Clinic search (LLM intent + postal/area)
+│   ├── location.py               # Postal distance heuristic + nearby-area mapping
+│   └── cli/                      # CLI implementation
 │
-├── scripts/                    # Data processing scripts
-│   ├── download_all.py         # Download all datasets
-│   ├── download_medquad.py     # MedQuAD dataset
-│   ├── download_fda.py         # FDA drug labels
-│   ├── download_mtsamples.py   # Medical records
-│   └── build_vectorstore.py    # Build ChromaDB collections
+├── scripts/
+│   ├── download_all.py           # Download and process all datasets
+│   ├── download_vectorstore.sh   # Download prebuilt vectorstore
+│   └── build_vectorstore.py      # Build Chroma collections
 │
-├── data/                       # Data storage
-│   ├── raw/                    # Original downloaded data
-│   └── processed/              # Cleaned JSONL files
+├── data/
+│   ├── raw/
+│   └── processed/
 │
-├── vectorstore/                # ChromaDB persistent storage
-│
-├── notebooks/
-│   └── demo.ipynb              # Technical demonstration
-│
-└── docs/
-    ├── plans/                  # Design documents
-    │   └── 2026-01-24-medbot-design.md
-    └── DATA_FORMAT.md          # Data format specifications
+├── vectorstore/                  # ChromaDB persistent storage
+└── tests/
 ```
 
----
+## Testing
 
-## Data Sources
+Minimal regression entry point (mainly ensures CLI runs end-to-end, not strict output checks):
 
-| Dataset | Source | Records | Content |
-|---------|--------|---------|---------|
-| **MedQuAD** | [GitHub](https://github.com/abachaa/MedQuAD) | 35K | Medical Q&A pairs from NIH |
-| **FDA Drug Labels** | [OpenFDA API](https://open.fda.gov) | 1.8K | Drug usage, warnings, side effects |
-| **MedQA** | [HuggingFace](https://huggingface.co/datasets/GBaker/MedQA-USMLE-4-options) | 19K | USMLE medical exam questions |
-| **PubMedQA** | [HuggingFace](https://huggingface.co/datasets/qiaojin/PubMedQA) | 273K | PubMed research Q&A (optional) |
-| **MTSamples** | [Kaggle](https://www.kaggle.com/datasets/tboyle10/medicaltranscriptions) | - | Medical transcription samples |
-
-**Total**: 56K+ searchable records (v1.1.0)
-
----
+```bash
+make check
+```
 
 ## Troubleshooting
 
-### API Key Issues
+### API key missing
 
-If you see "API Key Required" error:
-1. Make sure `.env` file exists in project root
-2. Check that `DEEPSEEK_API_KEY` is set correctly
-3. Restart the application after changing `.env`
+Ensure `.env` exists in the project root and sets at least one:
 
-### Vector Store Issues
+- `OPENAI_API_KEY`
+- `DEEPSEEK_API_KEY`
 
-If vectorstore is missing after cloning:
-```bash
-# Download pre-built vectorstore
-./scripts/download_vectorstore.sh
-```
+### Port already in use
 
-If retrieval doesn't work:
-```bash
-# Rebuild vector store
-python scripts/build_vectorstore.py --clear
-```
-
-### Port Already in Use
+Prefer:
 
 ```bash
-# Kill existing process on port
-lsof -ti:8000 | xargs kill -9  # For Chainlit
-lsof -ti:7860 | xargs kill -9  # For Gradio
+./stop.sh
 ```
 
----
+Or manually (macOS/Linux):
+
+```bash
+lsof -ti:8000 | xargs kill -9
+lsof -ti:7860 | xargs kill -9
+```
+
+### First run is slow
+
+The first run downloads and loads the SentenceTransformer `EMBEDDING_MODEL`, which can take time and memory.
 
 ## Disclaimer
 
-This application is for **educational purposes only**. It is NOT a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for medical concerns.
-
----
+For educational purposes only. This is not medical advice. Always consult a qualified healthcare professional.
 
 ## License
 
-This project is for academic use. Data sources retain their original licenses:
-- MedQuAD: Public domain (NIH)
-- OpenFDA: Public domain (FDA)
-- MTSamples: Educational use
+This is an academic/learning project. Datasets and models are subject to their respective licenses and terms.
