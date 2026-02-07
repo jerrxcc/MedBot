@@ -18,32 +18,49 @@ from api.models import (
 router = APIRouter(prefix="/doctors", tags=["Doctors"])
 
 
+import re
+
+
+def _strip_md(text: str) -> str:
+    """Remove markdown bold/italic markers and leading list dashes."""
+    return text.replace('**', '').replace('*', '').strip().lstrip('-').strip()
+
+
 def parse_doctor_results(markdown_response: str) -> list[dict]:
-    """Parse markdown doctor results into structured data."""
+    """Parse markdown doctor results into structured data.
+
+    Expected format from search_agent._format_results:
+        ### Found N Matching Doctors
+        #### 1. Dr. Name
+        - **Specialty:** ...
+        - **Languages:** ...
+        ---
+    """
     doctors = []
     current_doctor = {}
 
-    lines = markdown_response.split('\n')
-
-    for line in lines:
+    for line in markdown_response.split('\n'):
         line = line.strip()
-        if not line:
-            if current_doctor:
-                doctors.append(current_doctor)
-                current_doctor = {}
+
+        # Skip empty lines, separators, and the summary header
+        if not line or line == '---':
+            continue
+        if re.match(r'^#{1,4}\s*Found\s+\d+', line):
             continue
 
-        # Parse doctor name (usually starts with ### or bold)
-        if line.startswith('###') or line.startswith('**'):
-            if current_doctor:
+        # Doctor name line: #### 1. Dr. Name  or  ### 1. Dr. Name
+        name_match = re.match(r'^#{1,4}\s*\d+\.\s*(.+)', line)
+        if name_match:
+            if current_doctor.get('name'):
                 doctors.append(current_doctor)
-            name = line.replace('###', '').replace('**', '').strip()
-            current_doctor = {'name': name}
-        # Parse key-value pairs
-        elif ':' in line:
+            current_doctor = {'name': _strip_md(name_match.group(1))}
+            continue
+
+        # Key-value line: - **Specialty:** Cardiology
+        if ':' in line and current_doctor:
             key, value = line.split(':', 1)
-            key = key.strip().lower().replace('**', '').replace('-', '').strip()
-            value = value.strip()
+            key = _strip_md(key).lower()
+            value = _strip_md(value)
 
             if 'specialty' in key or 'speciality' in key:
                 current_doctor['specialty'] = value
@@ -57,9 +74,10 @@ def parse_doctor_results(markdown_response: str) -> list[dict]:
                 current_doctor['clinic_name'] = value
             elif 'contact' in key or 'phone' in key:
                 current_doctor['contact'] = value
+            elif 'service' in key:
+                current_doctor['services'] = value
 
-    # Add last doctor if any
-    if current_doctor:
+    if current_doctor.get('name'):
         doctors.append(current_doctor)
 
     return doctors
@@ -117,11 +135,12 @@ async def search_doctors(request: DoctorSearchRequest) -> DoctorSearchResponse:
         if request.name and request.name.lower() not in query.lower():
             query = f"{query} name: {request.name}"
 
-        # Perform search
-        result_markdown, plan = await asyncio.to_thread(
+        # Perform search – agent.search() returns a single markdown string
+        result_markdown = await asyncio.to_thread(
             agent.search,
             query
         )
+        plan = None
 
         # Parse results
         parsed_doctors = parse_doctor_results(result_markdown)

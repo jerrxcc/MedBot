@@ -74,11 +74,12 @@ async def search_clinics(request: ClinicSearchRequest) -> ClinicSearchResponse:
         if request.clinic_name and request.clinic_name.lower() not in query.lower():
             query = f"{query} named {request.clinic_name}"
 
-        # Perform search
-        results, plan, map_html = await asyncio.to_thread(
+        # Perform search – agent.search() returns (results, plan)
+        results, plan = await asyncio.to_thread(
             agent.search,
             query
         )
+        map_html = None
 
         # Convert to response models
         clinic_results = []

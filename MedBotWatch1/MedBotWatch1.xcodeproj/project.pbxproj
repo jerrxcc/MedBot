@@ -1,0 +1,1026 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		945311FF2F36378400E7100E /* MedBotWatch1 Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 945311FE2F36378400E7100E /* MedBotWatch1 Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		945312522F36393700E7100E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945312352F36393700E7100E /* Localizable.strings */; };
+		945312542F36393700E7100E /* SymptomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453123F2F36393700E7100E /* SymptomViewModel.swift */; };
+		945312552F36393700E7100E /* MedBotWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312502F36393700E7100E /* MedBotWatchApp.swift */; };
+		945312562F36393700E7100E /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312392F36393700E7100E /* CacheService.swift */; };
+		945312572F36393700E7100E /* DoctorSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453123E2F36393700E7100E /* DoctorSearchViewModel.swift */; };
+		945312582F36393700E7100E /* SeverityBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312452F36393700E7100E /* SeverityBadge.swift */; };
+		945312592F36393700E7100E /* ClinicSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453123D2F36393700E7100E /* ClinicSearchViewModel.swift */; };
+		9453125A2F36393700E7100E /* DoctorCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312482F36393700E7100E /* DoctorCard.swift */; };
+		9453125B2F36393700E7100E /* ClinicCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312412F36393700E7100E /* ClinicCard.swift */; };
+		9453125C2F36393700E7100E /* BilingualText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312442F36393700E7100E /* BilingualText.swift */; };
+		9453125D2F36393700E7100E /* ClinicSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312422F36393700E7100E /* ClinicSearchView.swift */; };
+		9453125E2F36393700E7100E /* SymptomResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312322F36393700E7100E /* SymptomResponse.swift */; };
+		9453125F2F36393700E7100E /* DoctorSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312492F36393700E7100E /* DoctorSearchView.swift */; };
+		945312602F36393700E7100E /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312382F36393700E7100E /* APIService.swift */; };
+		945312612F36393700E7100E /* SymptomResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453124C2F36393700E7100E /* SymptomResultView.swift */; };
+		945312622F36393700E7100E /* TTSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453123A2F36393700E7100E /* TTSService.swift */; };
+		945312632F36393700E7100E /* SymptomInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453124B2F36393700E7100E /* SymptomInputView.swift */; };
+		945312642F36393700E7100E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453124E2F36393700E7100E /* HomeView.swift */; };
+		945312652F36393700E7100E /* VoiceInputButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312462F36393700E7100E /* VoiceInputButton.swift */; };
+		945312662F36393700E7100E /* ClinicResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312302F36393700E7100E /* ClinicResult.swift */; };
+		945312672F36393700E7100E /* VoiceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453123B2F36393700E7100E /* VoiceService.swift */; };
+		945312692F36393700E7100E /* DoctorResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945312312F36393700E7100E /* DoctorResult.swift */; };
+		945312712F363A4500E7100E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 945312702F363A4500E7100E /* WidgetKit.framework */; };
+		945312732F363A4500E7100E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 945312722F363A4500E7100E /* SwiftUI.framework */; };
+		9453127C2F363A4700E7100E /* MedBotComplicationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9453126E2F363A4400E7100E /* MedBotComplicationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		945312822F363C4B00E7100E /* MedBotComplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453122E2F36393700E7100E /* MedBotComplication.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		945312002F36378400E7100E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 945311F22F36378400E7100E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 945311FD2F36378400E7100E;
+			remoteInfo = "MedBotWatch1 Watch App";
+		};
+		9453120E2F36378600E7100E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 945311F22F36378400E7100E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 945311FD2F36378400E7100E;
+			remoteInfo = "MedBotWatch1 Watch App";
+		};
+		945312182F36378600E7100E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 945311F22F36378400E7100E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 945311FD2F36378400E7100E;
+			remoteInfo = "MedBotWatch1 Watch App";
+		};
+		9453127A2F363A4700E7100E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 945311F22F36378400E7100E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9453126D2F363A4400E7100E;
+			remoteInfo = MedBotComplicationExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		945312242F36378600E7100E /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				945311FF2F36378400E7100E /* MedBotWatch1 Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		945312812F363A4700E7100E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9453127C2F363A4700E7100E /* MedBotComplicationExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		945311F82F36378400E7100E /* MedBotWatch1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MedBotWatch1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		945311FE2F36378400E7100E /* MedBotWatch1 Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MedBotWatch1 Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9453120D2F36378600E7100E /* MedBotWatch1 Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MedBotWatch1 Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		945312172F36378600E7100E /* MedBotWatch1 Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MedBotWatch1 Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9453122E2F36393700E7100E /* MedBotComplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedBotComplication.swift; sourceTree = "<group>"; };
+		945312302F36393700E7100E /* ClinicResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClinicResult.swift; sourceTree = "<group>"; };
+		945312312F36393700E7100E /* DoctorResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorResult.swift; sourceTree = "<group>"; };
+		945312322F36393700E7100E /* SymptomResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomResponse.swift; sourceTree = "<group>"; };
+		945312342F36393700E7100E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		945312382F36393700E7100E /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		945312392F36393700E7100E /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
+		9453123A2F36393700E7100E /* TTSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSService.swift; sourceTree = "<group>"; };
+		9453123B2F36393700E7100E /* VoiceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceService.swift; sourceTree = "<group>"; };
+		9453123D2F36393700E7100E /* ClinicSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClinicSearchViewModel.swift; sourceTree = "<group>"; };
+		9453123E2F36393700E7100E /* DoctorSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorSearchViewModel.swift; sourceTree = "<group>"; };
+		9453123F2F36393700E7100E /* SymptomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomViewModel.swift; sourceTree = "<group>"; };
+		945312412F36393700E7100E /* ClinicCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClinicCard.swift; sourceTree = "<group>"; };
+		945312422F36393700E7100E /* ClinicSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClinicSearchView.swift; sourceTree = "<group>"; };
+		945312442F36393700E7100E /* BilingualText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilingualText.swift; sourceTree = "<group>"; };
+		945312452F36393700E7100E /* SeverityBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeverityBadge.swift; sourceTree = "<group>"; };
+		945312462F36393700E7100E /* VoiceInputButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputButton.swift; sourceTree = "<group>"; };
+		945312482F36393700E7100E /* DoctorCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorCard.swift; sourceTree = "<group>"; };
+		945312492F36393700E7100E /* DoctorSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorSearchView.swift; sourceTree = "<group>"; };
+		9453124B2F36393700E7100E /* SymptomInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomInputView.swift; sourceTree = "<group>"; };
+		9453124C2F36393700E7100E /* SymptomResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomResultView.swift; sourceTree = "<group>"; };
+		9453124E2F36393700E7100E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		945312502F36393700E7100E /* MedBotWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedBotWatchApp.swift; sourceTree = "<group>"; };
+		9453126E2F363A4400E7100E /* MedBotComplicationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MedBotComplicationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		945312702F363A4500E7100E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		945312722F363A4500E7100E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		945312842F36405400E7100E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		945312852F3645A400E7100E /* MedBotWatch1-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "MedBotWatch1-Watch-App-Info.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9453127D2F363A4700E7100E /* Exceptions for "MedBotComplication" folder in "MedBotComplicationExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 9453126D2F363A4400E7100E /* MedBotComplicationExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		945312742F363A4500E7100E /* MedBotComplication */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9453127D2F363A4700E7100E /* Exceptions for "MedBotComplication" folder in "MedBotComplicationExtension" target */,
+			);
+			path = MedBotComplication;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		945311FB2F36378400E7100E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9453120A2F36378600E7100E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		945312142F36378600E7100E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9453126B2F363A4400E7100E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				945312732F363A4500E7100E /* SwiftUI.framework in Frameworks */,
+				945312712F363A4500E7100E /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		945311F12F36378400E7100E = {
+			isa = PBXGroup;
+			children = (
+				945312852F3645A400E7100E /* MedBotWatch1-Watch-App-Info.plist */,
+				945312512F36393700E7100E /* MedBotWatch */,
+				945312742F363A4500E7100E /* MedBotComplication */,
+				9453126F2F363A4500E7100E /* Frameworks */,
+				945311F92F36378400E7100E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		945311F92F36378400E7100E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				945311F82F36378400E7100E /* MedBotWatch1.app */,
+				945311FE2F36378400E7100E /* MedBotWatch1 Watch App.app */,
+				9453120D2F36378600E7100E /* MedBotWatch1 Watch AppTests.xctest */,
+				945312172F36378600E7100E /* MedBotWatch1 Watch AppUITests.xctest */,
+				9453126E2F363A4400E7100E /* MedBotComplicationExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9453122F2F36393700E7100E /* Complications */ = {
+			isa = PBXGroup;
+			children = (
+				9453122E2F36393700E7100E /* MedBotComplication.swift */,
+			);
+			path = Complications;
+			sourceTree = "<group>";
+		};
+		945312332F36393700E7100E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				945312302F36393700E7100E /* ClinicResult.swift */,
+				945312312F36393700E7100E /* DoctorResult.swift */,
+				945312322F36393700E7100E /* SymptomResponse.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		945312372F36393700E7100E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				945312352F36393700E7100E /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9453123C2F36393700E7100E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				945312382F36393700E7100E /* APIService.swift */,
+				945312392F36393700E7100E /* CacheService.swift */,
+				9453123A2F36393700E7100E /* TTSService.swift */,
+				9453123B2F36393700E7100E /* VoiceService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		945312402F36393700E7100E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9453123D2F36393700E7100E /* ClinicSearchViewModel.swift */,
+				9453123E2F36393700E7100E /* DoctorSearchViewModel.swift */,
+				9453123F2F36393700E7100E /* SymptomViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		945312432F36393700E7100E /* Clinics */ = {
+			isa = PBXGroup;
+			children = (
+				945312412F36393700E7100E /* ClinicCard.swift */,
+				945312422F36393700E7100E /* ClinicSearchView.swift */,
+			);
+			path = Clinics;
+			sourceTree = "<group>";
+		};
+		945312472F36393700E7100E /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				945312442F36393700E7100E /* BilingualText.swift */,
+				945312452F36393700E7100E /* SeverityBadge.swift */,
+				945312462F36393700E7100E /* VoiceInputButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9453124A2F36393700E7100E /* Doctors */ = {
+			isa = PBXGroup;
+			children = (
+				945312482F36393700E7100E /* DoctorCard.swift */,
+				945312492F36393700E7100E /* DoctorSearchView.swift */,
+			);
+			path = Doctors;
+			sourceTree = "<group>";
+		};
+		9453124D2F36393700E7100E /* Symptoms */ = {
+			isa = PBXGroup;
+			children = (
+				9453124B2F36393700E7100E /* SymptomInputView.swift */,
+				9453124C2F36393700E7100E /* SymptomResultView.swift */,
+			);
+			path = Symptoms;
+			sourceTree = "<group>";
+		};
+		9453124F2F36393700E7100E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				945312432F36393700E7100E /* Clinics */,
+				945312472F36393700E7100E /* Components */,
+				9453124A2F36393700E7100E /* Doctors */,
+				9453124D2F36393700E7100E /* Symptoms */,
+				9453124E2F36393700E7100E /* HomeView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		945312512F36393700E7100E /* MedBotWatch */ = {
+			isa = PBXGroup;
+			children = (
+				9453122F2F36393700E7100E /* Complications */,
+				945312332F36393700E7100E /* Models */,
+				945312372F36393700E7100E /* Resources */,
+				9453123C2F36393700E7100E /* Services */,
+				945312402F36393700E7100E /* ViewModels */,
+				9453124F2F36393700E7100E /* Views */,
+				945312502F36393700E7100E /* MedBotWatchApp.swift */,
+			);
+			path = MedBotWatch;
+			sourceTree = "<group>";
+		};
+		9453126F2F363A4500E7100E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				945312702F363A4500E7100E /* WidgetKit.framework */,
+				945312722F363A4500E7100E /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		945311F72F36378400E7100E /* MedBotWatch1 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 945312252F36378600E7100E /* Build configuration list for PBXNativeTarget "MedBotWatch1" */;
+			buildPhases = (
+				945311F62F36378400E7100E /* Resources */,
+				945312242F36378600E7100E /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				945312012F36378400E7100E /* PBXTargetDependency */,
+			);
+			name = MedBotWatch1;
+			packageProductDependencies = (
+			);
+			productName = MedBotWatch1;
+			productReference = 945311F82F36378400E7100E /* MedBotWatch1.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		945311FD2F36378400E7100E /* MedBotWatch1 Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 945312212F36378600E7100E /* Build configuration list for PBXNativeTarget "MedBotWatch1 Watch App" */;
+			buildPhases = (
+				945311FA2F36378400E7100E /* Sources */,
+				945311FB2F36378400E7100E /* Frameworks */,
+				945311FC2F36378400E7100E /* Resources */,
+				945312812F363A4700E7100E /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9453127B2F363A4700E7100E /* PBXTargetDependency */,
+			);
+			name = "MedBotWatch1 Watch App";
+			packageProductDependencies = (
+			);
+			productName = "MedBotWatch1 Watch App";
+			productReference = 945311FE2F36378400E7100E /* MedBotWatch1 Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9453120C2F36378600E7100E /* MedBotWatch1 Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 945312282F36378600E7100E /* Build configuration list for PBXNativeTarget "MedBotWatch1 Watch AppTests" */;
+			buildPhases = (
+				945312092F36378600E7100E /* Sources */,
+				9453120A2F36378600E7100E /* Frameworks */,
+				9453120B2F36378600E7100E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9453120F2F36378600E7100E /* PBXTargetDependency */,
+			);
+			name = "MedBotWatch1 Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "MedBotWatch1 Watch AppTests";
+			productReference = 9453120D2F36378600E7100E /* MedBotWatch1 Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		945312162F36378600E7100E /* MedBotWatch1 Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9453122B2F36378600E7100E /* Build configuration list for PBXNativeTarget "MedBotWatch1 Watch AppUITests" */;
+			buildPhases = (
+				945312132F36378600E7100E /* Sources */,
+				945312142F36378600E7100E /* Frameworks */,
+				945312152F36378600E7100E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				945312192F36378600E7100E /* PBXTargetDependency */,
+			);
+			name = "MedBotWatch1 Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "MedBotWatch1 Watch AppUITests";
+			productReference = 945312172F36378600E7100E /* MedBotWatch1 Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		9453126D2F363A4400E7100E /* MedBotComplicationExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9453127E2F363A4700E7100E /* Build configuration list for PBXNativeTarget "MedBotComplicationExtension" */;
+			buildPhases = (
+				9453126A2F363A4400E7100E /* Sources */,
+				9453126B2F363A4400E7100E /* Frameworks */,
+				9453126C2F363A4400E7100E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				945312742F363A4500E7100E /* MedBotComplication */,
+			);
+			name = MedBotComplicationExtension;
+			packageProductDependencies = (
+			);
+			productName = MedBotComplicationExtension;
+			productReference = 9453126E2F363A4400E7100E /* MedBotComplicationExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		945311F22F36378400E7100E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					945311F72F36378400E7100E = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					945311FD2F36378400E7100E = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					9453120C2F36378600E7100E = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 945311FD2F36378400E7100E;
+					};
+					945312162F36378600E7100E = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 945311FD2F36378400E7100E;
+					};
+					9453126D2F363A4400E7100E = {
+						CreatedOnToolsVersion = 16.4;
+					};
+				};
+			};
+			buildConfigurationList = 945311F52F36378400E7100E /* Build configuration list for PBXProject "MedBotWatch1" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = 945311F12F36378400E7100E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 945311F92F36378400E7100E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				945311F72F36378400E7100E /* MedBotWatch1 */,
+				945311FD2F36378400E7100E /* MedBotWatch1 Watch App */,
+				9453120C2F36378600E7100E /* MedBotWatch1 Watch AppTests */,
+				945312162F36378600E7100E /* MedBotWatch1 Watch AppUITests */,
+				9453126D2F363A4400E7100E /* MedBotComplicationExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		945311F62F36378400E7100E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		945311FC2F36378400E7100E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				945312522F36393700E7100E /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9453120B2F36378600E7100E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		945312152F36378600E7100E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9453126C2F363A4400E7100E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		945311FA2F36378400E7100E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				945312542F36393700E7100E /* SymptomViewModel.swift in Sources */,
+				945312552F36393700E7100E /* MedBotWatchApp.swift in Sources */,
+				945312562F36393700E7100E /* CacheService.swift in Sources */,
+				945312572F36393700E7100E /* DoctorSearchViewModel.swift in Sources */,
+				945312582F36393700E7100E /* SeverityBadge.swift in Sources */,
+				945312592F36393700E7100E /* ClinicSearchViewModel.swift in Sources */,
+				9453125A2F36393700E7100E /* DoctorCard.swift in Sources */,
+				9453125B2F36393700E7100E /* ClinicCard.swift in Sources */,
+				9453125C2F36393700E7100E /* BilingualText.swift in Sources */,
+				9453125D2F36393700E7100E /* ClinicSearchView.swift in Sources */,
+				9453125E2F36393700E7100E /* SymptomResponse.swift in Sources */,
+				9453125F2F36393700E7100E /* DoctorSearchView.swift in Sources */,
+				945312602F36393700E7100E /* APIService.swift in Sources */,
+				945312612F36393700E7100E /* SymptomResultView.swift in Sources */,
+				945312622F36393700E7100E /* TTSService.swift in Sources */,
+				945312632F36393700E7100E /* SymptomInputView.swift in Sources */,
+				945312642F36393700E7100E /* HomeView.swift in Sources */,
+				945312652F36393700E7100E /* VoiceInputButton.swift in Sources */,
+				945312662F36393700E7100E /* ClinicResult.swift in Sources */,
+				945312672F36393700E7100E /* VoiceService.swift in Sources */,
+				945312692F36393700E7100E /* DoctorResult.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		945312092F36378600E7100E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		945312132F36378600E7100E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9453126A2F363A4400E7100E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				945312822F363C4B00E7100E /* MedBotComplication.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		945312012F36378400E7100E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 945311FD2F36378400E7100E /* MedBotWatch1 Watch App */;
+			targetProxy = 945312002F36378400E7100E /* PBXContainerItemProxy */;
+		};
+		9453120F2F36378600E7100E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 945311FD2F36378400E7100E /* MedBotWatch1 Watch App */;
+			targetProxy = 9453120E2F36378600E7100E /* PBXContainerItemProxy */;
+		};
+		945312192F36378600E7100E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 945311FD2F36378400E7100E /* MedBotWatch1 Watch App */;
+			targetProxy = 945312182F36378600E7100E /* PBXContainerItemProxy */;
+		};
+		9453127B2F363A4700E7100E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9453126D2F363A4400E7100E /* MedBotComplicationExtension */;
+			targetProxy = 9453127A2F363A4700E7100E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		945312352F36393700E7100E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				945312342F36393700E7100E /* zh-Hans */,
+				945312842F36405400E7100E /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9453121F2F36378600E7100E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		945312202F36378600E7100E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		945312222F36378600E7100E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MedBotWatch1-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = MedBotWatch1;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "MedBot needs microphone access for voice input";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "MedBot needs speech recognition for voice input";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.medbot.MedBotWatch1.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		945312232F36378600E7100E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MedBotWatch1-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = MedBotWatch1;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "MedBot needs microphone access for voice input";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "MedBot needs speech recognition for voice input";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.medbot.MedBotWatch1.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
+		945312262F36378600E7100E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				INFOPLIST_KEY_CFBundleDisplayName = MedBotWatch1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.medbot.MedBotWatch1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		945312272F36378600E7100E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				INFOPLIST_KEY_CFBundleDisplayName = MedBotWatch1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.medbot.MedBotWatch1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		945312292F36378600E7100E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.medbot.MedBotWatch1-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MedBotWatch1 Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MedBotWatch1 Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		9453122A2F36378600E7100E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.medbot.MedBotWatch1-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MedBotWatch1 Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MedBotWatch1 Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
+		9453122C2F36378600E7100E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.medbot.MedBotWatch1-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "MedBotWatch1 Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		9453122D2F36378600E7100E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.medbot.MedBotWatch1-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "MedBotWatch1 Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
+		9453127F2F363A4700E7100E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MedBotComplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MedBotComplication;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.medbot.MedBotWatch1.watchkitapp.MedBotComplication;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		945312802F363A4700E7100E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RF5AKBLFQH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MedBotComplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MedBotComplication;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.medbot.MedBotWatch1.watchkitapp.MedBotComplication;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		945311F52F36378400E7100E /* Build configuration list for PBXProject "MedBotWatch1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9453121F2F36378600E7100E /* Debug */,
+				945312202F36378600E7100E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		945312212F36378600E7100E /* Build configuration list for PBXNativeTarget "MedBotWatch1 Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				945312222F36378600E7100E /* Debug */,
+				945312232F36378600E7100E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		945312252F36378600E7100E /* Build configuration list for PBXNativeTarget "MedBotWatch1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				945312262F36378600E7100E /* Debug */,
+				945312272F36378600E7100E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		945312282F36378600E7100E /* Build configuration list for PBXNativeTarget "MedBotWatch1 Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				945312292F36378600E7100E /* Debug */,
+				9453122A2F36378600E7100E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9453122B2F36378600E7100E /* Build configuration list for PBXNativeTarget "MedBotWatch1 Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9453122C2F36378600E7100E /* Debug */,
+				9453122D2F36378600E7100E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9453127E2F363A4700E7100E /* Build configuration list for PBXNativeTarget "MedBotComplicationExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9453127F2F363A4700E7100E /* Debug */,
+				945312802F363A4700E7100E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 945311F22F36378400E7100E /* Project object */;
+}

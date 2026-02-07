@@ -261,6 +261,18 @@ def _heuristic_rewrite(user_message: str, history: list) -> Optional[str]:
     return f"{last_user}. Follow-up: {user_message}"
 
 
+def translate_to_english(text: str) -> str:
+    """Translate Chinese text to English for better retrieval."""
+    try:
+        messages = [
+            {"role": "system", "content": "Translate the following Chinese text to English. Return ONLY the translation, nothing else."},
+            {"role": "user", "content": text}
+        ]
+        return get_response(messages)
+    except Exception:
+        return text
+
+
 def build_messages(system_prompt: str, user_message: str, context: str = "", history: list = None) -> list:
     """Build message list for API call with optional conversation history."""
     messages = [{"role": "system", "content": system_prompt}]
