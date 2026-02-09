@@ -39,7 +39,7 @@ class APIService: ObservableObject {
     private let session: URLSession
     private let decoder: JSONDecoder
 
-    init(baseURL: String = "http://192.168.5.10:8001") {
+    init(baseURL: String = "http://172.20.10.4:8001") {
         self.baseURL = baseURL
 //10.91.139.138
 //http:localhost:8001
