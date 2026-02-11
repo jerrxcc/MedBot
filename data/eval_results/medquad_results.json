@@ -1,0 +1,1213 @@
+{
+  "metrics": {
+    "collection": "medquad_symptoms",
+    "num_queries": 100,
+    "recall_at_1": 0.65,
+    "recall_at_3": 0.85,
+    "recall_at_5": 0.86,
+    "recall_at_10": 0.87,
+    "mrr": 0.7383
+  },
+  "per_query": [
+    {
+      "condition": "Cleidorhizomelic syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Cleidorhizomelic syndrome",
+        "Cleidocranial dysplasia",
+        "Rhizomelic syndrome",
+        "Lesch Nyhan syndrome",
+        "Chylomicron retention disease"
+      ]
+    },
+    {
+      "condition": "Alpha-ketoglutarate dehydrogenase deficiency",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Alpha-ketoglutarate dehydrogenase deficiency",
+        "pyruvate dehydrogenase deficiency",
+        "Pyruvate dehydrogenase deficiency",
+        "Pyruvate dehydrogenase deficiency",
+        "dihydrolipoamide dehydrogenase deficiency"
+      ]
+    },
+    {
+      "condition": "Kidney Diseases",
+      "rank": 3,
+      "reciprocal_rank": 0.3333333333333333,
+      "retrieved_conditions": [
+        "Proteinuria",
+        "Chronic Kidney Disease",
+        "Kidney Diseases",
+        "Diabetic Kidney Disease",
+        "Overview of Kidney Disease in Children"
+      ]
+    },
+    {
+      "condition": "Hypertelorism and tetralogy of Fallot",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Hypertelorism and tetralogy of Fallot",
+        "Tetralogy of Fallot",
+        "Tetralogy of Fallot",
+        "Tetralogy of Fallot",
+        "Tetralogy of Fallot"
+      ]
+    },
+    {
+      "condition": "Hearing Problems in Children",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Hearing Problems in Children",
+        "Speech and Language Problems in Children",
+        "Microcephaly",
+        "Child Mental Health",
+        "Learning Disabilities"
+      ]
+    },
+    {
+      "condition": "Dendritic cell tumor",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Dendritic cell tumor",
+        "Childhood Astrocytomas",
+        "Childhood Astrocytomas",
+        "Glioma",
+        "Thymoma and Thymic Carcinoma"
+      ]
+    },
+    {
+      "condition": "Chordoma",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Chordoma",
+        "chordoma",
+        "chordoma",
+        "Adult Central Nervous System Tumors",
+        "Chordoma"
+      ]
+    },
+    {
+      "condition": "arginine:glycine amidinotransferase deficiency",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "arginine:glycine amidinotransferase deficiency",
+        "arginine:glycine amidinotransferase deficiency",
+        "arginine:glycine amidinotransferase deficiency",
+        "L-arginine:glycine amidinotransferase deficiency",
+        "arginine:glycine amidinotransferase deficiency"
+      ]
+    },
+    {
+      "condition": "Cerebellar Hypoplasia",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Cerebellar Hypoplasia",
+        "Cerebellar Hypoplasia",
+        "pontocerebellar hypoplasia",
+        "Microcephaly",
+        "Cerebellar Hypoplasia"
+      ]
+    },
+    {
+      "condition": "malonyl-CoA decarboxylase deficiency",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "malonyl-CoA decarboxylase deficiency",
+        "malonyl-CoA decarboxylase deficiency",
+        "malonyl-CoA decarboxylase deficiency",
+        "Malonyl-CoA decarboxylase deficiency",
+        "malonyl-CoA decarboxylase deficiency"
+      ]
+    },
+    {
+      "condition": "Pseudoainhum",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "Disseminated Intravascular Coagulation",
+        "Hematuria (Blood in the Urine)",
+        "Monoclonal gammopathy of undetermined significance",
+        "Pancreatic Cancer",
+        "Penile Cancer"
+      ]
+    },
+    {
+      "condition": "Anesthesia",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Anesthesia",
+        "Edema",
+        "Anesthesia",
+        "Fever",
+        "Urinary Tract Infection In Adults"
+      ]
+    },
+    {
+      "condition": "Anaphylaxis",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Anaphylaxis",
+        "Allergy",
+        "Food Allergy",
+        "Allergy",
+        "Food Allergy"
+      ]
+    },
+    {
+      "condition": "Charlie M syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Charlie M syndrome",
+        "3-M syndrome",
+        "Multiple Sclerosis",
+        "Leber hereditary optic neuropathy",
+        "Multiple sclerosis"
+      ]
+    },
+    {
+      "condition": "Hand Injuries and Disorders",
+      "rank": 3,
+      "reciprocal_rank": 0.3333333333333333,
+      "retrieved_conditions": [
+        "Arm Injuries and Disorders",
+        "Wounds and Injuries",
+        "Hand Injuries and Disorders",
+        "Joint Disorders",
+        "Back Pain"
+      ]
+    },
+    {
+      "condition": "Hereditary mucoepithelial dysplasia",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Hereditary mucoepithelial dysplasia",
+        "Hereditary mucoepithelial dysplasia",
+        "progressive pseudorheumatoid dysplasia",
+        "Mondini dysplasia",
+        "Mondini dysplasia"
+      ]
+    },
+    {
+      "condition": "Trisomy 2 mosaicism",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Trisomy 2 mosaicism",
+        "Mosaic trisomy 14",
+        "Mosaic trisomy 8",
+        "Mosaic trisomy 9",
+        "Trisomy 17 mosaicism"
+      ]
+    },
+    {
+      "condition": "osteoporosis-pseudoglioma syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "osteoporosis-pseudoglioma syndrome",
+        "Osteoporosis-pseudoglioma syndrome",
+        "osteoporosis-pseudoglioma syndrome",
+        "osteoporosis-pseudoglioma syndrome",
+        "osteoporosis-pseudoglioma syndrome"
+      ]
+    },
+    {
+      "condition": "Amblyopia",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Amblyopia",
+        "Amblyopia",
+        "Refractive Errors",
+        "Refractive Errors",
+        "Norrie disease"
+      ]
+    },
+    {
+      "condition": "cystic fibrosis",
+      "rank": 3,
+      "reciprocal_rank": 0.3333333333333333,
+      "retrieved_conditions": [
+        "Pulmonary Fibrosis",
+        "Cystic Fibrosis",
+        "cystic fibrosis",
+        "congenital hepatic fibrosis",
+        "Idiopathic Pulmonary Fibrosis"
+      ]
+    },
+    {
+      "condition": "Gallbladder Cancer",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Gallbladder Cancer",
+        "Gallbladder Cancer",
+        "Gallbladder Cancer",
+        "Bile Duct Cancer (Cholangiocarcinoma)",
+        "Gallbladder Cancer"
+      ]
+    },
+    {
+      "condition": "ankylosing spondylitis",
+      "rank": 3,
+      "reciprocal_rank": 0.3333333333333333,
+      "retrieved_conditions": [
+        "Ankylosing Spondylitis",
+        "Ankylosing spondylitis",
+        "ankylosing spondylitis",
+        "Ankylosing spondylitis",
+        "Ankylosing spondylitis"
+      ]
+    },
+    {
+      "condition": "Prolactinoma",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_conditions": [
+        "Prolactinoma, familial",
+        "Prolactinoma",
+        "Prolactinoma",
+        "Prolactinoma",
+        "Prolactinoma"
+      ]
+    },
+    {
+      "condition": "Hashimoto's encephalitis",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Hashimoto's encephalitis",
+        "Hashimoto's encephalitis",
+        "Hashimoto's Disease",
+        "Hashimoto's Disease",
+        "Hashimoto's syndrome"
+      ]
+    },
+    {
+      "condition": "Schisis association",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Schisis association",
+        "Ankylosing spondylitis",
+        "Autism Spectrum Disorder",
+        "Schimke immuno-osseous dysplasia",
+        "Autism"
+      ]
+    },
+    {
+      "condition": "limb-girdle muscular dystrophy",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "limb-girdle muscular dystrophy",
+        "Limb-girdle muscular dystrophy",
+        "Limb-girdle muscular dystrophy, type 2C",
+        "Limb-girdle muscular dystrophy type 2A",
+        "Limb-girdle muscular dystrophy, type 2C"
+      ]
+    },
+    {
+      "condition": "Kluver Bucy syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Kluver Bucy syndrome",
+        "48,XXYY syndrome",
+        "Klinefelter syndrome",
+        "Stevens-Johnson syndrome",
+        "Klver-Bucy Syndrome"
+      ]
+    },
+    {
+      "condition": "7q11.23 duplication syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "7q11.23 duplication syndrome",
+        "7q11.23 duplication syndrome",
+        "7q11.23 duplication syndrome",
+        "7q11.23 duplication syndrome",
+        "17q23.1q23.2 microdeletion syndrome"
+      ]
+    },
+    {
+      "condition": "Ear Infections",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Ear Infections",
+        "Ear Disorders",
+        "Pneumococcal Infections",
+        "Endocarditis",
+        "Mumps"
+      ]
+    },
+    {
+      "condition": "Pseudohypoparathyroidism type 1A",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Pseudohypoparathyroidism type 1A",
+        "Pseudohypoparathyroidism type 1C",
+        "Pseudohypoparathyroidism type 1A",
+        "Pseudohypoparathyroidism type 1C",
+        "Pseudohypoparathyroidism type 2"
+      ]
+    },
+    {
+      "condition": "Multiple mitochondrial dysfunctions syndrome",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_conditions": [
+        "multiple mitochondrial dysfunctions syndrome",
+        "Multiple mitochondrial dysfunctions syndrome",
+        "Multiple mitochondrial dysfunctions syndrome",
+        "Metabolic Syndrome",
+        "multiple mitochondrial dysfunctions syndrome"
+      ]
+    },
+    {
+      "condition": "Klippel-Trenaunay syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Klippel-Trenaunay syndrome",
+        "Klippel-Trenaunay Syndrome (KTS)",
+        "Klippel-Trenaunay Syndrome (KTS)",
+        "Klippel-Trenaunay syndrome",
+        "Klippel-Trenaunay syndrome"
+      ]
+    },
+    {
+      "condition": "Dwarfism, proportionate with hip dislocation",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Dwarfism, proportionate with hip dislocation",
+        "Dwarfism",
+        "Dwarfism",
+        "hypochondroplasia",
+        "Hypochondroplasia"
+      ]
+    },
+    {
+      "condition": "Gupta Patton syndrome",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "Cushing's Syndrome",
+        "Prostate Enlargement: Benign Prostatic Hyperplasia",
+        "Childhood Nephrotic Syndrome",
+        "Granulomatosis with Polyangiitis",
+        "Prostate Cancer"
+      ]
+    },
+    {
+      "condition": "Mucopolysaccharidosis type IIIC",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Mucopolysaccharidosis type IIIC",
+        "Mucopolysaccharidosis type IIID",
+        "mucopolysaccharidosis type III",
+        "Mucopolysaccharidosis type IIIC",
+        "Mucopolysaccharidosis type IIID"
+      ]
+    },
+    {
+      "condition": "Chondrosarcoma",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "Synovial Chondromatosis",
+        "Childhood Soft Tissue Sarcoma",
+        "Childhood Soft Tissue Sarcoma",
+        "Ewing sarcoma",
+        "Synovial Chondromatosis"
+      ]
+    },
+    {
+      "condition": "Charcot-Marie-Tooth disease type 2K",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Charcot-Marie-Tooth disease type 2K",
+        "Charcot-Marie-Tooth disease type 2J",
+        "Charcot-Marie-Tooth disease type 2F",
+        "Charcot-Marie-Tooth disease type 2N",
+        "Charcot-Marie-Tooth disease type 2G"
+      ]
+    },
+    {
+      "condition": "Pachyonychia congenita",
+      "rank": 3,
+      "reciprocal_rank": 0.3333333333333333,
+      "retrieved_conditions": [
+        "pachyonychia congenita",
+        "pachyonychia congenita",
+        "Pachyonychia congenita",
+        "Pachyonychia congenita",
+        "Anonychia congenita"
+      ]
+    },
+    {
+      "condition": "Childbirth",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "Fecal Incontinence",
+        "Gestational Trophoblastic Disease",
+        "Uterine Cancer",
+        "Chiropractic",
+        "Menstruation"
+      ]
+    },
+    {
+      "condition": "Non-classic congenital adrenal hyperplasia due to 21-hydroxylase deficiency",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Non-classic congenital adrenal hyperplasia due to 21-hydroxylase deficiency",
+        "Non-classic congenital adrenal hyperplasia due to 21-hydroxylase deficiency",
+        "Non-classic congenital adrenal hyperplasia due to 21-hydroxylase deficiency",
+        "Non-classic congenital adrenal hyperplasia due to 21-hydroxylase deficiency",
+        "11-beta-hydroxylase deficiency"
+      ]
+    },
+    {
+      "condition": "Myelocytic leukemia-like syndrome, familial, chronic",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Myelocytic leukemia-like syndrome, familial, chronic",
+        "Chronic Myelomonocytic Leukemia",
+        "Chronic Myelogenous Leukemia",
+        "Chronic Myelogenous Leukemia",
+        "Myelodysplastic/myeloproliferative disease"
+      ]
+    },
+    {
+      "condition": "persistent Mllerian duct syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "persistent Mllerian duct syndrome",
+        "persistent Mllerian duct syndrome",
+        "persistent Mllerian duct syndrome",
+        "persistent Mllerian duct syndrome",
+        "persistent Mllerian duct syndrome"
+      ]
+    },
+    {
+      "condition": "Ischemic Stroke",
+      "rank": 3,
+      "reciprocal_rank": 0.3333333333333333,
+      "retrieved_conditions": [
+        "Stroke",
+        "Stroke",
+        "Ischemic Stroke",
+        "Stroke",
+        "Stroke"
+      ]
+    },
+    {
+      "condition": "Atrial septal defect ostium primum",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "Holes in the Heart",
+        "Holes in the Heart",
+        "Tetralogy of Fallot",
+        "Absence of the Septum Pellucidum",
+        "CHOPS syndrome"
+      ]
+    },
+    {
+      "condition": "Sjgren's Syndrome",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_conditions": [
+        "Sjgren-Larsson syndrome",
+        "Sjgren's Syndrome",
+        "Sjgren syndrome",
+        "Autism Spectrum Disorder",
+        "Sjogren syndrome"
+      ]
+    },
+    {
+      "condition": "X-linked lymphoproliferative syndrome 1",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_conditions": [
+        "X-linked lymphoproliferative syndrome 2",
+        "X-linked lymphoproliferative syndrome 1",
+        "X-linked lymphoproliferative syndrome",
+        "X-linked lymphoproliferative disease",
+        "X-linked lymphoproliferative disease"
+      ]
+    },
+    {
+      "condition": "Copper deficiency, familial benign",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "combined pituitary hormone deficiency",
+        "Dominant dystrophic epidermolysis bullosa",
+        "familial HDL deficiency",
+        "Hypolipoproteinemia",
+        "Prolactinoma, familial"
+      ]
+    },
+    {
+      "condition": "PDGFRB-associated chronic eosinophilic leukemia",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_conditions": [
+        "PDGFRA-associated chronic eosinophilic leukemia",
+        "PDGFRB-associated chronic eosinophilic leukemia",
+        "PDGFRA-associated chronic eosinophilic leukemia",
+        "PDGFRB-associated chronic eosinophilic leukemia",
+        "PDGFRA-associated chronic eosinophilic leukemia"
+      ]
+    },
+    {
+      "condition": "Cancer",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "Childhood Extracranial Germ Cell Tumors",
+        "Adult Non-Hodgkin Lymphoma",
+        "Ovarian Low Malignant Potential Tumors",
+        "Lip and Oral Cavity Cancer",
+        "Childhood Liver Cancer"
+      ]
+    },
+    {
+      "condition": "capillary malformation-arteriovenous malformation syndrome",
+      "rank": 5,
+      "reciprocal_rank": 0.2,
+      "retrieved_conditions": [
+        "microcephaly-capillary malformation syndrome",
+        "Arteriovenous Malformations",
+        "Arteriovenous Malformation",
+        "Intracranial arteriovenous malformation",
+        "capillary malformation-arteriovenous malformation syndrome"
+      ]
+    },
+    {
+      "condition": "Lichen planus pigmentosus",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Lichen planus pigmentosus",
+        "Lichen planus pigmentosus",
+        "Lichen planus pigmentosus",
+        "Lichen planus pigmentosus",
+        "Lichen planus pigmentosus"
+      ]
+    },
+    {
+      "condition": "systemic scleroderma",
+      "rank": 3,
+      "reciprocal_rank": 0.3333333333333333,
+      "retrieved_conditions": [
+        "Scleroderma",
+        "Systemic scleroderma",
+        "systemic scleroderma",
+        "systemic scleroderma",
+        "Limited systemic sclerosis"
+      ]
+    },
+    {
+      "condition": "Notalgia paresthetica",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Notalgia paresthetica",
+        "Notalgia paresthetica",
+        "Notalgia paresthetica",
+        "Meralgia Paresthetica",
+        "Notalgia paresthetica"
+      ]
+    },
+    {
+      "condition": "hereditary angioedema",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "hereditary angioedema",
+        "hereditary angioedema",
+        "Hereditary angioedema",
+        "Hereditary angioedema",
+        "hereditary angioedema"
+      ]
+    },
+    {
+      "condition": "Foreign Bodies",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Foreign Bodies",
+        "Bursitis",
+        "Breast Cancer",
+        "Breast Cancer",
+        "Adult Soft Tissue Sarcoma"
+      ]
+    },
+    {
+      "condition": "Brain and Spinal Tumors",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Brain and Spinal Tumors",
+        "Brain and Spinal Tumors",
+        "Childhood Brain and Spinal Cord Tumors",
+        "Childhood Astrocytomas",
+        "Adult Central Nervous System Tumors"
+      ]
+    },
+    {
+      "condition": "Autosomal dominant caf au lait spots",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "McCune-Albright syndrome",
+        "Yemenite deaf-blind hypopigmentation syndrome",
+        "Epidermolysis bullosa simplex, generalized",
+        "familial atrial fibrillation",
+        "Lynch syndrome"
+      ]
+    },
+    {
+      "condition": "Hemophagocytic lymphohistiocytosis",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Hemophagocytic lymphohistiocytosis",
+        "familial hemophagocytic lymphohistiocytosis",
+        "familial hemophagocytic lymphohistiocytosis",
+        "Hemophagocytic lymphohistiocytosis, familial, 4",
+        "Hemophagocytic lymphohistiocytosis"
+      ]
+    },
+    {
+      "condition": "Lemierre syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Lemierre syndrome",
+        "Lemierre syndrome",
+        "Lemierre syndrome",
+        "Lemierre syndrome",
+        "LEOPARD syndrome"
+      ]
+    },
+    {
+      "condition": "Carbamoyl phosphate synthetase 1 deficiency",
+      "rank": 3,
+      "reciprocal_rank": 0.3333333333333333,
+      "retrieved_conditions": [
+        "carbamoyl phosphate synthetase I deficiency",
+        "carbamoyl phosphate synthetase I deficiency",
+        "Carbamoyl phosphate synthetase 1 deficiency",
+        "Carbamoyl phosphate synthetase 1 deficiency",
+        "carbamoyl phosphate synthetase I deficiency"
+      ]
+    },
+    {
+      "condition": "Hereditary neuralgic amyotrophy",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Hereditary neuralgic amyotrophy",
+        "hereditary neuralgic amyotrophy",
+        "hereditary neuralgic amyotrophy",
+        "hereditary neuralgic amyotrophy",
+        "hereditary neuralgic amyotrophy"
+      ]
+    },
+    {
+      "condition": "Cholestasis, progressive familial intrahepatic 4",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_conditions": [
+        "Progressive familial intrahepatic cholestasis type 2",
+        "Cholestasis, progressive familial intrahepatic 4",
+        "Progressive familial intrahepatic cholestasis type 2",
+        "progressive familial intrahepatic cholestasis",
+        "progressive familial intrahepatic cholestasis"
+      ]
+    },
+    {
+      "condition": "Paget disease of bone",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Paget disease of bone",
+        "Paget disease of bone",
+        "Paget's Disease of Bone",
+        "Paget disease of bone",
+        "Paget disease of bone"
+      ]
+    },
+    {
+      "condition": "Klumpke paralysis",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Klumpke paralysis",
+        "Paralysis",
+        "hyperkalemic periodic paralysis",
+        "Paralysis",
+        "Achondroplasia"
+      ]
+    },
+    {
+      "condition": "Septo-Optic Dysplasia",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_conditions": [
+        "Septo-optic dysplasia",
+        "Septo-Optic Dysplasia",
+        "septo-optic dysplasia",
+        "Septo-optic dysplasia",
+        "septo-optic dysplasia"
+      ]
+    },
+    {
+      "condition": "Oculocutaneous albinism type 2",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_conditions": [
+        "oculocutaneous albinism",
+        "Oculocutaneous albinism type 2",
+        "Oculocutaneous albinism type 2",
+        "Oculocutaneous albinism type 3",
+        "Oculocutaneous albinism"
+      ]
+    },
+    {
+      "condition": "Ehlers-Danlos syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Ehlers-Danlos syndrome",
+        "Ehlers-Danlos syndrome",
+        "Ehlers-Danlos syndrome",
+        "Ehlers-Danlos syndrome, dermatosparaxis type",
+        "Ehlers-Danlos syndrome"
+      ]
+    },
+    {
+      "condition": "Organ Transplantation",
+      "rank": 3,
+      "reciprocal_rank": 0.3333333333333333,
+      "retrieved_conditions": [
+        "Kidney Transplantation",
+        "Liver Transplantation",
+        "Organ Transplantation",
+        "Heart Failure",
+        "Kidney Failure: Choosing a Treatment That's Right for You"
+      ]
+    },
+    {
+      "condition": "Neuronal ceroid lipofuscinosis 5",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_conditions": [
+        "Neuronal ceroid lipofuscinosis",
+        "Neuronal ceroid lipofuscinosis 5",
+        "Neuronal ceroid lipofuscinosis 5",
+        "Neuronal ceroid lipofuscinosis 7",
+        "Neuronal ceroid lipofuscinosis 10"
+      ]
+    },
+    {
+      "condition": "Glycogen storage disease type 13",
+      "rank": 8,
+      "reciprocal_rank": 0.125,
+      "retrieved_conditions": [
+        "glycogen storage disease type I",
+        "Glycogen storage disease type 4",
+        "Glycogen storage disease type 6",
+        "Glycogen storage disease type 12",
+        "glycogen storage disease type I"
+      ]
+    },
+    {
+      "condition": "Jervell and Lange-Nielsen syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Jervell and Lange-Nielsen syndrome",
+        "Jervell Lange-Nielsen syndrome",
+        "Jervell Lange-Nielsen syndrome",
+        "Jervell and Lange-Nielsen syndrome 2",
+        "Jervell and Lange-Nielsen syndrome"
+      ]
+    },
+    {
+      "condition": "Bronchiolitis obliterans",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Bronchiolitis obliterans",
+        "Bronchiolitis obliterans",
+        "Bronchiolitis obliterans",
+        "Bronchiolitis obliterans organizing pneumonia",
+        "Oxygen Therapy"
+      ]
+    },
+    {
+      "condition": "pseudoxanthoma elasticum",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "pseudoxanthoma elasticum",
+        "Pseudoxanthoma elasticum",
+        "pseudoxanthoma elasticum",
+        "Pseudoxanthoma elasticum",
+        "Pseudoxanthoma elasticum"
+      ]
+    },
+    {
+      "condition": "Erdheim-Chester disease",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Erdheim-Chester disease",
+        "Erdheim-Chester disease",
+        "Erdheim-Chester disease",
+        "Erdheim-Chester disease",
+        "Erdheim-Chester disease"
+      ]
+    },
+    {
+      "condition": "X-linked chondrodysplasia punctata 2",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "X-linked chondrodysplasia punctata 2",
+        "X-linked chondrodysplasia punctata 2",
+        "X-linked chondrodysplasia punctata 1",
+        "X-linked chondrodysplasia punctata 1",
+        "Chondrodysplasia punctata 2 X-linked dominant"
+      ]
+    },
+    {
+      "condition": "Hypersomnia",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Hypersomnia",
+        "Hypersomnia",
+        "narcolepsy",
+        "Hypersomnia",
+        "Narcolepsy"
+      ]
+    },
+    {
+      "condition": "Ehlers-Danlos syndrome, spondylocheirodysplastic type",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Ehlers-Danlos syndrome, spondylocheirodysplastic type",
+        "Ehlers-Danlos syndrome",
+        "Ehlers-Danlos syndrome",
+        "Ehlers-Danlos syndrome",
+        "Ehlers-Danlos syndrome"
+      ]
+    },
+    {
+      "condition": "Smith-Magenis syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Smith-Magenis syndrome",
+        "Smith-Magenis syndrome",
+        "Smith-Magenis syndrome",
+        "Smith-Magenis syndrome",
+        "Smith-Magenis syndrome"
+      ]
+    },
+    {
+      "condition": "Pachydermoperiostosis",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Pachydermoperiostosis",
+        "Pachydermoperiostosis",
+        "Pachydermoperiostosis",
+        "Pachygyria",
+        "Pachygyria"
+      ]
+    },
+    {
+      "condition": "Juvenile primary lateral sclerosis",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Juvenile primary lateral sclerosis",
+        "juvenile primary lateral sclerosis",
+        "Juvenile primary lateral sclerosis",
+        "juvenile primary lateral sclerosis",
+        "Juvenile primary lateral sclerosis"
+      ]
+    },
+    {
+      "condition": "congenital bilateral absence of the vas deferens",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "congenital bilateral absence of the vas deferens",
+        "Congenital bilateral absence of the vas deferens",
+        "congenital bilateral absence of the vas deferens",
+        "congenital bilateral absence of the vas deferens",
+        "congenital bilateral absence of the vas deferens"
+      ]
+    },
+    {
+      "condition": "Hardikar syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Hardikar syndrome",
+        "Hardikar syndrome",
+        "Wolf-Hirschhorn syndrome",
+        "Muenke syndrome",
+        "Occipital horn syndrome"
+      ]
+    },
+    {
+      "condition": "Methamphetamine",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Methamphetamine",
+        "Penile Cancer",
+        "Childhood Craniopharyngioma",
+        "Childhood Brain and Spinal Cord Tumors",
+        "Urethral Cancer"
+      ]
+    },
+    {
+      "condition": "Behr syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Behr syndrome",
+        "Behr syndrome",
+        "Behr syndrome",
+        "Behcet's Syndrome",
+        "Behcet's Disease"
+      ]
+    },
+    {
+      "condition": "Hennekam syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Hennekam syndrome",
+        "Hennekam syndrome",
+        "Hennekam syndrome",
+        "Hennekam syndrome",
+        "Osteomesopyknosis"
+      ]
+    },
+    {
+      "condition": "Aneurysms",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_conditions": [
+        "Cerebral Aneurysms",
+        "Aneurysms",
+        "Aortic Aneurysm",
+        "Abdominal aortic aneurysm",
+        "Aneurysm"
+      ]
+    },
+    {
+      "condition": "Medicines",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "Herbal Medicine",
+        "Medication Errors",
+        "What I need to know about Erectile Dysfunction",
+        "Dietary Supplements",
+        "Acupuncture"
+      ]
+    },
+    {
+      "condition": "Pitt-Hopkins-like syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Pitt-Hopkins-like syndrome",
+        "Pitt-Hopkins syndrome",
+        "Pitt-Hopkins syndrome",
+        "Pitt-Hopkins syndrome",
+        "Pitt-Hopkins syndrome"
+      ]
+    },
+    {
+      "condition": "Jones syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Jones syndrome",
+        "Curry Jones syndrome",
+        "Jones syndrome",
+        "Jones syndrome",
+        "Jones syndrome"
+      ]
+    },
+    {
+      "condition": "Book syndrome",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "Polymicrogyria",
+        "Jones syndrome",
+        "Williams syndrome",
+        "systemic lupus erythematosus",
+        "SHORT syndrome"
+      ]
+    },
+    {
+      "condition": "Goodpasture Syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Goodpasture Syndrome",
+        "Goodpasture Syndrome",
+        "Goodpasture Syndrome",
+        "Glomerular Diseases",
+        "Glomerular Diseases"
+      ]
+    },
+    {
+      "condition": "factor X deficiency",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "factor X deficiency",
+        "factor X deficiency",
+        "factor X deficiency",
+        "factor X deficiency",
+        "Factor XI deficiency"
+      ]
+    },
+    {
+      "condition": "Meckel syndrome type 3",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_conditions": [
+        "3-M syndrome",
+        "Meckel syndrome type 3",
+        "Meckel syndrome type 2",
+        "Meckel syndrome",
+        "Waardenburg syndrome"
+      ]
+    },
+    {
+      "condition": "Graves disease",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Graves disease",
+        "Graves' disease",
+        "Graves' Disease",
+        "Graves disease",
+        "Hyperthyroidism"
+      ]
+    },
+    {
+      "condition": "Townes-Brocks Syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Townes-Brocks Syndrome",
+        "Townes-Brocks Syndrome",
+        "Townes-Brocks syndrome",
+        "Townes-Brocks syndrome",
+        "Townes-Brocks syndrome"
+      ]
+    },
+    {
+      "condition": "Perrault syndrome",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "Glomerular Diseases",
+        "Glomerular Diseases",
+        "Nephrotic Syndrome in Adults",
+        "Nephrotic Syndrome in Adults",
+        "Streptococcal Infections"
+      ]
+    },
+    {
+      "condition": "Single upper central incisor",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "Adult Central Nervous System Tumors",
+        "Hypopharyngeal Cancer",
+        "Salivary Gland Cancer",
+        "Sleep Apnea",
+        "Skin Cancer"
+      ]
+    },
+    {
+      "condition": "Desmosterolosis",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_conditions": [
+        "desmosterolosis",
+        "desmosterolosis",
+        "desmosterolosis",
+        "sitosterolemia",
+        "desmosterolosis"
+      ]
+    },
+    {
+      "condition": "Isodicentric chromosome 15 syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Isodicentric chromosome 15 syndrome",
+        "isodicentric chromosome 15 syndrome",
+        "isodicentric chromosome 15 syndrome",
+        "isodicentric chromosome 15 syndrome",
+        "isodicentric chromosome 15 syndrome"
+      ]
+    },
+    {
+      "condition": "Hypocomplementemic urticarial vasculitis syndrome",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_conditions": [
+        "Hypocomplementemic urticarial vasculitis syndrome",
+        "Hypocomplementemic urticarial vasculitis syndrome",
+        "Hypocomplementemic urticarial vasculitis syndrome",
+        "Hypocomplementemic urticarial vasculitis syndrome",
+        "Vasculitis Syndromes of the Central and Peripheral Nervous Systems"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2613 @@
+{
+  "metrics": {
+    "collection": "pubmedqa",
+    "num_queries": 200,
+    "recall_at_1": 0.985,
+    "recall_at_3": 0.995,
+    "recall_at_5": 0.995,
+    "recall_at_10": 0.995,
+    "mrr": 0.99
+  },
+  "per_query": [
+    {
+      "pmid": "23571528",
+      "question": "Sternal skin conductance: a reasonable surrogate for hot flash measurement?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23571528",
+        "23571528",
+        "25530159",
+        "22544919",
+        "27020902"
+      ]
+    },
+    {
+      "pmid": "12836106",
+      "question": "Does the leukocyte count correlate with the severity of injury?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12836106",
+        "12836106",
+        "18784579",
+        "18784579",
+        "12163782"
+      ]
+    },
+    {
+      "pmid": "10781708",
+      "question": "Thrombosis prophylaxis in hospitalised medical patients: does prophylaxis in all patients make sense?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "10781708",
+        "17554579",
+        "10781708",
+        "17554579",
+        "24464775"
+      ]
+    },
+    {
+      "pmid": "24996865",
+      "question": "Assessing joint line positions by means of the contralateral knee: a new approach for planning knee revision surgery?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24996865",
+        "24477475",
+        "24996865",
+        "24482216",
+        "20024893"
+      ]
+    },
+    {
+      "pmid": "17593459",
+      "question": "Is double-balloon enteroscopy an accurate method to diagnose small-bowel disorders?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17593459",
+        "17593459",
+        "18266178",
+        "19609674",
+        "14627582"
+      ]
+    },
+    {
+      "pmid": "17208539",
+      "question": "Are the long-term results of the transanal pull-through equal to those of the transabdominal pull-through?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17208539",
+        "17208539",
+        "11380492",
+        "24819108",
+        "25796388"
+      ]
+    },
+    {
+      "pmid": "16872243",
+      "question": "Can decisional algorithms replace global introspection in the individual causality assessment of spontaneously reported ADRs?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16872243",
+        "16872243",
+        "27016459",
+        "27282230",
+        "17530236"
+      ]
+    },
+    {
+      "pmid": "15041506",
+      "question": "Is fear of anaphylactic shock discouraging surgeons from more widely adopting percutaneous and laparoscopic techniques in the treatment of liver hydatid cyst?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "15041506",
+        "15041506",
+        "24464258",
+        "9793348",
+        "24464258"
+      ]
+    },
+    {
+      "pmid": "24958650",
+      "question": "May mean platelet volume levels be a predictor in the diagnosis of pelvic inflammatory disease?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24958650",
+        "25869761",
+        "27109634",
+        "23676885",
+        "19620032"
+      ]
+    },
+    {
+      "pmid": "12612531",
+      "question": "Fragility of the esophageal mucosa: a pathognomonic endoscopic sign of primary eosinophilic esophagitis?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12612531",
+        "12612531",
+        "18253045",
+        "9199905",
+        "9317065"
+      ]
+    },
+    {
+      "pmid": "24160268",
+      "question": "\"Would a man smell a rose then throw it away?",
+      "rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_pmids": [
+        "19995138",
+        "16325659",
+        "22700881",
+        "19995138",
+        "24468516"
+      ]
+    },
+    {
+      "pmid": "24995509",
+      "question": "HIF1A as a major vascular endothelial growth factor regulator: do its polymorphisms have an association with age-related macular degeneration?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24995509",
+        "24995509",
+        "21726930",
+        "25537992",
+        "25883000"
+      ]
+    },
+    {
+      "pmid": "27549226",
+      "question": "Impact of MPH programs: contributing to health system strengthening in low- and middle-income countries?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "27549226",
+        "24708628",
+        "24840767",
+        "27549226",
+        "24683673"
+      ]
+    },
+    {
+      "pmid": "22302761",
+      "question": "Can fractional lasers enhance transdermal absorption of topical lidocaine in an in vivo animal model?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22302761",
+        "22302761",
+        "16215311",
+        "15962735",
+        "16215311"
+      ]
+    },
+    {
+      "pmid": "12145243",
+      "question": "Are lower fasting plasma glucose levels at diagnosis of type 2 diabetes associated with improved outcomes?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12145243",
+        "12145243",
+        "15800018",
+        "22720085",
+        "20007943"
+      ]
+    },
+    {
+      "pmid": "22954812",
+      "question": "Are bipolar disorders underdiagnosed in patients with depressive episodes?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22954812",
+        "14508041",
+        "24210626",
+        "12190713",
+        "17445513"
+      ]
+    },
+    {
+      "pmid": "20084845",
+      "question": "Biomolecular identification of allergenic pollen: a new perspective for aerobiological monitoring?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "20084845",
+        "12945477",
+        "20084845",
+        "27012014",
+        "12945477"
+      ]
+    },
+    {
+      "pmid": "10922093",
+      "question": "Does open access endoscopy close the door to an adequately informed patient?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "10922093",
+        "10922093",
+        "9260699",
+        "9260699",
+        "24920224"
+      ]
+    },
+    {
+      "pmid": "10834864",
+      "question": "Risk factors for avascular necrosis of bone in patients with systemic lupus erythematosus: is there a role for antiphospholipid antibodies?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "10834864",
+        "10834864",
+        "17057930",
+        "17057930",
+        "18854879"
+      ]
+    },
+    {
+      "pmid": "12377809",
+      "question": "Is anorectal endosonography valuable in dyschesia?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12377809",
+        "12377809",
+        "17048993",
+        "18266590",
+        "9317065"
+      ]
+    },
+    {
+      "pmid": "16776337",
+      "question": "Pituitary apoplexy: do histological features influence the clinical presentation and outcome?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16776337",
+        "16776337",
+        "15966512",
+        "11380492",
+        "25794794"
+      ]
+    },
+    {
+      "pmid": "17051586",
+      "question": "Can folic acid protect against congenital heart defects in Down syndrome?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17051586",
+        "12410002",
+        "17051586",
+        "12410002",
+        "18784463"
+      ]
+    },
+    {
+      "pmid": "21789019",
+      "question": "Do elderly cancer patients have different care needs compared with younger ones?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "21789019",
+        "19066984",
+        "21176316",
+        "24591144",
+        "12943818"
+      ]
+    },
+    {
+      "pmid": "23088164",
+      "question": "Does cognitive function predict frequency compressed speech recognition in listeners with normal hearing and normal cognition?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23088164",
+        "23088164",
+        "17538113",
+        "25796476",
+        "24700645"
+      ]
+    },
+    {
+      "pmid": "10798511",
+      "question": "Blunt trauma in intoxicated patients: is computed tomography of the abdomen always necessary?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "10798511",
+        "10798511",
+        "18778379",
+        "25872690",
+        "8310923"
+      ]
+    },
+    {
+      "pmid": "22504515",
+      "question": "Endovenous laser ablation in the treatment of small saphenous varicose veins: does site of access influence early outcomes?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22504515",
+        "21194988",
+        "24211409",
+        "21194988",
+        "26289048"
+      ]
+    },
+    {
+      "pmid": "16296668",
+      "question": "Can bedside assessment reliably exclude aspiration following acute stroke?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16296668",
+        "16296668",
+        "8685928",
+        "8685928",
+        "9280649"
+      ]
+    },
+    {
+      "pmid": "24671913",
+      "question": "Does SYNTAX score predict in-hospital outcomes in patients with ST elevation myocardial infarction undergoing primary percutaneous coronary intervention?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24671913",
+        "21168023",
+        "12625598",
+        "21168023",
+        "12643885"
+      ]
+    },
+    {
+      "pmid": "23761381",
+      "question": "Is calibration the cause of variation in liquid chromatography tandem mass spectrometry testosterone measurement?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23761381",
+        "23761381",
+        "22564197",
+        "25475395",
+        "12645867"
+      ]
+    },
+    {
+      "pmid": "24507422",
+      "question": "Can shape analysis differentiate free-floating internal carotid artery thrombus from atherosclerotic plaque in patients evaluated with CTA for stroke or transient ischemic attack?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24507422",
+        "24507422",
+        "19628796",
+        "21178351",
+        "21178351"
+      ]
+    },
+    {
+      "pmid": "9542484",
+      "question": "Does successful completion of the Perinatal Education Programme result in improved obstetric practice?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "9542484",
+        "23678972",
+        "23678972",
+        "24225138",
+        "22521460"
+      ]
+    },
+    {
+      "pmid": "20064872",
+      "question": "Can the prognosis of polymyalgia rheumatica be predicted at disease onset?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "20064872",
+        "23669053",
+        "15523451",
+        "17532408",
+        "22949726"
+      ]
+    },
+    {
+      "pmid": "16809243",
+      "question": "Is fetal gender associated with emergency department visits for asthma during pregnancy?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16809243",
+        "16809243",
+        "12351559",
+        "11120897",
+        "21190392"
+      ]
+    },
+    {
+      "pmid": "20594006",
+      "question": "A patient with myelomeningocele: is untethering necessary prior to scoliosis correction?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "20594006",
+        "20594006",
+        "26298824",
+        "21173626",
+        "23680833"
+      ]
+    },
+    {
+      "pmid": "22902073",
+      "question": "Estimated fetal weight by ultrasound: a modifiable risk factor for cesarean delivery?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22902073",
+        "27216958",
+        "18844650",
+        "24839146",
+        "21113721"
+      ]
+    },
+    {
+      "pmid": "17601244",
+      "question": "Are there associations of health status, disease activity and damage in SLE patients?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17601244",
+        "15529371",
+        "10834864",
+        "17601244",
+        "17057930"
+      ]
+    },
+    {
+      "pmid": "25985014",
+      "question": "Is ganglionated plexi ablation during Maze IV procedure beneficial for postoperative long-term stable sinus rhythm?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25985014",
+        "25985014",
+        "21106019",
+        "18855876",
+        "25535691"
+      ]
+    },
+    {
+      "pmid": "26965932",
+      "question": "Is Bare-Metal Stent Implantation Still Justifiable in High Bleeding Risk Patients Undergoing Percutaneous Coronary Intervention?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "26965932",
+        "21114531",
+        "15965811",
+        "27032086",
+        "17551994"
+      ]
+    },
+    {
+      "pmid": "10340286",
+      "question": "Is there a role for leukocyte and CRP measurements in the diagnosis of acute appendicitis in the elderly?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "10340286",
+        "10340286",
+        "23860049",
+        "27267549",
+        "19636177"
+      ]
+    },
+    {
+      "pmid": "25277731",
+      "question": "Sternal fracture in growing children : A rare and often overlooked fracture?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25277731",
+        "25277731",
+        "14504843",
+        "14504843",
+        "12354266"
+      ]
+    },
+    {
+      "pmid": "25957366",
+      "question": "Prompting Primary Care Providers about Increased Patient Risk As a Result of Family History: Does It Work?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25957366",
+        "25957366",
+        "17459064",
+        "26091906",
+        "26293608"
+      ]
+    },
+    {
+      "pmid": "15477551",
+      "question": "Chronic progressive cervical myelopathy with HTLV-I infection: Variant form of HAM/TSP?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "15477551",
+        "15477551",
+        "24793469",
+        "21192196",
+        "21361755"
+      ]
+    },
+    {
+      "pmid": "24476003",
+      "question": "Is nasogastric decompression useful in prevention of leaks after laparoscopic sleeve gastrectomy?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24476003",
+        "24476003",
+        "24827404",
+        "18708308",
+        "27109203"
+      ]
+    },
+    {
+      "pmid": "9465206",
+      "question": "\"Occult\" posttraumatic lesions of the knee: can magnetic resonance substitute for diagnostic arthroscopy?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "9465206",
+        "9465206",
+        "12410446",
+        "22697321",
+        "24821755"
+      ]
+    },
+    {
+      "pmid": "18693227",
+      "question": "Does a geriatric oncology consultation modify the cancer treatment plan for elderly patients?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "18693227",
+        "18693227",
+        "21789019",
+        "26745698",
+        "24458474"
+      ]
+    },
+    {
+      "pmid": "8916748",
+      "question": "Do socioeconomic differences in mortality persist after retirement?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "8916748",
+        "8916748",
+        "23679869",
+        "27216572",
+        "18276626"
+      ]
+    },
+    {
+      "pmid": "15381614",
+      "question": "Cutaneous melanoma in a multiethnic population: is this a different disease?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "15381614",
+        "15381614",
+        "27010139",
+        "27010139",
+        "11101543"
+      ]
+    },
+    {
+      "pmid": "16735905",
+      "question": "Does the severity of obstructive sleep apnea predict patients requiring high continuous positive airway pressure?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16735905",
+        "12426271",
+        "16735905",
+        "20719563",
+        "24712013"
+      ]
+    },
+    {
+      "pmid": "25336163",
+      "question": "Are interstitial fluid concentrations of meropenem equivalent to plasma concentrations in critically ill patients receiving continuous renal replacement therapy?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25336163",
+        "25336163",
+        "23147106",
+        "22706681",
+        "22706681"
+      ]
+    },
+    {
+      "pmid": "18616781",
+      "question": "Is there a relationship between homocysteine and vitiligo?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "18616781",
+        "18616781",
+        "12640345",
+        "9305300",
+        "9798965"
+      ]
+    },
+    {
+      "pmid": "9602458",
+      "question": "Does the Child Health Computing System adequately identify children with cerebral palsy?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "9602458",
+        "9602458",
+        "24919134",
+        "26112263",
+        "26283455"
+      ]
+    },
+    {
+      "pmid": "12238307",
+      "question": "Vaccine protection in the elderly: are Austrian seniors adequately protected by vaccinations?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12238307",
+        "12238307",
+        "17096624",
+        "14514932",
+        "12400846"
+      ]
+    },
+    {
+      "pmid": "19398929",
+      "question": "Can the growth rate of a gallbladder polyp predict a neoplastic polyp?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19398929",
+        "19398929",
+        "18793401",
+        "18793401",
+        "25892875"
+      ]
+    },
+    {
+      "pmid": "12442934",
+      "question": "Does ibuprofen increase perioperative blood loss during hip arthroplasty?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12442934",
+        "12442934",
+        "12632617",
+        "12192353",
+        "19620202"
+      ]
+    },
+    {
+      "pmid": "19058191",
+      "question": "Is there a discrepancy between patient and physician quality of life assessment?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19058191",
+        "19058191",
+        "20020430",
+        "24919068",
+        "18769802"
+      ]
+    },
+    {
+      "pmid": "26518378",
+      "question": "Are Reviewers' Scores Influenced by Citations to Their Own Work?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "26518378",
+        "26518378",
+        "25775455",
+        "22558178",
+        "26719313"
+      ]
+    },
+    {
+      "pmid": "18783922",
+      "question": "Do cytokines have any role in epilepsy?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "18783922",
+        "26307557",
+        "24364468",
+        "12121321",
+        "12653801"
+      ]
+    },
+    {
+      "pmid": "23147106",
+      "question": "Is peak concentration needed in therapeutic drug monitoring of vancomycin?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23147106",
+        "23147106",
+        "23422012",
+        "23422012",
+        "17066239"
+      ]
+    },
+    {
+      "pmid": "17445978",
+      "question": "Is renal warm ischemia over 30 minutes during laparoscopic partial nephrectomy possible?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17445978",
+        "17445978",
+        "23517744",
+        "24700310",
+        "12645715"
+      ]
+    },
+    {
+      "pmid": "25981682",
+      "question": "Preparing patients at high risk of falls for discharge home after rehabilitation: Do we meet the guidelines?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25981682",
+        "25981682",
+        "18792854",
+        "24368379",
+        "16239239"
+      ]
+    },
+    {
+      "pmid": "11247896",
+      "question": "Can APC mutation analysis contribute to therapeutic decisions in familial adenomatous polyposis?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "11247896",
+        "11247896",
+        "22965401",
+        "18782444",
+        "16317745"
+      ]
+    },
+    {
+      "pmid": "24851767",
+      "question": "Undescended testes: does age at orchiopexy affect survival of the testis?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24851767",
+        "16215310",
+        "18280289",
+        "27264050",
+        "24851767"
+      ]
+    },
+    {
+      "pmid": "20828836",
+      "question": "Is discordance in TEOAE and AABR outcomes predictable in newborns?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "20828836",
+        "20828836",
+        "27268024",
+        "26103779",
+        "27216958"
+      ]
+    },
+    {
+      "pmid": "22227642",
+      "question": "Can we measure mesopic pupil size with the cobalt blue light slit-lamp biomicroscopy method?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22227642",
+        "22227642",
+        "26686513",
+        "27266440",
+        "25884582"
+      ]
+    },
+    {
+      "pmid": "14612308",
+      "question": "Can PRISM predict length of PICU stay?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "14612308",
+        "14612308",
+        "16326297",
+        "8727443",
+        "8727443"
+      ]
+    },
+    {
+      "pmid": "19351635",
+      "question": "Do older patients receive adequate stroke care?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19351635",
+        "19351635",
+        "20712416",
+        "9199870",
+        "11340218"
+      ]
+    },
+    {
+      "pmid": "12040336",
+      "question": "Cardiogenic shock complicating acute myocardial infarction in elderly patients: does admission to a tertiary center improve survival?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12040336",
+        "11130812",
+        "11130812",
+        "9920954",
+        "2913781"
+      ]
+    },
+    {
+      "pmid": "22382608",
+      "question": "SPECT study with I-123-Ioflupane (DaTSCAN) in patients with essential tremor. Is there any correlation with Parkinson's disease?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22382608",
+        "20724066",
+        "22382608",
+        "20724066",
+        "25872644"
+      ]
+    },
+    {
+      "pmid": "18005142",
+      "question": "Does early migraine treatment shorten time to headache peak and reduce its severity?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "18005142",
+        "18005142",
+        "24685971",
+        "24685971",
+        "17530688"
+      ]
+    },
+    {
+      "pmid": "26285789",
+      "question": "Does Molecular Genotype Provide Useful Information in the Management of Radioiodine Refractory Thyroid Cancers?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "26285789",
+        "26086825",
+        "26285789",
+        "25893415",
+        "25546220"
+      ]
+    },
+    {
+      "pmid": "23422012",
+      "question": "Is vancomycin MIC creep a worldwide phenomenon?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23422012",
+        "23422012",
+        "23147106",
+        "23147106",
+        "18266611"
+      ]
+    },
+    {
+      "pmid": "23356465",
+      "question": "Uniformity of evidence-based treatments in practice?",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_pmids": [
+        "26516021",
+        "23356465",
+        "24480940",
+        "17060756",
+        "8313288"
+      ]
+    },
+    {
+      "pmid": "27288618",
+      "question": "Is inhaled prophylactic heparin useful for prevention and Management of Pneumonia in ventilated ICU patients?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "27288618",
+        "27288618",
+        "10781708",
+        "9809571",
+        "18784566"
+      ]
+    },
+    {
+      "pmid": "26820719",
+      "question": "Colorectal cancer in young patients: is it a distinct clinical entity?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "26820719",
+        "26820719",
+        "27278956",
+        "22726268",
+        "15537853"
+      ]
+    },
+    {
+      "pmid": "19106867",
+      "question": "The Main Gate Syndrome: a new format in mass-casualty victim \"surge\" management?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19106867",
+        "19106867",
+        "8720889",
+        "24838519",
+        "24838519"
+      ]
+    },
+    {
+      "pmid": "22683044",
+      "question": "Does open access publishing increase the impact of scientific articles?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22683044",
+        "22683044",
+        "26719313",
+        "23680270",
+        "23680270"
+      ]
+    },
+    {
+      "pmid": "16155169",
+      "question": "Percutaneous ethanol injection for benign cystic thyroid nodules: is aspiration of ethanol-mixed fluid advantageous?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16155169",
+        "16155169",
+        "12190731",
+        "18803557",
+        "26319258"
+      ]
+    },
+    {
+      "pmid": "24577079",
+      "question": "Does strategy training reduce age-related deficits in working memory?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24577079",
+        "24577079",
+        "20016124",
+        "20016124",
+        "20008028"
+      ]
+    },
+    {
+      "pmid": "11882828",
+      "question": "Does tranexamic acid reduce desmopressin-induced hyperfibrinolysis?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "11882828",
+        "11882828",
+        "27105588",
+        "24684514",
+        "27221958"
+      ]
+    },
+    {
+      "pmid": "11334578",
+      "question": "Is there awareness of pharmaceutical expenditure in the reformed primary care system?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "11334578",
+        "24480618",
+        "24480618",
+        "18786329",
+        "27017203"
+      ]
+    },
+    {
+      "pmid": "23916653",
+      "question": "Orthostatic myoclonus: an underrecognized cause of unsteadiness?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23916653",
+        "23916653",
+        "15540754",
+        "24838519",
+        "27295547"
+      ]
+    },
+    {
+      "pmid": "16968876",
+      "question": "Is a patient's self-reported health-related quality of life a prognostic factor for survival in non-small-cell lung cancer patients?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16968876",
+        "12846929",
+        "16968876",
+        "12846929",
+        "11888773"
+      ]
+    },
+    {
+      "pmid": "25481573",
+      "question": "Processing fluency effects: can the content and presentation of participant information sheets influence recruitment and participation for an antenatal intervention?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25481573",
+        "25481573",
+        "17910536",
+        "10808977",
+        "26112263"
+      ]
+    },
+    {
+      "pmid": "17916877",
+      "question": "Intravenous administration of metoclopramide by 2 min bolus vs 15 min infusion: does it affect the improvement of headache while reducing the side effects?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17916877",
+        "17916877",
+        "8276209",
+        "18272093",
+        "18272093"
+      ]
+    },
+    {
+      "pmid": "12068831",
+      "question": "Do nontriploid partial hydatidiform moles exist?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12068831",
+        "11111218",
+        "17718216",
+        "17054690",
+        "18319270"
+      ]
+    },
+    {
+      "pmid": "26686513",
+      "question": "Cycloplegic autorefraction in young adults: is it mandatory?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "26686513",
+        "24372417",
+        "26686513",
+        "24205064",
+        "24205064"
+      ]
+    },
+    {
+      "pmid": "9363529",
+      "question": "Does psychological distress predict disability?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "9363529",
+        "19628282",
+        "19622199",
+        "18845342",
+        "17535490"
+      ]
+    },
+    {
+      "pmid": "26879871",
+      "question": "Does depression diagnosis and antidepressant prescribing vary by location?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "26879871",
+        "26879871",
+        "18842304",
+        "12944340",
+        "12944340"
+      ]
+    },
+    {
+      "pmid": "12607666",
+      "question": "Is extended aortic replacement in acute type A dissection justifiable?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12607666",
+        "12607666",
+        "17062223",
+        "24829403",
+        "22569490"
+      ]
+    },
+    {
+      "pmid": "7547656",
+      "question": "Does continuous intravenous infusion of low-concentration epinephrine impair uterine blood flow in pregnant ewes?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "7547656",
+        "7547656",
+        "8267054",
+        "8267054",
+        "9311181"
+      ]
+    },
+    {
+      "pmid": "8200238",
+      "question": "Must early postoperative oral intake be limited to laparoscopy?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "8200238",
+        "8200238",
+        "24475574",
+        "18266566",
+        "18256884"
+      ]
+    },
+    {
+      "pmid": "20629769",
+      "question": "Is primary angioplasty an acceptable alternative to thrombolysis?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "20629769",
+        "12625598",
+        "9207637",
+        "20629769",
+        "9207637"
+      ]
+    },
+    {
+      "pmid": "23506394",
+      "question": "Malnutrition, a new inducer for arterial calcification in hemodialysis patients?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23506394",
+        "23506394",
+        "17726653",
+        "16326734",
+        "16326734"
+      ]
+    },
+    {
+      "pmid": "26370095",
+      "question": "Are financial incentives cost-effective to support smoking cessation during pregnancy?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "26370095",
+        "26370095",
+        "22571648",
+        "18264783",
+        "17535177"
+      ]
+    },
+    {
+      "pmid": "19131405",
+      "question": "Diffusion-weighted echo-planar MR imaging of primary parotid gland tumors: is a prediction of different histologic subtypes possible?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19131405",
+        "17448846",
+        "27276388",
+        "21177390",
+        "17448846"
+      ]
+    },
+    {
+      "pmid": "15489384",
+      "question": "Does reducing spasticity translate into functional benefit?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "15489384",
+        "15489384",
+        "20022999",
+        "12411650",
+        "12649653"
+      ]
+    },
+    {
+      "pmid": "19230985",
+      "question": "Post-tonsillectomy late haemorrhage: is it a preferably night-time event?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19230985",
+        "19230985",
+        "27292442",
+        "27292442",
+        "17445306"
+      ]
+    },
+    {
+      "pmid": "18948835",
+      "question": "Does somatostatin confer insulinostatic effects of neuromedin u in the rat pancreas?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "18948835",
+        "18948835",
+        "24370785",
+        "20713615",
+        "24842144"
+      ]
+    },
+    {
+      "pmid": "16510651",
+      "question": "Birth characteristics and risk of low intellectual performance in early adulthood: are the associations confounded by socioeconomic factors in adolescence or familial effects?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16510651",
+        "16510651",
+        "19995865",
+        "27035694",
+        "24686486"
+      ]
+    },
+    {
+      "pmid": "24073931",
+      "question": "Is the covering of the resection margin after distal pancreatectomy advantageous?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24073931",
+        "24073931",
+        "19621722",
+        "8682477",
+        "19621722"
+      ]
+    },
+    {
+      "pmid": "17483607",
+      "question": "Does topical N-acetylcysteine application after myringotomy cause severe otorrhea?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17483607",
+        "17483607",
+        "18805757",
+        "17062048",
+        "9455942"
+      ]
+    },
+    {
+      "pmid": "9107172",
+      "question": "Bridge experience with long-term implantable left ventricular assist devices. Are they an alternative to transplantation?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "9107172",
+        "12643395",
+        "17062246",
+        "15949730",
+        "9107172"
+      ]
+    },
+    {
+      "pmid": "24267613",
+      "question": "Is the advanced age a contraindication to GERD laparoscopic surgery?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24267613",
+        "26301769",
+        "26303645",
+        "26301769",
+        "24267613"
+      ]
+    },
+    {
+      "pmid": "23735520",
+      "question": "Can mental imagery functional magnetic resonance imaging predict recovery in patients with disorders of consciousness?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23735520",
+        "23735520",
+        "26104432",
+        "24363336",
+        "12427888"
+      ]
+    },
+    {
+      "pmid": "11926574",
+      "question": "Are hepatitis G virus and TT virus involved in cryptogenic chronic liver disease?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "11926574",
+        "11926574",
+        "16225480",
+        "8723415",
+        "9314123"
+      ]
+    },
+    {
+      "pmid": "23228527",
+      "question": "Does music influence stress in mechanically ventilated patients?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23228527",
+        "24704658",
+        "23228527",
+        "24704658",
+        "9201567"
+      ]
+    },
+    {
+      "pmid": "27338535",
+      "question": "Do risk calculators accurately predict surgical site\u00a0occurrences?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "27338535",
+        "27338535",
+        "24811074",
+        "24811074",
+        "24825150"
+      ]
+    },
+    {
+      "pmid": "15687156",
+      "question": "Can normal knee kinematics be restored with unicompartmental knee replacement?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "15687156",
+        "15687156",
+        "23568387",
+        "23361217",
+        "22972653"
+      ]
+    },
+    {
+      "pmid": "22188074",
+      "question": "Do instrumental activities of daily living predict dementia at 1- and 2-year follow-up?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22188074",
+        "22188074",
+        "24682970",
+        "24379657",
+        "15960692"
+      ]
+    },
+    {
+      "pmid": "24827404",
+      "question": "Is resected stomach volume related to weight loss after laparoscopic sleeve gastrectomy?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24827404",
+        "24827404",
+        "17546838",
+        "27109203",
+        "25480629"
+      ]
+    },
+    {
+      "pmid": "9722752",
+      "question": "Does bone anchor fixation improve the outcome of percutaneous bladder neck suspension in female stress urinary incontinence?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "9722752",
+        "9722752",
+        "8674956",
+        "24468516",
+        "24384878"
+      ]
+    },
+    {
+      "pmid": "15502995",
+      "question": "Does the early adopter of drugs exist?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "15502995",
+        "15502995",
+        "28196511",
+        "18786980",
+        "24462297"
+      ]
+    },
+    {
+      "pmid": "20871246",
+      "question": "Young-Burgess classification of pelvic ring fractures: does it predict mortality, transfusion requirements, and non-orthopaedic injuries?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "20871246",
+        "20871246",
+        "22710782",
+        "18842385",
+        "26304045"
+      ]
+    },
+    {
+      "pmid": "19394934",
+      "question": "Israeli hospital preparedness for terrorism-related multiple casualty incidents: can the surge capacity and injury severity distribution be better predicted?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19394934",
+        "19394934",
+        "18274041",
+        "16214473",
+        "8720889"
+      ]
+    },
+    {
+      "pmid": "17551944",
+      "question": "Doppler examination of uteroplacental circulation in early pregnancy: can it predict adverse outcome?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17551944",
+        "22725654",
+        "17551944",
+        "22725654",
+        "27268024"
+      ]
+    },
+    {
+      "pmid": "23587089",
+      "question": "School food policy at Dutch primary schools: room for improvement?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23587089",
+        "23587089",
+        "18801797",
+        "18801797",
+        "23659552"
+      ]
+    },
+    {
+      "pmid": "24336869",
+      "question": "Can routinely collected ambulance data about assaults contribute to reduction in community violence?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24336869",
+        "26729380",
+        "17726415",
+        "24336869",
+        "26307867"
+      ]
+    },
+    {
+      "pmid": "22449464",
+      "question": "Do general practice selection scores predict success at MRCGP?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22449464",
+        "25940336",
+        "22251324",
+        "25940336",
+        "26275602"
+      ]
+    },
+    {
+      "pmid": "16778275",
+      "question": "Is routine chest radiography after transbronchial biopsy necessary?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16778275",
+        "16778275",
+        "12646080",
+        "8719449",
+        "25887006"
+      ]
+    },
+    {
+      "pmid": "24298614",
+      "question": "Is the 7th TNM edition suitable for biological predictor in early gastric cancer?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24298614",
+        "24298614",
+        "20082356",
+        "24477743",
+        "20674150"
+      ]
+    },
+    {
+      "pmid": "18507507",
+      "question": "The promise of specialty pharmaceuticals: are they worth the price?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "18507507",
+        "18507507",
+        "21712147",
+        "17076590",
+        "26516021"
+      ]
+    },
+    {
+      "pmid": "26471488",
+      "question": "Does Mammographic Density have an Impact on the Margin Re-excision Rate After Breast-Conserving Surgery?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "26471488",
+        "26471488",
+        "18809063",
+        "8273633",
+        "18266039"
+      ]
+    },
+    {
+      "pmid": "25432938",
+      "question": "Did Chile's traffic law reform push police enforcement?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25432938",
+        "25432938",
+        "16224507",
+        "16224507",
+        "24689836"
+      ]
+    },
+    {
+      "pmid": "25489696",
+      "question": "Does radiotherapy of the primary rectal cancer affect prognosis after pelvic exenteration for recurrent rectal cancer?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25489696",
+        "25489696",
+        "9212016",
+        "21176061",
+        "12095973"
+      ]
+    },
+    {
+      "pmid": "11555508",
+      "question": "Do inhaled corticosteroids affect perception of dyspnea during bronchoconstriction in asthma?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "11555508",
+        "11115436",
+        "8681660",
+        "16210861",
+        "7596005"
+      ]
+    },
+    {
+      "pmid": "16971978",
+      "question": "Are complex coronary lesions more frequent in patients with diabetes mellitus?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16971978",
+        "16971978",
+        "12421026",
+        "27006119",
+        "25784312"
+      ]
+    },
+    {
+      "pmid": "26163474",
+      "question": "Is there a connection between sublingual varices and hypertension?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "26163474",
+        "26163474",
+        "26100448",
+        "26100448",
+        "18824645"
+      ]
+    },
+    {
+      "pmid": "9446993",
+      "question": "Can dentists recognize manipulated digital radiographs?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "9446993",
+        "9446993",
+        "27213837",
+        "25864819",
+        "27197705"
+      ]
+    },
+    {
+      "pmid": "25940336",
+      "question": "Does Residency Selection Criteria Predict Performance in Orthopaedic Surgery Residency?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25940336",
+        "25940336",
+        "22251324",
+        "12947312",
+        "21173193"
+      ]
+    },
+    {
+      "pmid": "18378554",
+      "question": "Are wandering and physically nonaggressive agitation equivalent?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "18378554",
+        "18378554",
+        "21183224",
+        "18276956",
+        "18806921"
+      ]
+    },
+    {
+      "pmid": "19640728",
+      "question": "Surgical treatment of prosthetic valve endocarditis in patients with double prostheses: is single-valve replacement safe?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19640728",
+        "19640728",
+        "9205173",
+        "9205173",
+        "9800830"
+      ]
+    },
+    {
+      "pmid": "17489316",
+      "question": "Is tumour expression of VEGF associated with venous invasion and survival in pT3 renal cell carcinoma?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17489316",
+        "17489316",
+        "12187200",
+        "19633051",
+        "17437782"
+      ]
+    },
+    {
+      "pmid": "11833948",
+      "question": "Does a delay in transfer to a rehabilitation unit for older people affect outcome after fracture of the proximal femur?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "11833948",
+        "11833948",
+        "24464301",
+        "24925700",
+        "24461225"
+      ]
+    },
+    {
+      "pmid": "16564683",
+      "question": "Is there any interest to perform ultrasonography in boys with undescended testis?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16564683",
+        "24206784",
+        "12940196",
+        "12940196",
+        "11125411"
+      ]
+    },
+    {
+      "pmid": "22534881",
+      "question": "Does the radiographic transition zone correlate with the level of aganglionosis on the specimen in Hirschsprung's disease?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22534881",
+        "22534881",
+        "24841017",
+        "18795669",
+        "17451704"
+      ]
+    },
+    {
+      "pmid": "24695920",
+      "question": "Does anterior laxity of the uninjured knee influence clinical outcomes of ACL reconstruction?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24695920",
+        "19620951",
+        "24695920",
+        "19620951",
+        "24477475"
+      ]
+    },
+    {
+      "pmid": "18375490",
+      "question": "Are laboratories reporting serum quantitative hCG results correctly?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "18375490",
+        "18375490",
+        "16392897",
+        "27018135",
+        "2503176"
+      ]
+    },
+    {
+      "pmid": "16647887",
+      "question": "Are women who are treated for hypothyroidism at risk for pregnancy complications?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "16647887",
+        "16647887",
+        "18834342",
+        "26285703",
+        "24930451"
+      ]
+    },
+    {
+      "pmid": "23810330",
+      "question": "Is intraoperative neuromonitoring associated with better functional outcome in patients undergoing open TME?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23810330",
+        "23810330",
+        "24481247",
+        "25893357",
+        "19996643"
+      ]
+    },
+    {
+      "pmid": "21689015",
+      "question": "Can dogs prime autistic children for therapy?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "21689015",
+        "21689015",
+        "24814254",
+        "24814254",
+        "22545740"
+      ]
+    },
+    {
+      "pmid": "19575307",
+      "question": "Does glomerular hyperfiltration in pregnancy damage the kidney in women with more parities?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19575307",
+        "19575307",
+        "18785952",
+        "27125324",
+        "22967110"
+      ]
+    },
+    {
+      "pmid": "23601294",
+      "question": "Pitfalls in urinary stone identification using CT attenuation values: are we getting the same information on different scanner models?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23601294",
+        "23601294",
+        "18811576",
+        "12196724",
+        "18811576"
+      ]
+    },
+    {
+      "pmid": "20813740",
+      "question": "Does \u03b2-catenin have a role in pathogenesis of sebaceous cell carcinoma of the eyelid?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "20813740",
+        "20813740",
+        "12653801",
+        "24930483",
+        "24364468"
+      ]
+    },
+    {
+      "pmid": "15065192",
+      "question": "Three-dimensional ultrasound-validated large-core needle biopsy: is it a reliable method for the histological assessment of breast lesions?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "15065192",
+        "15065192",
+        "26294391",
+        "26296659",
+        "21179983"
+      ]
+    },
+    {
+      "pmid": "17453263",
+      "question": "Are physician estimates of asthma severity less accurate in black than in white patients?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17453263",
+        "17453263",
+        "18773326",
+        "18773326",
+        "11099600"
+      ]
+    },
+    {
+      "pmid": "9616411",
+      "question": "Do general practitioner hospitals reduce the utilisation of general hospital beds?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "9616411",
+        "9616411",
+        "7619582",
+        "7619582",
+        "18823571"
+      ]
+    },
+    {
+      "pmid": "17224424",
+      "question": "Effects of exercise training on heart rate and QT interval in healthy young individuals: are there gender differences?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17224424",
+        "17224424",
+        "9315546",
+        "9323099",
+        "11099170"
+      ]
+    },
+    {
+      "pmid": "25034219",
+      "question": "Does maternal obesity have an influence on feeding behavior of obese children?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25034219",
+        "25034219",
+        "17595200",
+        "16234423",
+        "25539997"
+      ]
+    },
+    {
+      "pmid": "9199905",
+      "question": "Vertical lines in distal esophageal mucosa (VLEM): a true endoscopic manifestation of esophagitis in children?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "9199905",
+        "9199905",
+        "22969232",
+        "26096344",
+        "18253045"
+      ]
+    },
+    {
+      "pmid": "22236315",
+      "question": "Is distance to provider a barrier to care for medicaid patients with breast, colorectal, or lung cancer?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22236315",
+        "22236315",
+        "13130112",
+        "13130112",
+        "29112560"
+      ]
+    },
+    {
+      "pmid": "17444776",
+      "question": "Is the holmium:YAG laser the best intracorporeal lithotripter for the ureter?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17444776",
+        "17444776",
+        "17070256",
+        "17070256",
+        "26728200"
+      ]
+    },
+    {
+      "pmid": "25070942",
+      "question": "Can mass drug administration lead to the sustainable control of schistosomiasis?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25070942",
+        "25070942",
+        "24916278",
+        "22703877",
+        "11570976"
+      ]
+    },
+    {
+      "pmid": "22825590",
+      "question": "Are behavioural risk factors to be blamed for the conversion from optimal blood pressure to hypertensive status in Black South Africans?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22825590",
+        "22825590",
+        "22990761",
+        "25150098",
+        "18824645"
+      ]
+    },
+    {
+      "pmid": "20197761",
+      "question": "Is irritable bowel syndrome a diagnosis of exclusion?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "20197761",
+        "20197761",
+        "8677992",
+        "8677992",
+        "12204983"
+      ]
+    },
+    {
+      "pmid": "22813804",
+      "question": "Does obesity impact the pattern and outcome of trauma in children?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22813804",
+        "16322608",
+        "22813804",
+        "16322608",
+        "21114457"
+      ]
+    },
+    {
+      "pmid": "19608436",
+      "question": "Chemical shift MRI: is there any contribution to morphologic evaluation of solid breast masses?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19608436",
+        "19608436",
+        "24836350",
+        "26294391",
+        "25784323"
+      ]
+    },
+    {
+      "pmid": "27884344",
+      "question": "Do resident's leadership skills relate to ratings of technical skill?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "27884344",
+        "27884344",
+        "15951312",
+        "27281816",
+        "18855231"
+      ]
+    },
+    {
+      "pmid": "26818046",
+      "question": "Could Adult European Pharmacoresistant Epilepsy Patients Be Treated With Higher Doses of Zonisamide?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "26818046",
+        "26818046",
+        "14513159",
+        "17553382",
+        "14513159"
+      ]
+    },
+    {
+      "pmid": "15000338",
+      "question": "Do family physicians know the costs of medical care?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "15000338",
+        "15954508",
+        "15953132",
+        "11458136",
+        "22710277"
+      ]
+    },
+    {
+      "pmid": "21848798",
+      "question": "MiraLAX vs. Golytely: is there a significant difference in the adenoma detection rate?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "21848798",
+        "21848798",
+        "11152782",
+        "17450028",
+        "27219017"
+      ]
+    },
+    {
+      "pmid": "21592383",
+      "question": "Canada's Compassionate Care Benefit: is it an adequate public health response to addressing the issue of caregiver burden in end-of-life care?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "21592383",
+        "24477771",
+        "21592383",
+        "21126195",
+        "25526387"
+      ]
+    },
+    {
+      "pmid": "12221908",
+      "question": "The HELPP syndrome--evidence of a possible systemic inflammatory response in pre-eclampsia?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12221908",
+        "15957998",
+        "17728960",
+        "15957998",
+        "24364468"
+      ]
+    },
+    {
+      "pmid": "25228241",
+      "question": "Elephant trunk in a small-calibre true lumen for chronic aortic dissection: cause of haemolytic anaemia?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25228241",
+        "25228241",
+        "24829403",
+        "26106209",
+        "26324032"
+      ]
+    },
+    {
+      "pmid": "11380492",
+      "question": "Transsphenoidal pituitary surgery in Cushing's disease: can we predict outcome?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "11380492",
+        "11380492",
+        "9797846",
+        "24471573",
+        "9797846"
+      ]
+    },
+    {
+      "pmid": "12790890",
+      "question": "Is the cell death in mesial temporal sclerosis apoptotic?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12790890",
+        "9227674",
+        "12790890",
+        "23680407",
+        "26334679"
+      ]
+    },
+    {
+      "pmid": "15223779",
+      "question": "c-Kit-dependent growth of uveal melanoma cells: a potential therapeutic target?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "15223779",
+        "15223779",
+        "18284441",
+        "24814041",
+        "28006766"
+      ]
+    },
+    {
+      "pmid": "23414523",
+      "question": "Does binge drinking during early pregnancy increase the risk of psychomotor deficits?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23414523",
+        "23414523",
+        "19298478",
+        "22708721",
+        "24935960"
+      ]
+    },
+    {
+      "pmid": "8422202",
+      "question": "Metered-dose inhalers. Do health care providers know what to teach?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "8422202",
+        "8422202",
+        "14507797",
+        "12920494",
+        "12920494"
+      ]
+    },
+    {
+      "pmid": "25747932",
+      "question": "Living in an urban environment and non-communicable disease risk in Thailand: Does timing matter?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25747932",
+        "24231892",
+        "16428354",
+        "21176242",
+        "21176242"
+      ]
+    },
+    {
+      "pmid": "24235894",
+      "question": "Is there a first night effect on sleep bruxism?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24235894",
+        "24235894",
+        "15539714",
+        "19639069",
+        "19054172"
+      ]
+    },
+    {
+      "pmid": "8262881",
+      "question": "Body dysmorphic disorder: does it have a psychotic subtype?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "8262881",
+        "8262881",
+        "27028495",
+        "20021993",
+        "24210626"
+      ]
+    },
+    {
+      "pmid": "23002947",
+      "question": "Does feeding tube insertion and its timing improve survival?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23002947",
+        "11151874",
+        "24476003",
+        "8200238",
+        "19322056"
+      ]
+    },
+    {
+      "pmid": "11776681",
+      "question": "Is intrapartum vibroacoustic stimulation an effective predictor of fetal acidosis?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "11776681",
+        "11776681",
+        "8688389",
+        "8688389",
+        "24706336"
+      ]
+    },
+    {
+      "pmid": "19430778",
+      "question": "Can magnetic resonance imaging accurately predict concordant pain provocation during provocative disc injection?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19430778",
+        "25893357",
+        "9802168",
+        "17436185",
+        "20720072"
+      ]
+    },
+    {
+      "pmid": "19401574",
+      "question": "Gadofosveset-enhanced MR angiography of carotid arteries: does steady-state imaging improve accuracy of first-pass imaging?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "19401574",
+        "19401574",
+        "12427639",
+        "23449952",
+        "19628623"
+      ]
+    },
+    {
+      "pmid": "8910148",
+      "question": "Transesophageal echocardiographic assessment of left ventricular function in brain-dead patients: are marginally acceptable hearts suitable for transplantation?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "8910148",
+        "8910148",
+        "8694671",
+        "23658033",
+        "12627071"
+      ]
+    },
+    {
+      "pmid": "21164063",
+      "question": "Is there a role for fondaparinux in perioperative bridging?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "21164063",
+        "21164063",
+        "19083069",
+        "17554579",
+        "25881216"
+      ]
+    },
+    {
+      "pmid": "22075911",
+      "question": "Is there a differential in the dental health of new recruits to the British Armed Forces?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22075911",
+        "22075911",
+        "9807920",
+        "22251324",
+        "27219638"
+      ]
+    },
+    {
+      "pmid": "17276801",
+      "question": "Can elevated troponin I levels predict complicated clinical course and inhospital mortality in patients with acute pulmonary embolism?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "17276801",
+        "17276801",
+        "15968443",
+        "15968443",
+        "25891436"
+      ]
+    },
+    {
+      "pmid": "22411435",
+      "question": "Comparative safety of infliximab and etanercept on the risk of serious infections: does the association vary by patient characteristics?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "22411435",
+        "22411435",
+        "12922954",
+        "12922954",
+        "26114175"
+      ]
+    },
+    {
+      "pmid": "10411439",
+      "question": "Lloyd-Davies position with Trendelenburg--a disaster waiting to happen?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "10411439",
+        "24464868",
+        "10411439",
+        "26310843",
+        "17059717"
+      ]
+    },
+    {
+      "pmid": "25987398",
+      "question": "The influence of atmospheric pressure on aortic aneurysm rupture--is the diameter of the aneurysm important?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25987398",
+        "25987398",
+        "12932164",
+        "12932164",
+        "9279311"
+      ]
+    },
+    {
+      "pmid": "24747511",
+      "question": "Updating emotional content in working memory: a depression-specific deficit?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24747511",
+        "24747511",
+        "26329120",
+        "24913097",
+        "24232169"
+      ]
+    },
+    {
+      "pmid": "12855939",
+      "question": "Is ankle/arm pressure predictive for cardiovascular mortality in older patients living in nursing homes?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "12855939",
+        "12855939",
+        "18848687",
+        "25783622",
+        "18848687"
+      ]
+    },
+    {
+      "pmid": "24245816",
+      "question": "Is trabecular bone related to primary stability of miniscrews?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24245816",
+        "24245816",
+        "25488308",
+        "25488308",
+        "12420268"
+      ]
+    },
+    {
+      "pmid": "28127977",
+      "question": "Are serum leptin levels a prognostic factor in advanced lung cancer?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "28127977",
+        "28127977",
+        "24228017",
+        "12630042",
+        "26114869"
+      ]
+    },
+    {
+      "pmid": "25155638",
+      "question": "Can routine offering of influenza vaccination in office-based settings reduce racial and ethnic disparities in adult influenza vaccination?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25155638",
+        "25155638",
+        "14514932",
+        "24368427",
+        "14514932"
+      ]
+    },
+    {
+      "pmid": "27136599",
+      "question": "Is it safe to perform rectal anastomosis in gynaecological debulking surgery without a diverting stoma?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "27136599",
+        "27136599",
+        "23652743",
+        "12925085",
+        "24477790"
+      ]
+    },
+    {
+      "pmid": "25443385",
+      "question": "Are virtual planning and guided surgery for head and neck reconstruction economically viable?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "25443385",
+        "25443385",
+        "19296506",
+        "26452334",
+        "24711134"
+      ]
+    },
+    {
+      "pmid": "23588461",
+      "question": "Should ascitis volume and anthropometric measurements be estimated in hospitalized alcoholic cirrotics?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "23588461",
+        "23588461",
+        "26289523",
+        "27124284",
+        "26289523"
+      ]
+    },
+    {
+      "pmid": "8245806",
+      "question": "Does family practice at residency teaching sites reflect community practice?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "8245806",
+        "20705868",
+        "8245806",
+        "9290294",
+        "12947521"
+      ]
+    },
+    {
+      "pmid": "9854965",
+      "question": "Dementia and aphasia in motor neuron disease: an underrecognised association?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "9854965",
+        "9854965",
+        "1882994",
+        "20719041",
+        "12649653"
+      ]
+    },
+    {
+      "pmid": "27991408",
+      "question": "Do dermatomyositis and polymyositis affect similar thigh muscles?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "27991408",
+        "27991408",
+        "21192196",
+        "25527047",
+        "19305934"
+      ]
+    },
+    {
+      "pmid": "20353735",
+      "question": "Treatment of vitamin D deficiency in CKD patients with ergocalciferol: are current K/DOQI treatment guidelines adequate?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "20353735",
+        "20353735",
+        "8686714",
+        "26295454",
+        "25887335"
+      ]
+    },
+    {
+      "pmid": "15466981",
+      "question": "Prostate-specific antigen and free prostate-specific antigen in the early detection of prostate cancer: do combination tests improve detection?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "15466981",
+        "9222305",
+        "15466981",
+        "26307160",
+        "22960968"
+      ]
+    },
+    {
+      "pmid": "27394685",
+      "question": "Bony defects in chronic anterior posttraumatic dislocation of the shoulder: Is there a correlation between humeral and glenoidal lesions?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "27394685",
+        "27394685",
+        "24373688",
+        "25894458",
+        "24373688"
+      ]
+    },
+    {
+      "pmid": "10201555",
+      "question": "Is low serum chloride level a risk factor for cardiovascular mortality?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "10201555",
+        "10201555",
+        "12653871",
+        "12640345",
+        "18791953"
+      ]
+    },
+    {
+      "pmid": "24748473",
+      "question": "Are there risk factors that increase the rate of staple line leakage in patients undergoing primary sleeve gastrectomy for morbid obesity?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "24748473",
+        "24748473",
+        "24374891",
+        "24476003",
+        "26301769"
+      ]
+    },
+    {
+      "pmid": "24698298",
+      "question": "MR arthrography of the shoulder: do we need local anesthesia?",
+      "rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_pmids": [
+        "17729004",
+        "24698298",
+        "17729004",
+        "20720072",
+        "27281727"
+      ]
+    },
+    {
+      "pmid": "27989969",
+      "question": "Does the Simultaneous Use of a Neuroendoscope Influence the Incidence of Ventriculoperitoneal Shunt Infection?",
+      "rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_pmids": [
+        "27989969",
+        "27989969",
+        "12422042",
+        "17434700",
+        "26298824"
+      ]
+    }
+  ]
+}
